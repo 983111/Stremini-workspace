@@ -168,6 +168,8 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .dl-txt:hover{background:#2d2a26;transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .dl-rtf{background:#2563eb;color:#fff}
 .dl-rtf:hover{background:#1d4ed8;transform:translateY(-1px)}
+.dl-pdf{background:#dc2626;color:#fff}
+.dl-pdf:hover{background:#b91c1c;transform:translateY(-1px);box-shadow:var(--shadow-md)}
 
 /* Input bar */
 .input-bar{padding:16px 28px 20px;background:var(--bg);border-top:1px solid var(--border);flex-shrink:0}
@@ -544,6 +546,52 @@ function card(type, text) {
 }
 
 // ─────────────────────────────────────────
+// HTML to PDF loader with CDN fallback
+// ─────────────────────────────────────────
+let html2pdfReadyPromise = null;
+
+function ensureHtml2PdfReady() {
+  if (typeof html2pdf !== "undefined") return Promise.resolve(html2pdf);
+  if (html2pdfReadyPromise) return html2pdfReadyPromise;
+
+  const sources = [
+    "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js",
+    "https://unpkg.com/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"
+  ];
+
+  html2pdfReadyPromise = new Promise((resolve, reject) => {
+    let idx = 0;
+
+    const loadNext = () => {
+      if (typeof html2pdf !== "undefined") {
+        resolve(html2pdf);
+        return;
+      }
+      if (idx >= sources.length) {
+        html2pdfReadyPromise = null;
+        reject(new Error("PDF exporter failed to load"));
+        return;
+      }
+
+      const src = sources[idx++];
+      const sc = document.createElement("script");
+      sc.src = src;
+      sc.async = true;
+      sc.onload = () => {
+        if (typeof html2pdf !== "undefined") resolve(html2pdf);
+        else loadNext();
+      };
+      sc.onerror = () => loadNext();
+      document.head.appendChild(sc);
+    };
+
+    loadNext();
+  });
+
+  return html2pdfReadyPromise;
+}
+
+// ─────────────────────────────────────────
 // Parse content: split text vs <diagram> blocks
 // ─────────────────────────────────────────
 function parseContent(content) {
@@ -668,6 +716,36 @@ async function renderPaper(content, isMath) {
       a.click();
     };
     dlRow.appendChild(dlRtf);
+
+    if (diagramsFound > 0) {
+      const dlPdf = document.createElement("button");
+      dlPdf.className = "dl-btn dl-pdf";
+      dlPdf.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Download .pdf`;
+      dlPdf.onclick = async () => {
+        const source = document.getElementById(pid);
+        const prevLabel = dlPdf.innerHTML;
+        dlPdf.disabled = true;
+        dlPdf.textContent = "Preparing PDF…";
+
+        try {
+          const exporter = await ensureHtml2PdfReady();
+          await exporter().set({
+            margin: [12, 10, 12, 10],
+            filename: `stremini-paper-${Date.now()}.pdf`,
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+            pagebreak: { mode: ["css", "legacy"] }
+          }).from(source).save();
+        } catch (err) {
+          alert("PDF export is currently unavailable. Check your connection and try again.");
+        } finally {
+          dlPdf.disabled = false;
+          dlPdf.innerHTML = prevLabel;
+        }
+      };
+      dlRow.appendChild(dlPdf);
+    }
   }
 
   wrap.appendChild(dlRow);
