@@ -16,6 +16,7 @@
   --violet:#7c3aed;--violet-bg:#f5f3ff;
   --green:#059669;--green-bg:#d1fae5;
   --red:#991b1b;--red-bg:#fee2e2;
+  --blue:#1d4ed8;--blue-bg:#eff6ff;
   --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
   --shadow-md:0 4px 14px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.04);
   --r:10px;--r2:6px;
@@ -70,7 +71,7 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .ghost-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:transparent;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none}
 .ghost-btn:hover{background:var(--surface);border-color:var(--muted)}
 .msgs-wrap{flex:1;overflow-y:auto;padding:28px 0;scroll-behavior:smooth}
-.msgs{max-width:840px;margin:0 auto;padding:0 28px;display:flex;flex-direction:column}
+.msgs{max-width:880px;margin:0 auto;padding:0 28px;display:flex;flex-direction:column}
 .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;text-align:center;padding:20px 0}
 .w-icon{width:62px;height:62px;background:var(--txt);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:var(--shadow-md)}
 .w-icon svg{width:32px;height:32px}
@@ -105,28 +106,87 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .card-work{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
 .card-cost{background:var(--violet-bg);color:#5b21b6;border:1px solid #ddd6fe}
 .card-err{background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
-.paper-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:8px 0 6px;box-shadow:var(--shadow)}
-.paper-hd{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:var(--surface2)}
-.paper-hd-left{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600}
-.paper-hd-left.architecture{color:var(--amber)}
-.paper-hd-left.cost{color:var(--violet)}
-.copy-btn{background:none;border:1px solid var(--border);cursor:pointer;font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:4px;transition:all .15s}
-.copy-btn:hover{background:var(--border);color:var(--txt)}
-.paper-bd{padding:24px 28px;font-family:'DM Mono','Courier New',monospace;font-size:13px;line-height:1.88;color:#1a1814;max-height:580px;overflow-y:auto;background:#fafaf9;}
-.paper-text{white-space:pre-wrap;word-break:break-word}
-.diagram-wrap{margin:16px 0;background:#fafaf8;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+
+/* ── Structured Blueprint Renderer ── */
+.blueprint-wrap{margin:10px 0 6px;display:flex;flex-direction:column;gap:0}
+.bp-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-bottom:none;border-radius:var(--r) var(--r) 0 0}
+.bp-toolbar-left{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600}
+.bp-toolbar-left.architecture{color:var(--amber)}
+.bp-toolbar-left.cost{color:var(--violet)}
+.bp-toolbar-actions{display:flex;gap:6px}
+.copy-btn,.dl-btn-sm{background:none;border:1px solid var(--border);cursor:pointer;font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:4px;transition:all .15s}
+.copy-btn:hover,.dl-btn-sm:hover{background:var(--border);color:var(--txt)}
+.blueprint-body{background:var(--surface);border:1px solid var(--border);border-radius:0 0 var(--r) var(--r);overflow:hidden}
+
+/* Section blocks */
+.bp-section{border-bottom:1px solid var(--border2);overflow:hidden}
+.bp-section:last-child{border-bottom:none}
+.bp-section-header{display:flex;align-items:center;gap:10px;padding:13px 18px;background:var(--surface2);cursor:pointer;user-select:none;transition:background .12s}
+.bp-section-header:hover{background:#ece9e3}
+.bp-section-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bp-section-icon.amber{background:#fef3c7;color:var(--amber)}
+.bp-section-icon.violet{background:#ede9fe;color:var(--violet)}
+.bp-section-icon.blue{background:#dbeafe;color:var(--blue)}
+.bp-section-icon.green{background:#d1fae5;color:var(--green)}
+.bp-section-icon.red{background:#fee2e2;color:var(--red)}
+.bp-section-icon.muted{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.bp-section-title{font-size:13px;font-weight:600;color:var(--txt);flex:1}
+.bp-section-chevron{color:var(--muted);transition:transform .2s;flex-shrink:0}
+.bp-section-chevron.open{transform:rotate(90deg)}
+.bp-section-body{padding:16px 18px;border-top:1px solid var(--border2);display:flex;flex-direction:column;gap:10px}
+.bp-section-body.collapsed{display:none}
+
+/* Content primitives */
+.bp-para{font-size:13.5px;line-height:1.72;color:var(--txt)}
+.bp-kv-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start}
+.bp-kv-key{font-size:11.5px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.3px;padding-top:1px;white-space:nowrap}
+.bp-kv-val{font-size:13px;color:var(--txt);line-height:1.55}
+.bp-list{display:flex;flex-direction:column;gap:5px}
+.bp-list-item{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--txt);line-height:1.55}
+.bp-list-bullet{width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:7px}
+.bp-list-bullet.violet{background:var(--violet)}
+.bp-list-bullet.green{background:var(--green)}
+.bp-list-bullet.blue{background:var(--blue)}
+.bp-tag-row{display:flex;flex-wrap:wrap;gap:6px}
+.bp-tag{padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:500;border:1px solid}
+.bp-tag.amber{background:var(--amber-bg);color:var(--amber2);border-color:#fde68a}
+.bp-tag.violet{background:var(--violet-bg);color:var(--violet);border-color:#ddd6fe}
+.bp-tag.green{background:var(--green-bg);color:var(--green);border-color:#a7f3d0}
+.bp-tag.blue{background:var(--blue-bg);color:var(--blue);border-color:#bfdbfe}
+.bp-tag.red{background:var(--red-bg);color:var(--red);border-color:#fecaca}
+.bp-tag.muted{background:var(--surface2);color:var(--txt2);border-color:var(--border)}
+.bp-metric-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.bp-metric{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r2);padding:11px 13px}
+.bp-metric-val{font-family:'Lora',serif;font-size:20px;font-weight:500;color:var(--txt);line-height:1}
+.bp-metric-label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-top:3px}
+.bp-code{background:#1a1814;border-radius:var(--r2);padding:12px 14px;font-family:'DM Mono',monospace;font-size:12px;color:#e8e4dc;line-height:1.7;overflow-x:auto;white-space:pre}
+.bp-callout{padding:11px 14px;border-radius:var(--r2);border-left:3px solid;font-size:13px;line-height:1.6}
+.bp-callout.info{background:var(--blue-bg);border-color:var(--blue);color:#1e3a8a}
+.bp-callout.warn{background:#fffbeb;border-color:#f59e0b;color:#78350f}
+.bp-callout.tip{background:var(--green-bg);border-color:var(--green);color:#064e3b}
+.bp-callout.risk{background:var(--red-bg);border-color:var(--red);color:#7f1d1d}
+.bp-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.bp-table th{padding:7px 12px;text-align:left;font-weight:600;color:var(--txt2);background:var(--surface2);border:1px solid var(--border2);font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+.bp-table td{padding:8px 12px;border:1px solid var(--border2);color:var(--txt);line-height:1.5;vertical-align:top}
+.bp-table tr:nth-child(even) td{background:#faf9f7}
+.bp-step-list{display:flex;flex-direction:column;gap:0}
+.bp-step{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border2)}
+.bp-step:last-child{border-bottom:none;padding-bottom:0}
+.bp-step-num{width:22px;height:22px;border-radius:50%;background:var(--txt);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.bp-step-num.amber{background:var(--amber)}
+.bp-step-num.violet{background:var(--violet)}
+.bp-step-content{flex:1;font-size:13px;line-height:1.6;color:var(--txt)}
+.bp-step-title{font-weight:600;margin-bottom:2px}
+
+/* Diagram */
+.diagram-wrap{border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
 .diagram-bar{display:flex;align-items:center;gap:7px;padding:7px 13px;background:var(--surface2);border-bottom:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px}
-.diagram-render{padding:18px;display:flex;justify-content:center;overflow-x:auto;min-height:60px}
+.diagram-render{padding:18px;display:flex;justify-content:center;overflow-x:auto;background:#fafaf8}
 .diagram-render svg{max-width:100%;height:auto}
 .diagram-err{padding:12px 16px;font-family:'DM Mono',monospace;font-size:11.5px;color:var(--red);background:var(--red-bg)}
-.dl-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.dl-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border:none;border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .15s}
-.dl-txt{background:var(--txt);color:#fff}
-.dl-txt:hover{background:#2d2a26;transform:translateY(-1px);box-shadow:var(--shadow-md)}
-.dl-md{background:#2563eb;color:#fff}
-.dl-md:hover{background:#1d4ed8;transform:translateY(-1px)}
+
 .input-bar{padding:16px 28px 20px;background:var(--bg);border-top:1px solid var(--border);flex-shrink:0}
-.input-inner{max-width:840px;margin:0 auto}
+.input-inner{max-width:880px;margin:0 auto}
 .input-wrap{display:flex;align-items:flex-end;gap:9px;background:var(--surface);border:1.5px solid var(--border);border-radius:13px;padding:9px 11px;box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s}
 .input-wrap:focus-within{border-color:var(--amber);box-shadow:0 0 0 3px rgba(217,119,6,.1),var(--shadow)}
 .task-ta{flex:1;border:none!important;background:transparent!important;padding:3px!important;box-shadow:none!important;font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:22px;max-height:160px;resize:none;overflow-y:auto;outline:none;color:var(--txt)}
@@ -162,32 +222,19 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
       <div class="sb-label">Mode</div>
       <div class="mode-grid">
         <button class="mode-btn on-architecture" id="btnArchitecture" onclick="setMode('architecture')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <rect x="2" y="3" width="20" height="14" rx="2"/>
-            <path d="M8 21h8M12 17v4"/><path d="M7 8h.01M11 8h5M7 12h10"/>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8h.01M11 8h5M7 12h10"/></svg>
           Architecture
         </button>
         <button class="mode-btn" id="btnRag" onclick="setMode('rag')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <ellipse cx="12" cy="5" rx="9" ry="3"/>
-            <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
-            <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>
           RAG Pipeline
         </button>
         <button class="mode-btn" id="btnAgent" onclick="setMode('agent')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
           Agent Design
         </button>
         <button class="mode-btn" id="btnCost" onclick="setMode('cost')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="12" y1="1" x2="12" y2="23"/>
-            <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
           Cost Analysis
         </button>
       </div>
@@ -211,39 +258,31 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
     </div>
     <div class="sb-sec">
       <button class="new-btn" onclick="clearChat()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         New session
       </button>
     </div>
   </aside>
+
   <div class="main">
     <div class="topbar">
       <div class="tl">
         <div class="mode-pill architecture" id="modePill">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
-          </svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
           <span id="pillTxt">Architecture Mode</span>
         </div>
       </div>
       <button class="ghost-btn" onclick="clearChat()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
-        </svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
         Clear
       </button>
     </div>
+
     <div class="msgs-wrap" id="msgsWrap">
       <div class="msgs" id="msgs">
         <div class="welcome" id="welcome">
           <div class="w-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round">
-              <rect x="2" y="3" width="20" height="14" rx="2"/>
-              <path d="M8 21h8M12 17v4"/>
-              <path d="M7 8h.01M11 8h5M7 12h10"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8h.01M11 8h5M7 12h10"/></svg>
           </div>
           <h2>Stremini Architect</h2>
           <p>Design production-grade AI pipelines, RAG architectures, and agent systems — with full architecture diagrams, vector DB selection, model comparisons, and cost projections.</p>
@@ -268,21 +307,21 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
         </div>
       </div>
     </div>
+
     <div class="input-bar">
       <div class="input-inner">
         <div class="input-wrap">
           <textarea id="ta" class="task-ta" rows="1" placeholder="Describe the AI system you want to architect…"></textarea>
           <button class="send-btn" id="sendBtn" onclick="handleSend()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
           </button>
         </div>
-        <div class="input-hint">Enter to send &middot; Shift+Enter for new line &middot; Describe scale, use case and constraints for best results</div>
+        <div class="input-hint">Enter to send · Shift+Enter for new line · Describe scale, use case and constraints for best results</div>
       </div>
     </div>
   </div>
 </div>
+
 <script>
 const BACKEND = "https://ai-architect.vishwajeetadkine705.workers.dev";
 mermaid.initialize({startOnLoad:false,theme:"neutral",securityLevel:"loose",fontFamily:"DM Sans, sans-serif",fontSize:13,flowchart:{curve:"basis",padding:18}});
@@ -290,16 +329,18 @@ let mode="architecture",running=false,history=[],blueprints=0,costAnalyses=0,dia
 const ta=document.getElementById("ta"),sendBtn=document.getElementById("sendBtn"),msgs=document.getElementById("msgs"),welcome=document.getElementById("welcome"),msgsWrap=document.getElementById("msgsWrap");
 ta.addEventListener("input",function(){this.style.height="auto";this.style.height=Math.min(this.scrollHeight,160)+"px";});
 ta.addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();handleSend();}});
+
 function setMode(m){
   mode=m;
   ["Architecture","Rag","Agent","Cost"].forEach(n=>{document.getElementById("btn"+n).className="mode-btn"+(m===n.toLowerCase()?" on-"+n.toLowerCase():"");});
-  const pill=document.getElementById("modePill"),pillTxt=document.getElementById("pillTxt"),modeNote=document.getElementById("modeNote");
+  const pill=document.getElementById("modePill"),modeNote=document.getElementById("modeNote");
   const phs={architecture:"Describe the AI system you want to architect…",rag:"Describe your RAG pipeline requirements and data sources…",agent:"Describe the agent system, tools and orchestration needs…",cost:"Describe the system and scale for cost analysis…"};
   const notes={architecture:"Architecture — full AI system blueprints with diagrams",rag:"RAG Pipeline — vector DB, retrieval & embedding design",agent:"Agent Design — orchestration, tool use & memory systems",cost:"Cost Analysis — per-user projections at scale"};
   const labels={architecture:"Architecture Mode",rag:"RAG Pipeline Mode",agent:"Agent Design Mode",cost:"Cost Analysis Mode"};
   const pillClass=(m==="agent"||m==="cost")?"agent":"architecture";
   pill.className="mode-pill "+pillClass;
-  pillTxt.textContent=labels[m];modeNote.textContent=notes[m];ta.placeholder=phs[m];
+  document.getElementById("pillTxt").textContent=labels[m];
+  modeNote.textContent=notes[m];ta.placeholder=phs[m];
 }
 function hint(m,text){setMode(m);ta.value=text;ta.style.height="auto";ta.style.height=Math.min(ta.scrollHeight,160)+"px";ta.focus();}
 function setStatus(type,label){const cls={idle:"badge-idle",run:"badge-run",done:"badge-done",err:"badge-err"};const el=document.getElementById("statusBadge");el.className="badge "+(cls[type]||"badge-idle");el.innerHTML=`<span class="dot"></span>${label}`;}
@@ -309,6 +350,7 @@ function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").repl
 function scrollBottom(){msgsWrap.scrollTop=msgsWrap.scrollHeight;}
 function hideWelcome(){if(welcome)welcome.style.display="none";}
 function now(){return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});}
+
 function addMsg(role,htmlContent){
   hideWelcome();
   const row=document.createElement("div");row.className="msg-row";
@@ -328,31 +370,426 @@ function card(type,text){
   const icons={ok:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`,work:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,cost:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`,err:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`};
   return `<div class="card ${cls[type]||"card-ok"}">${icons[type]||""} ${text}</div>`;
 }
-function parseContent(content){
-  const parts=[];const re=/<diagram\s+type=["']?(\w+)["']?\s+title=["']?([^"'>]*)["']?\s*>([\s\S]*?)<\/diagram>/gi;
-  let last=0,m;
-  while((m=re.exec(content))!==null){if(m.index>last)parts.push({kind:"text",txt:content.slice(last,m.index)});parts.push({kind:"diagram",dtype:m[1],title:m[2],code:m[3].trim()});last=m.index+m[0].length;}
-  if(last<content.length)parts.push({kind:"text",txt:content.slice(last)});
-  return parts;
+
+/* ═══════════════════════════════════════════════════════
+   STRUCTURED BLUEPRINT RENDERER
+   Parses raw text into visual sections with icons/tags
+═══════════════════════════════════════════════════════ */
+
+// Icon SVG snippets by section type
+const SECTION_ICONS = {
+  overview:    {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,color:"blue"},
+  stack:       {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,color:"violet"},
+  components:  {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>`,color:"amber"},
+  data:        {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>`,color:"blue"},
+  flow:        {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 012 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>`,color:"green"},
+  model:       {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>`,color:"violet"},
+  infra:       {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>`,color:"muted"},
+  security:    {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,color:"green"},
+  cost:        {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`,color:"violet"},
+  scale:       {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,color:"green"},
+  risks:       {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,color:"red"},
+  recommendations:{icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>`,color:"green"},
+  tradeoffs:   {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>`,color:"amber"},
+  default:     {icon:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>`,color:"muted"},
+};
+
+function getSectionMeta(title) {
+  const t = title.toLowerCase();
+  if (t.includes("overview") || t.includes("summary") || t.includes("introduction")) return SECTION_ICONS.overview;
+  if (t.includes("tech stack") || t.includes("technology") || t.includes("stack")) return SECTION_ICONS.stack;
+  if (t.includes("component") || t.includes("layer") || t.includes("module") || t.includes("service")) return SECTION_ICONS.components;
+  if (t.includes("data") || t.includes("vector") || t.includes("database") || t.includes("storage") || t.includes("embedding")) return SECTION_ICONS.data;
+  if (t.includes("flow") || t.includes("pipeline") || t.includes("workflow") || t.includes("process")) return SECTION_ICONS.flow;
+  if (t.includes("model") || t.includes("llm") || t.includes("ai") || t.includes("inference")) return SECTION_ICONS.model;
+  if (t.includes("infra") || t.includes("deploy") || t.includes("cloud") || t.includes("kubernetes") || t.includes("docker")) return SECTION_ICONS.infra;
+  if (t.includes("security") || t.includes("auth") || t.includes("access")) return SECTION_ICONS.security;
+  if (t.includes("cost") || t.includes("pricing") || t.includes("budget") || t.includes("expense")) return SECTION_ICONS.cost;
+  if (t.includes("scal") || t.includes("performance") || t.includes("throughput") || t.includes("latency")) return SECTION_ICONS.scale;
+  if (t.includes("risk") || t.includes("challenge") || t.includes("limitation") || t.includes("concern")) return SECTION_ICONS.risks;
+  if (t.includes("recommend") || t.includes("next step") || t.includes("action")) return SECTION_ICONS.recommendations;
+  if (t.includes("tradeoff") || t.includes("trade-off") || t.includes("comparison") || t.includes("vs") || t.includes("alternative")) return SECTION_ICONS.tradeoffs;
+  return SECTION_ICONS.default;
 }
-async function renderBlueprint(content,isCost){
-  const parts=parseContent(content);let diagramsFound=0;
-  const wrap=document.createElement("div");const block=document.createElement("div");block.className="paper-block";
-  const pid="p"+Date.now();const hClass=isCost?"cost":"architecture";const hLabel=isCost?"Cost Analysis":"Architecture Blueprint";
-  const hIcon=isCost?`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`;
-  block.innerHTML=`<div class="paper-hd"><div class="paper-hd-left ${hClass}">${hIcon} ${hLabel}</div><button class="copy-btn" id="cpbtn-${pid}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button></div>`;
-  const body=document.createElement("div");body.className="paper-bd";body.id=pid;
-  for(const part of parts){
-    if(part.kind==="text"){if(part.txt.trim()){const d=document.createElement("div");d.className="paper-text";d.textContent=part.txt;body.appendChild(d);}}
-    else{diagramsFound++;const dw=document.createElement("div");dw.className="diagram-wrap";dw.innerHTML=`<div class="diagram-bar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> ${part.dtype.toUpperCase()} DIAGRAM${part.title?" — "+esc(part.title):""}</div>`;const dr=document.createElement("div");dr.className="diagram-render";try{const uid="d"+(++diagId)+"_"+Date.now();const{svg}=await mermaid.render(uid,part.code);dr.innerHTML=svg;}catch(e){dr.className="diagram-err";dr.textContent="Diagram render error: "+e.message;}dw.appendChild(dr);body.appendChild(dw);}
+
+// Detect if a line looks like a cost/metric value
+function isMetricLine(line) {
+  return /\$[\d,\.]+|\d+[\w\s]*\/month|[\d,]+\s*(tokens?|requests?|queries|users|calls)/i.test(line);
+}
+
+// Parse a block of text into visual elements
+function renderSectionBody(text) {
+  const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+  const frag = document.createDocumentFragment();
+
+  // Detect tables (lines with | separators)
+  const tableLines = lines.filter(l => l.startsWith("|") && l.endsWith("|"));
+  if (tableLines.length >= 2) {
+    const table = document.createElement("table");
+    table.className = "bp-table";
+    let headerDone = false;
+    lines.forEach(line => {
+      if (!line.startsWith("|")) return;
+      if (/^\|[-\s|:]+\|$/.test(line)) { headerDone = true; return; }
+      const cells = line.split("|").filter((_,i,a) => i>0 && i<a.length-1).map(c => c.trim());
+      const tr = document.createElement("tr");
+      cells.forEach(cell => {
+        const el = document.createElement(!headerDone ? "th" : "td");
+        el.textContent = cell;
+        tr.appendChild(el);
+      });
+      if (!headerDone) { const thead = document.createElement("thead"); thead.appendChild(tr); table.appendChild(thead); }
+      else { let tbody = table.querySelector("tbody"); if (!tbody){tbody=document.createElement("tbody");table.appendChild(tbody);} tbody.appendChild(tr); }
+    });
+    frag.appendChild(table);
+    return frag;
   }
-  block.appendChild(body);wrap.appendChild(block);
-  setTimeout(()=>{const btn=document.getElementById("cpbtn-"+pid);if(btn)btn.onclick=()=>{navigator.clipboard.writeText(document.getElementById(pid).innerText||"").then(()=>{btn.textContent="✓ Copied";setTimeout(()=>btn.innerHTML=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`,2000);}).catch(()=>{});};},50);
-  const dlRow=document.createElement("div");dlRow.className="dl-row";
-  const dlTxt=document.createElement("button");dlTxt.className="dl-btn dl-txt";dlTxt.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download .txt`;dlTxt.onclick=()=>{const text=document.getElementById(pid).innerText||"";const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"text/plain"}));a.download=`stremini-architect-${isCost?"cost":"blueprint"}-${Date.now()}.txt`;a.click();};dlRow.appendChild(dlTxt);
-  const dlMd=document.createElement("button");dlMd.className="dl-btn dl-md";dlMd.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Download .md`;dlMd.onclick=()=>{const text=document.getElementById(pid).innerText||"";const md="# "+(isCost?"Cost Analysis":"Architecture Blueprint")+"\n\n"+text;const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([md],{type:"text/markdown"}));a.download=`stremini-architect-${isCost?"cost":"blueprint"}-${Date.now()}.md`;a.click();};dlRow.appendChild(dlMd);
-  wrap.appendChild(dlRow);return{el:wrap,diagramsFound};
+
+  // Detect metric lines (cost/numbers)
+  const metricLines = lines.filter(isMetricLine);
+  if (metricLines.length >= 2 && metricLines.length === lines.length) {
+    const grid = document.createElement("div");
+    grid.className = "bp-metric-row";
+    metricLines.forEach(line => {
+      const colonIdx = line.indexOf(":");
+      let label = line, value = "";
+      if (colonIdx > -1) { label = line.slice(0, colonIdx).trim(); value = line.slice(colonIdx+1).trim(); }
+      else { const m = line.match(/^(.+?)\s+([\$\d][\d,\.\w\/\s\$]+)$/); if(m){ label=m[1].trim(); value=m[2].trim(); } }
+      const box = document.createElement("div");
+      box.className = "bp-metric";
+      box.innerHTML = `<div class="bp-metric-val">${esc(value||label)}</div><div class="bp-metric-label">${esc(value?label:"metric")}</div>`;
+      grid.appendChild(box);
+    });
+    frag.appendChild(grid);
+    return frag;
+  }
+
+  // Detect numbered steps (1. 2. 3.)
+  const stepPattern = lines.every((l,i) => i===0 || /^\d+\./.test(l) || !/^\d+\./.test(l));
+  const numberedLines = lines.filter(l => /^\d+\.\s/.test(l));
+  if (numberedLines.length >= 2 && numberedLines.length >= lines.length * 0.6) {
+    const stepList = document.createElement("div");
+    stepList.className = "bp-step-list";
+    const colors = ["amber","violet","blue","green","muted","amber","violet","blue","green"];
+    numberedLines.forEach((line, i) => {
+      const content = line.replace(/^\d+\.\s+/,"");
+      const colonIdx = content.indexOf(":");
+      let title = "", body = content;
+      if (colonIdx > -1 && colonIdx < 40) { title = content.slice(0,colonIdx); body = content.slice(colonIdx+1).trim(); }
+      const step = document.createElement("div");
+      step.className = "bp-step";
+      step.innerHTML = `<div class="bp-step-num ${colors[i%colors.length]}">${i+1}</div><div class="bp-step-content">${title?`<div class="bp-step-title">${esc(title)}</div>`:""}${esc(body)}</div>`;
+      stepList.appendChild(step);
+    });
+    frag.appendChild(stepList);
+    return frag;
+  }
+
+  // Detect bullet lists (- or * or •)
+  const bulletLines = lines.filter(l => /^[-*•]\s/.test(l));
+  if (bulletLines.length >= 2 && bulletLines.length >= lines.length * 0.5) {
+    // Check if it's key-value style
+    const kvLines = bulletLines.filter(l => /^[-*•]\s+[\w\s]+:\s+.+/.test(l));
+    if (kvLines.length >= bulletLines.length * 0.6) {
+      const grid = document.createElement("div");
+      grid.className = "bp-kv-grid";
+      kvLines.forEach(line => {
+        const content = line.replace(/^[-*•]\s+/,"");
+        const colonIdx = content.indexOf(":");
+        const key = content.slice(0,colonIdx).trim();
+        const val = content.slice(colonIdx+1).trim();
+        const k = document.createElement("div"); k.className="bp-kv-key"; k.textContent=key;
+        const v = document.createElement("div"); v.className="bp-kv-val"; v.textContent=val;
+        grid.appendChild(k); grid.appendChild(v);
+      });
+      frag.appendChild(grid);
+    } else {
+      // Tags if short, list if long
+      const avgLen = bulletLines.reduce((a,l)=>a+l.length,0)/bulletLines.length;
+      if (avgLen < 40 && bulletLines.length >= 3) {
+        const tagRow = document.createElement("div");
+        tagRow.className = "bp-tag-row";
+        const tagColors = ["amber","violet","green","blue","muted"];
+        bulletLines.forEach((line,i) => {
+          const text = line.replace(/^[-*•]\s+/,"");
+          const tag = document.createElement("span");
+          tag.className = `bp-tag ${tagColors[i%tagColors.length]}`;
+          tag.textContent = text;
+          tagRow.appendChild(tag);
+        });
+        frag.appendChild(tagRow);
+      } else {
+        const list = document.createElement("div");
+        list.className = "bp-list";
+        const bColors = ["","violet","green","blue","","violet"];
+        bulletLines.forEach((line,i) => {
+          const text = line.replace(/^[-*•]\s+/,"");
+          const item = document.createElement("div");
+          item.className = "bp-list-item";
+          item.innerHTML = `<span class="bp-list-bullet ${bColors[i%bColors.length]}"></span><span>${esc(text)}</span>`;
+          list.appendChild(item);
+        });
+        frag.appendChild(list);
+      }
+    }
+    // Non-bullet lines become paragraphs
+    lines.filter(l => !/^[-*•]\s/.test(l)).forEach(line => {
+      const p = document.createElement("div");
+      p.className = "bp-para";
+      p.textContent = line;
+      frag.appendChild(p);
+    });
+    return frag;
+  }
+
+  // Code blocks
+  if (lines.some(l => l.startsWith("```") || /^\s{4}/.test(l))) {
+    const code = document.createElement("div");
+    code.className = "bp-code";
+    code.textContent = text;
+    frag.appendChild(code);
+    return frag;
+  }
+
+  // Callout detection
+  const lower = text.toLowerCase();
+  if (lower.includes("⚠️") || lower.includes("warning") || lower.includes("caution")) {
+    const c = document.createElement("div"); c.className="bp-callout warn"; c.textContent=text;
+    frag.appendChild(c); return frag;
+  }
+  if (lower.includes("💡") || lower.includes("tip:") || lower.includes("note:")) {
+    const c = document.createElement("div"); c.className="bp-callout tip"; c.textContent=text;
+    frag.appendChild(c); return frag;
+  }
+  if (lower.includes("🔴") || lower.includes("risk:") || lower.includes("critical:")) {
+    const c = document.createElement("div"); c.className="bp-callout risk"; c.textContent=text;
+    frag.appendChild(c); return frag;
+  }
+
+  // KV pairs on single lines (Key: Value)
+  const kvPairs = lines.filter(l => /^[\w\s\/]{3,30}:\s+\S/.test(l) && l.length < 120);
+  if (kvPairs.length >= 2 && kvPairs.length === lines.length) {
+    const grid = document.createElement("div");
+    grid.className = "bp-kv-grid";
+    kvPairs.forEach(line => {
+      const colonIdx = line.indexOf(":");
+      const key = line.slice(0, colonIdx).trim();
+      const val = line.slice(colonIdx+1).trim();
+      const k = document.createElement("div"); k.className="bp-kv-key"; k.textContent=key;
+      const v = document.createElement("div"); v.className="bp-kv-val"; v.textContent=val;
+      grid.appendChild(k); grid.appendChild(v);
+    });
+    frag.appendChild(grid);
+    return frag;
+  }
+
+  // Default: paragraph(s)
+  // Split into paragraphs by blank lines preserved
+  const paraGroups = text.split(/\n{2,}/);
+  paraGroups.forEach(para => {
+    if (!para.trim()) return;
+    const p = document.createElement("div");
+    p.className = "bp-para";
+    p.textContent = para.trim();
+    frag.appendChild(p);
+  });
+  return frag;
 }
+
+// Parse raw text into sections by heading markers
+function parseIntoSections(content) {
+  const lines = content.split("\n");
+  const sections = [];
+  let currentSection = null;
+  let buffer = [];
+
+  const isHeading = (line) => {
+    return /^#{1,3}\s+.+/.test(line) ||
+           /^[A-Z][A-Z\s&,\/\-]{4,50}:?\s*$/.test(line.trim()) ||
+           /^\d+\.\s+[A-Z][a-z]/.test(line) && line.length < 60;
+  };
+
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (isHeading(trimmed) && trimmed.length > 3) {
+      if (currentSection !== null) {
+        sections.push({title: currentSection, body: buffer.join("\n").trim()});
+        buffer = [];
+      } else if (buffer.join("\n").trim()) {
+        sections.push({title: "", body: buffer.join("\n").trim()});
+        buffer = [];
+      }
+      currentSection = trimmed.replace(/^#{1,3}\s+/,"").replace(/:$/,"").trim();
+    } else {
+      buffer.push(line);
+    }
+  });
+  if (buffer.join("\n").trim()) {
+    sections.push({title: currentSection || "", body: buffer.join("\n").trim()});
+  }
+  return sections;
+}
+
+function parseDiagrams(content) {
+  const diagrams = [];
+  const re = /<diagram\s+type=["']?(\w+)["']?\s+title=["']?([^"'>]*)["']?\s*>([\s\S]*?)<\/diagram>/gi;
+  let m;
+  while((m=re.exec(content))!==null) {
+    diagrams.push({index: m.index, end: m.index+m[0].length, dtype:m[1], title:m[2], code:m[3].trim()});
+  }
+  return diagrams;
+}
+
+function extractPlainContent(content) {
+  return content.replace(/<diagram[\s\S]*?<\/diagram>/gi, "").trim();
+}
+
+function sectionCollapseToggle(header, body, chevron) {
+  const isOpen = !body.classList.contains("collapsed");
+  body.classList.toggle("collapsed", isOpen);
+  chevron.classList.toggle("open", !isOpen);
+}
+
+async function renderBlueprint(content, isCost) {
+  const wrap = document.createElement("div");
+
+  // Extract diagrams
+  const diagrams = parseDiagrams(content);
+  const plainContent = extractPlainContent(content);
+
+  // Toolbar
+  const toolbar = document.createElement("div");
+  toolbar.className = "bp-toolbar";
+  const hClass = isCost ? "cost" : "architecture";
+  const hLabel = isCost ? "Cost Analysis" : "Architecture Blueprint";
+  const hIcon = isCost
+    ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`
+    : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`;
+
+  const pid = "bp" + Date.now();
+  toolbar.innerHTML = `
+    <div class="bp-toolbar-left ${hClass}">${hIcon} ${hLabel}</div>
+    <div class="bp-toolbar-actions">
+      <button class="copy-btn" id="cpbtn-${pid}">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
+      </button>
+    </div>`;
+  wrap.appendChild(toolbar);
+
+  // Blueprint body
+  const body = document.createElement("div");
+  body.className = "blueprint-body";
+  body.id = pid;
+  wrap.appendChild(body);
+
+  // Render sections
+  const sections = parseIntoSections(plainContent);
+
+  sections.forEach((sec, idx) => {
+    if (!sec.body && !sec.title) return;
+
+    const sectionEl = document.createElement("div");
+    sectionEl.className = "bp-section";
+
+    if (sec.title) {
+      const meta = getSectionMeta(sec.title);
+      const header = document.createElement("div");
+      header.className = "bp-section-header";
+      const chevronSvg = `<svg class="bp-section-chevron open" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>`;
+      header.innerHTML = `
+        <div class="bp-section-icon ${meta.color}">${meta.icon}</div>
+        <div class="bp-section-title">${esc(sec.title)}</div>
+        ${chevronSvg}`;
+
+      const secBody = document.createElement("div");
+      secBody.className = "bp-section-body";
+      if (sec.body) secBody.appendChild(renderSectionBody(sec.body));
+
+      const chevronEl = header.querySelector(".bp-section-chevron");
+      header.addEventListener("click", () => sectionCollapseToggle(header, secBody, chevronEl));
+
+      sectionEl.appendChild(header);
+      sectionEl.appendChild(secBody);
+    } else {
+      // No title — just render body
+      const secBody = document.createElement("div");
+      secBody.className = "bp-section-body";
+      secBody.appendChild(renderSectionBody(sec.body));
+      sectionEl.appendChild(secBody);
+    }
+
+    body.appendChild(sectionEl);
+  });
+
+  // Render diagrams as separate sections
+  let diagramsFound = 0;
+  for (const diag of diagrams) {
+    diagramsFound++;
+    const secEl = document.createElement("div");
+    secEl.className = "bp-section";
+    const header = document.createElement("div");
+    header.className = "bp-section-header";
+    const chevronSvg = `<svg class="bp-section-chevron open" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>`;
+    header.innerHTML = `
+      <div class="bp-section-icon green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+      <div class="bp-section-title">${diag.title || diag.dtype.toUpperCase() + " Diagram"}</div>
+      ${chevronSvg}`;
+
+    const secBody = document.createElement("div");
+    secBody.className = "bp-section-body";
+    const dw = document.createElement("div");
+    dw.className = "diagram-wrap";
+    const dr = document.createElement("div");
+    dr.className = "diagram-render";
+    try {
+      const uid = "d"+(++diagId)+"_"+Date.now();
+      const {svg} = await mermaid.render(uid, diag.code);
+      dr.innerHTML = svg;
+    } catch(e) {
+      dr.className = "diagram-err";
+      dr.textContent = "Render error: " + e.message;
+    }
+    dw.appendChild(dr);
+    secBody.appendChild(dw);
+
+    const chevronEl = header.querySelector(".bp-section-chevron");
+    header.addEventListener("click", () => sectionCollapseToggle(header, secBody, chevronEl));
+    secEl.appendChild(header);
+    secEl.appendChild(secBody);
+    body.appendChild(secEl);
+  }
+
+  // Copy button
+  setTimeout(() => {
+    const btn = document.getElementById("cpbtn-" + pid);
+    if (btn) btn.onclick = () => {
+      navigator.clipboard.writeText(plainContent).then(() => {
+        btn.textContent = "✓ Copied";
+        setTimeout(() => btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`, 2000);
+      }).catch(()=>{});
+    };
+  }, 50);
+
+  // Download row
+  const dlRow = document.createElement("div");
+  dlRow.className = "dl-row";
+  dlRow.style.marginTop = "8px";
+  const dlTxt = document.createElement("button");
+  dlTxt.className = "dl-btn dl-txt";
+  dlTxt.style.cssText = "display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;background:#1a1814;color:#fff";
+  dlTxt.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download .txt`;
+  dlTxt.onclick = () => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([plainContent], {type:"text/plain"}));
+    a.download = `stremini-${isCost?"cost":"blueprint"}-${Date.now()}.txt`;
+    a.click();
+  };
+  dlRow.appendChild(dlTxt);
+  wrap.appendChild(dlRow);
+
+  return {el: wrap, diagramsFound};
+}
+
 async function handleSend(){
   const query=ta.value.trim();if(!query||running)return;
   addMsg("user",esc(query));addRecent(query,mode);history.push({role:"user",content:query});
@@ -368,12 +805,12 @@ async function handleSend(){
     hideWelcome();const row=document.createElement("div");row.className="msg-row";
     row.innerHTML=`<div class="av av-agent"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div class="msg-body"><div class="msg-who">Stremini Architect <span class="msg-time">${now()}</span></div><div class="msg-content" id="agentSlot"></div></div>`;
     msgs.appendChild(row);scrollBottom();
-    const slot=document.getElementById("agentSlot");slot.innerHTML=card("work",isCost?"Running cost calculations…":"Rendering architecture blueprint & diagrams…");
+    const slot=document.getElementById("agentSlot");slot.innerHTML=card("work",isCost?"Running cost calculations…":"Rendering architecture blueprint…");
     const{el,diagramsFound}=await renderBlueprint(msgContent,isCost);
-    slot.innerHTML=card(isCost?"cost":"ok",isCost?"Cost analysis complete":`Architecture blueprint complete — ${diagramsFound} diagram${diagramsFound!==1?"s":""} rendered`);
+    slot.innerHTML=card(isCost?"cost":"ok",isCost?"Cost analysis complete":`Blueprint complete — ${diagramsFound} diagram${diagramsFound!==1?"s":""} rendered`);
     slot.appendChild(el);scrollBottom();
     if(isCost){costAnalyses++;history.push({role:"assistant",content:"Completed cost analysis"});setStatus("done","Analysis Ready");}
-    else{blueprints++;diagramsTotal+=diagramsFound;history.push({role:"assistant",content:"Designed blueprint: "+(data.title||"")});setStatus("done","Blueprint Ready");}
+    else{blueprints++;diagramsTotal+=diagramsFound;history.push({role:"assistant",content:"Designed blueprint"});setStatus("done","Blueprint Ready");}
     updateStats();
   }else if(data.status==="COMPLETED"){addMsg("agent",`<p>${esc(data.solution||"")}</p>`);history.push({role:"assistant",content:data.solution||""});setStatus("done","Done");}
   else if(data.status==="ERROR"){addMsg("agent",card("err",esc(data.message||"Unknown error")));setStatus("err","Error");}
