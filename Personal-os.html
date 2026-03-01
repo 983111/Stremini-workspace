@@ -777,7 +777,8 @@ async function handleSend() {
     msgs.appendChild(row);scrollBottom();
     const slot=document.getElementById("ariaSlot");slot.innerHTML=card("work","Composing response…");
     const el=renderStructuredResponse(content,data.status,mode);
-    slot.innerHTML=card("ok","Response ready");
+    const secCount=parseIntoSections(content).filter(s=>s.title||s.body).length;
+    slot.innerHTML=card("ok",`Report ready — ${secCount} sections`);
     slot.appendChild(el);scrollBottom();
     autoExtractMemory(content,data.status);
     statsResponses++;history.push({role:"assistant",content:content.slice(0,300)+"…"});

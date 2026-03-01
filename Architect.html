@@ -807,7 +807,8 @@ async function handleSend(){
     msgs.appendChild(row);scrollBottom();
     const slot=document.getElementById("agentSlot");slot.innerHTML=card("work",isCost?"Running cost calculations…":"Rendering architecture blueprint…");
     const{el,diagramsFound}=await renderBlueprint(msgContent,isCost);
-    slot.innerHTML=card(isCost?"cost":"ok",isCost?"Cost analysis complete":`Blueprint complete — ${diagramsFound} diagram${diagramsFound!==1?"s":""} rendered`);
+    const secCount=parseIntoSections(msgContent).length;
+    slot.innerHTML=card(isCost?"cost":"ok",isCost?`Report ready — ${secCount} sections`:`Report ready — ${secCount} sections · ${diagramsFound} diagram${diagramsFound!==1?"s":""} rendered`);
     slot.appendChild(el);scrollBottom();
     if(isCost){costAnalyses++;history.push({role:"assistant",content:"Completed cost analysis"});setStatus("done","Analysis Ready");}
     else{blueprints++;diagramsTotal+=diagramsFound;history.push({role:"assistant",content:"Designed blueprint"});setStatus("done","Blueprint Ready");}
