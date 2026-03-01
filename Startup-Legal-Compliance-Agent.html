@@ -426,6 +426,25 @@ function setMode(m) {
   document.getElementById("resultZone").innerHTML = "";
 }
 
+function buildStructuredPrompt(baseText, selectedMode, selectedAgent) {
+  const modeLabel = selectedMode.replace(/_/g, " ");
+  const agentLabel = selectedAgent === "strategy" ? "startup strategy" : "legal compliance";
+
+  const guide = [
+    `You are a ${agentLabel} specialist.`,
+    `Return a structured operational brief for ${modeLabel}.`,
+    "Do not use research-paper style prose.",
+    "Use numbered sections with short bullets only:",
+    "1) Executive Summary",
+    "2) Findings",
+    "3) Action Plan (prioritised)",
+    "4) Risks & Mitigations",
+    "5) Next 7-Day Checklist",
+  ].join("\n");
+
+  return [baseText || "", guide].filter(Boolean).join("\n\n");
+}
+
 // ─────────────────────────────────────────
 // Build input panel
 // ─────────────────────────────────────────
@@ -753,10 +772,22 @@ async function handleRun() {
   let body, backend;
   if (agent === "strategy") {
     backend = STRATEGY_BACKEND;
-    body = JSON.stringify({ mode, query, context: { industry, stage, location, targetMarket } });
+    body = JSON.stringify({
+      mode,
+      query: buildStructuredPrompt(query, mode, agent),
+      context: { industry, stage, location, targetMarket },
+      responseFormat: "structured_actionable"
+    });
   } else {
     backend = LEGAL_BACKEND;
-    body = JSON.stringify({ mode, query, documentText: document_, jurisdiction, entityType });
+    body = JSON.stringify({
+      mode,
+      query: buildStructuredPrompt(query, mode, agent),
+      documentText: document_,
+      jurisdiction,
+      entityType,
+      responseFormat: "structured_actionable"
+    });
   }
 
   let data;
