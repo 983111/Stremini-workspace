@@ -521,6 +521,25 @@
   .action-error   { background: #fef2f2;        color: #991b1b; border: 1px solid #fecaca; }
   .action-warn    { background: var(--accent-light); color: #92400e; border: 1px solid #fde68a; }
 
+  /* Structured response (aligned with Growth/Data report sections) */
+  .report-shell { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; background:var(--surface); }
+  .report-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 12px; border-bottom:1px solid var(--border); background:var(--surface-2); }
+  .report-title { font-size:12px; font-weight:600; letter-spacing:.35px; text-transform:uppercase; color:var(--text-muted); }
+  .report-copy { border:none; background:transparent; color:var(--text-secondary); font-size:12px; cursor:pointer; padding:4px 8px; border-radius:6px; }
+  .report-copy:hover { background:#ece9e2; color:var(--text-primary); }
+  .report-body { padding:10px 12px; display:flex; flex-direction:column; gap:10px; }
+  .report-section { border:1px solid var(--border); border-radius:8px; overflow:hidden; background:#fff; }
+  .report-sec-head { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:9px 11px; background:var(--surface-2); cursor:pointer; }
+  .report-sec-title { font-size:13px; font-weight:600; color:var(--text-primary); }
+  .report-chevron { width:14px; height:14px; transition:transform .15s; color:var(--text-muted); }
+  .report-chevron.open { transform:rotate(90deg); }
+  .report-sec-content { padding:10px 11px; display:block; }
+  .report-sec-content.closed { display:none; }
+  .report-sec-content p { margin:0 0 8px 0; font-size:13px; line-height:1.6; color:var(--text-primary); }
+  .report-sec-content p:last-child { margin-bottom:0; }
+  .report-sec-content ul { margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; }
+  .report-sec-content li { font-size:13px; line-height:1.5; color:var(--text-primary); }
+
   /* Code block */
   .code-block {
     background: var(--code-bg);
@@ -1034,7 +1053,8 @@ async function handleSend() {
 
     if (data.status === "REPLY") {
       state.history = data.history;   // stay in sync with server-trimmed history
-      addMessage("agent", formatReply(data.reply));
+      addMessage("agent", buildActionCard("success", `Report ready — <strong>${parseIntoSections(data.reply || "").length}</strong> sections`));
+      addMessage("agent", renderStructuredReply(data.reply || ""));
       setStatus("done", "Done");
     } else {
       addMessage("agent", buildActionCard("error", escapeHtml(data.message || "Unexpected error")));
@@ -1051,32 +1071,88 @@ async function handleSend() {
   sendBtn.disabled = false;
 }
 
-// ── Format reply (light markdown-ish render) ──
-function formatReply(text) {
-  // Escape HTML first
-  let out = escapeHtml(text);
+function parseIntoSections(content) {
+  const lines = String(content || "").split(/\r?\n/);
+  const sections = [];
+  let currentTitle = "";
+  let buf = [];
 
-  // Bold **text**
-  out = out.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  const flush = () => {
+    const body = buf.join("\n").trim();
+    if (body || currentTitle) sections.push({ title: currentTitle || "Section", body });
+    buf = [];
+  };
 
-  // Bullet lists: lines starting with - or •
-  out = out.replace(/^[\-•]\s+(.+)$/gm, "<li>$1</li>");
-  out = out.replace(/(<li>.*<\/li>(\n|$))+/gs, m => `<ul>${m}</ul>`);
+  lines.forEach((raw, idx) => {
+    const line = raw.trim();
+    const heading = line.match(/^(?:#{1,3}\s+)?(?:\d+\)\s*|\d+[\.:]\s*)?([A-Z][\w\s/&-]{2,60}):?$/);
+    const looksLikeHeading = heading && (line.endsWith(":") || /^#{1,3}\s+/.test(line) || /^\d+[\).:]/.test(line));
+    if (looksLikeHeading) {
+      if (idx !== 0) flush();
+      currentTitle = heading[1].trim();
+      return;
+    }
+    buf.push(raw);
+  });
+  flush();
+  return sections.length ? sections : [{ title: "Response", body: String(content || "") }];
+}
 
-  // Numbered lists
-  out = out.replace(/^\d+\.\s+(.+)$/gm, "<li>$1</li>");
+function renderSectionBody(text) {
+  const lines = String(text || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  if (!lines.length) return "<p>No additional details provided.</p>";
+  const bullets = lines.filter(l => /^[-*•]|^\d+[\).]/.test(l));
+  const allBulletLike = bullets.length >= Math.max(2, lines.length - 1);
+  if (allBulletLike) {
+    return `<ul>${bullets.map(l => `<li>${escapeHtml(l.replace(/^[-*•]\s*|^\d+[\).]\s*/, ""))}</li>`).join("")}</ul>`;
+  }
+  return lines.map(l => {
+    if (/^[-*•]|^\d+[\).]/.test(l)) {
+      return `<ul><li>${escapeHtml(l.replace(/^[-*•]\s*|^\d+[\).]\s*/, ""))}</li></ul>`;
+    }
+    return `<p>${escapeHtml(l).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")}</p>`;
+  }).join("");
+}
 
-  // Headers ### or **Title:**
-  out = out.replace(/^###\s+(.+)$/gm, "<h3>$1</h3>");
-  out = out.replace(/^##\s+(.+)$/gm,  "<h3>$1</h3>");
+function renderStructuredReply(text) {
+  const sections = parseIntoSections(text);
+  const pid = "finrep-" + Date.now();
+  const bodyHtml = sections.map((sec, i) => `
+    <div class="report-section">
+      <div class="report-sec-head" data-target="${pid}-sec-${i}">
+        <div class="report-sec-title">${escapeHtml(sec.title || `Section ${i + 1}`)}</div>
+        <svg class="report-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="report-sec-content" id="${pid}-sec-${i}">${renderSectionBody(sec.body)}</div>
+    </div>`).join("");
 
-  // Paragraphs: double newlines → <p>
-  out = out.split(/\n\n+/).map(p => `<p>${p}</p>`).join("");
+  setTimeout(() => {
+    document.querySelectorAll(`.report-sec-head[data-target^='${pid}-sec-']`).forEach(head => {
+      head.addEventListener("click", () => {
+        const id = head.getAttribute("data-target");
+        const content = document.getElementById(id);
+        const chev = head.querySelector(".report-chevron");
+        const closed = content.classList.toggle("closed");
+        chev.classList.toggle("open", !closed);
+      });
+    });
+    const copyBtn = document.getElementById(pid + "-copy");
+    if (copyBtn) {
+      copyBtn.onclick = () => navigator.clipboard.writeText(text).then(() => {
+        copyBtn.textContent = "✓ Copied";
+        setTimeout(() => copyBtn.textContent = "Copy", 1500);
+      }).catch(() => {});
+    }
+  }, 0);
 
-  // Single newlines inside <p>
-  out = out.replace(/\n/g, "<br/>");
-
-  return `<div>${out}</div>`;
+  return `
+    <div class="report-shell">
+      <div class="report-toolbar">
+        <div class="report-title">Finance Agent Report</div>
+        <button class="report-copy" id="${pid}-copy">Copy</button>
+      </div>
+      <div class="report-body">${bodyHtml}</div>
+    </div>`;
 }
 
 // ── UI helpers ──
