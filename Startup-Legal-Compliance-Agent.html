@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stremini — Startup & Legal Compliance Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f7f5f2;--surface:#fff;--surface2:#f2f0ec;--border:#e4e0d8;--border2:#ece9e2;
+    --txt:#1a1814;--txt2:#6b6459;--muted:#9e9589;--amber:#d97706;--green:#059669;
+    --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);--r:12px;
+  }
+  html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--txt)}
+  .page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .panel{width:min(860px,100%);background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+  .hd{padding:22px 24px;border-bottom:1px solid var(--border2);background:var(--surface2)}
+  .hd h1{font-family:'Lora',serif;font-size:28px;font-weight:500;letter-spacing:-.3px}
+  .hd p{margin-top:8px;color:var(--txt2);line-height:1.6;font-size:14px}
+  .bd{padding:24px;display:grid;gap:16px}
+  .item{padding:14px;border:1px solid var(--border2);border-radius:10px;background:#faf9f7}
+  .item h3{font-size:14px;font-weight:600;margin-bottom:6px}
+  .item p{font-size:13px;color:var(--txt2);line-height:1.65}
+  .badge{display:inline-flex;padding:4px 9px;border-radius:999px;background:#dcfce7;color:#065f46;font-size:11px;font-weight:600;border:1px solid #a7f3d0}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;padding:0 24px 24px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none}
+  .btn.primary{background:var(--txt);color:#fff}
+  .btn.secondary{background:var(--surface);color:var(--txt2);border:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="panel">
+    <header class="hd">
+      <span class="badge">Ready</span>
+      <h1>Startup &amp; Legal Compliance Agent</h1>
+      <p>A dedicated workspace for entity setup, policy drafting, compliance checks, and legal-readiness operations.</p>
+    </header>
+    <div class="bd">
+      <article class="item">
+        <h3>Incorporation &amp; Governance</h3>
+        <p>Track setup milestones, cap table structure, board process documentation, and governance hygiene for early-stage startups.</p>
+      </article>
+      <article class="item">
+        <h3>Policy &amp; Contract Workflows</h3>
+        <p>Create repeatable checklists for legal review, vendor diligence, privacy policy updates, and agreement lifecycle tracking.</p>
+      </article>
+      <article class="item">
+        <h3>Compliance Operations</h3>
+        <p>Run ongoing compliance routines with auditable notes for data handling, employee onboarding, and regulatory obligations.</p>
+      </article>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="index.html">Back to Workspace</a>
+      <a class="btn secondary" href="Research.html">Open Research &amp; Math Agent</a>
+    </div>
+  </section>
+</div>
+</body>
+</html>
