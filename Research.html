@@ -524,7 +524,8 @@ function card(type, text) {
 }
 
 // ──────────────────────────────────────────────────────────────────
-// CONTENT PARSER — split raw text vs <diagram> blocks
+// CONTENT PARSER — extract <diagram> blocks from raw text
+// Returns array of {kind:"text"|"diagram", ...} parts
 // ──────────────────────────────────────────────────────────────────
 function parseContent(content) {
   const parts = [];
@@ -540,171 +541,181 @@ function parseContent(content) {
 }
 
 // ──────────────────────────────────────────────────────────────────
-// STRUCTURED PAPER RENDERER
-// Parses section headings, paragraphs, keywords, references
-// and renders as properly structured HTML
+// buildPaperDOM — single-pass structured renderer
+// Processes ALL parts (text + diagram elements) in one pass
+// so the title block is rendered exactly once and diagram label
+// lines emitted by the model are filtered out.
 // ──────────────────────────────────────────────────────────────────
-function renderStructuredText(rawText, isMath) {
-  const lines = rawText.split("\n");
-  const container = document.createDocumentFragment();
-  const headingColor = isMath ? "math-heading" : "";
+function buildPaperDOM(allParts, isMath) {
+  const container  = document.createElement("div");
+  const hClass     = isMath ? "math-heading" : "";
 
-  // Detect title block (first non-empty lines before "Authors:")
-  let titleFound = false;
-  let titleLines = [];
-  let metaLine = "";
-  let bodyStartIdx = 0;
+  const majorRe      = /^(\d+)\.\s+(.+)$/;
+  const subRe        = /^(\d+\.\d+)\s+(.+)$/;
+  const refsRe       = /^REFERENCES\s*$/i;
+  const abstractRe   = /^ABSTRACT\s*$/i;
+  const keywordsRe   = /^keywords:/i;
+  const authorsRe    = /^authors:/i;
+  const dividerRe    = /^[━─=\-]{3,}$/;
+  // Model sometimes emits "MINDMAP DIAGRAM — ..." labels before a diagram tag
+  const diagLabelRe  = /^(MINDMAP|FLOWCHART|TIMELINE|GRAPH|SEQUENCE)\s+DIAGRAM/i;
 
-  for (let i = 0; i < lines.length; i++) {
-    const l = lines[i].trim();
-    if (!l) continue;
-    if (!titleFound) {
-      titleLines.push(l);
-      titleFound = true;
-    } else if (l.startsWith("Authors:") || l.startsWith("Date:") || l.includes("Stremini Research Agent")) {
-      metaLine = l;
-      bodyStartIdx = i + 1;
-      // skip dividers
-      while (bodyStartIdx < lines.length && /^[━─=\s]*$/.test(lines[bodyStartIdx])) bodyStartIdx++;
-      break;
-    } else if (/^[━─=\s]*$/.test(l)) {
-      bodyStartIdx = i + 1;
-      break;
+  let currentSection = null;
+  let currentPara    = [];
+  let inRefs         = false;
+  let refsDiv        = null;
+  let headerDone     = false;
+  let titleLines     = [];
+  let metaLines      = [];
+
+  function append(el) {
+    (currentSection || container).appendChild(el);
+  }
+
+  function flushPara() {
+    if (!currentPara.length) return;
+    const text = currentPara.join(" ").trim();
+    currentPara = [];
+    if (!text) return;
+    if (keywordsRe.test(text)) {
+      const kb = document.createElement("div");
+      kb.className = "keywords-block";
+      kb.innerHTML = "<strong>Keywords:</strong> " + esc(text.replace(/^keywords:\s*/i,""));
+      append(kb);
     } else {
-      titleLines.push(l);
+      const p = document.createElement("p");
+      p.className = "paper-para";
+      p.textContent = text;
+      append(p);
     }
   }
 
-  // Title block
-  if (titleLines.length > 0) {
+  function sealHeader() {
+    if (headerDone) return;
+    headerDone = true;
+    if (!titleLines.length) return;
     const tb = document.createElement("div");
     tb.className = "paper-title-block";
     const th = document.createElement("div");
     th.className = "paper-main-title";
     th.textContent = titleLines.join(" ");
     tb.appendChild(th);
-    if (metaLine) {
+    if (metaLines.length) {
       const tm = document.createElement("div");
       tm.className = "paper-meta";
-      const parts2 = metaLine.split("|").map(s=>s.trim());
-      parts2.forEach(p => {
-        const sp = document.createElement("span");
-        sp.textContent = p;
-        tm.appendChild(sp);
+      metaLines.forEach(ml => {
+        ml.split("|").map(s => s.trim()).filter(Boolean).forEach(seg => {
+          const sp = document.createElement("span"); sp.textContent = seg; tm.appendChild(sp);
+        });
       });
       tb.appendChild(tm);
     }
     container.appendChild(tb);
   }
 
-  // Process body
-  const bodyLines = lines.slice(bodyStartIdx);
-  let currentSection = null;
-  let currentPara = [];
-
-  function flushPara() {
-    if (currentPara.length === 0) return;
-    const text = currentPara.join(" ").trim();
-    if (!text) { currentPara = []; return; }
-    // Keywords block?
-    if (text.toLowerCase().startsWith("keywords:")) {
-      const kb = document.createElement("div");
-      kb.className = "keywords-block";
-      kb.innerHTML = `<strong>Keywords:</strong>${esc(text.slice(9))}`;
-      (currentSection || container).appendChild(kb);
-    } else {
-      const p = document.createElement("p");
-      p.className = "paper-para";
-      p.textContent = text;
-      (currentSection || container).appendChild(p);
-    }
-    currentPara = [];
+  function newSection(label) {
+    flushPara();
+    sealHeader();
+    const sec = document.createElement("div");
+    sec.className = "paper-section";
+    const sh  = document.createElement("div");
+    sh.className = "paper-section-heading " + hClass;
+    sh.textContent = label;
+    sec.appendChild(sh);
+    container.appendChild(sec);
+    currentSection = sec;
   }
 
-  const majorHeadingRe = /^(\d+)\.\s+(.+)$/;
-  const subHeadingRe   = /^(\d+\.\d+)\s+(.+)$/;
-  const refsHeadingRe  = /^REFERENCES\s*$/i;
-  const dividerRe      = /^[━─=\s]{3,}$/;
+  function processLines(lines) {
+    for (let i = 0; i < lines.length; i++) {
+      const l = lines[i].trim();
 
-  let inRefs = false;
-  let refsDiv = null;
+      if (!l || dividerRe.test(l))         { flushPara(); continue; }
+      if (diagLabelRe.test(l))              { flushPara(); continue; }
 
-  for (let i = 0; i < bodyLines.length; i++) {
-    const raw = bodyLines[i];
-    const l = raw.trim();
-
-    if (!l || dividerRe.test(l)) { flushPara(); continue; }
-
-    if (refsHeadingRe.test(l)) {
-      flushPara();
-      refsDiv = document.createElement("div");
-      refsDiv.className = "references-section";
-      const rh = document.createElement("div");
-      rh.className = "paper-section-heading " + headingColor;
-      rh.textContent = "References";
-      refsDiv.appendChild(rh);
-      container.appendChild(refsDiv);
-      inRefs = true;
-      currentSection = refsDiv;
-      continue;
-    }
-
-    if (inRefs) {
-      // Reference items start with [N]
-      if (/^\[\d+\]/.test(l)) {
-        flushPara();
-        const ri = document.createElement("div");
-        ri.className = "ref-item";
-        ri.textContent = l;
-        refsDiv.appendChild(ri);
-      } else {
-        // continuation of previous ref or new text
-        const lastRef = refsDiv.lastElementChild;
-        if (lastRef && lastRef.classList.contains("ref-item")) {
-          lastRef.textContent += " " + l;
-        } else {
-          currentPara.push(l);
-        }
+      // ── Pre-header: collect title + meta before first section ──
+      if (!headerDone) {
+        if (authorsRe.test(l) || l.startsWith("Date:")) { metaLines.push(l); continue; }
+        const isSection = majorRe.test(l) || abstractRe.test(l) || refsRe.test(l);
+        if (!isSection) { titleLines.push(l); continue; }
+        // fall through — seal header and process this line as a section
       }
-      continue;
-    }
 
-    // Major section heading: "1. INTRODUCTION", "ABSTRACT", etc.
-    const isAllCaps = l === l.toUpperCase() && l.length > 3 && /[A-Z]/.test(l) && !/^\d/.test(l);
-    const majorMatch = majorHeadingRe.exec(l);
-    const subMatch   = subHeadingRe.exec(l);
+      // ── REFERENCES ──
+      if (refsRe.test(l)) {
+        flushPara(); sealHeader();
+        refsDiv = document.createElement("div");
+        refsDiv.className = "references-section";
+        const rh = document.createElement("div");
+        rh.className = "paper-section-heading " + hClass;
+        rh.textContent = "References";
+        refsDiv.appendChild(rh);
+        container.appendChild(refsDiv);
+        inRefs = true; currentSection = refsDiv;
+        continue;
+      }
 
-    if (majorMatch || isAllCaps) {
-      flushPara();
-      const sec = document.createElement("div");
-      sec.className = "paper-section";
-      const sh = document.createElement("div");
-      sh.className = "paper-section-heading " + headingColor;
-      sh.textContent = majorMatch ? `${majorMatch[1]}. ${majorMatch[2]}` : l;
-      sec.appendChild(sh);
-      container.appendChild(sec);
-      currentSection = sec;
-      continue;
-    }
+      if (inRefs) {
+        // "Author (Year)..." or "[1] ..." start a new ref item
+        if (/^\[\d+\]/.test(l) || /^[A-Z][a-z]/.test(l)) {
+          flushPara();
+          const ri = document.createElement("div");
+          ri.className = "ref-item";
+          ri.textContent = l;
+          refsDiv.appendChild(ri);
+        } else {
+          const last = refsDiv.lastElementChild;
+          if (last && last.classList.contains("ref-item")) last.textContent += " " + l;
+          else currentPara.push(l);
+        }
+        continue;
+      }
 
-    if (subMatch) {
-      flushPara();
-      const ssh = document.createElement("div");
-      ssh.className = "paper-sub-heading";
-      ssh.textContent = `${subMatch[1]} ${subMatch[2]}`;
-      (currentSection || container).appendChild(ssh);
-      continue;
-    }
+      // ── ABSTRACT ──
+      if (abstractRe.test(l)) { newSection("Abstract"); continue; }
 
-    // Regular text line
-    if (l === "" && currentPara.length > 0) {
-      flushPara();
-    } else {
+      // ── Numbered section heading "1. INTRODUCTION" ──
+      const mj = majorRe.exec(l);
+      if (mj) { newSection(mj[1] + ". " + mj[2]); continue; }
+
+      // ── Sub-heading "2.1 Foundational Works" ──
+      const sb = subRe.exec(l);
+      if (sb) {
+        flushPara();
+        const ssh = document.createElement("div");
+        ssh.className = "paper-sub-heading";
+        ssh.textContent = sb[1] + " " + sb[2];
+        append(ssh);
+        continue;
+      }
+
+      // ── Keywords inline ──
+      if (keywordsRe.test(l)) {
+        flushPara();
+        const kb = document.createElement("div");
+        kb.className = "keywords-block";
+        kb.innerHTML = "<strong>Keywords:</strong> " + esc(l.replace(/^keywords:\s*/i,""));
+        append(kb);
+        continue;
+      }
+
+      // ── Regular prose ──
       currentPara.push(l);
     }
   }
 
+  for (const part of allParts) {
+    if (part.kind === "diagram") {
+      flushPara();
+      sealHeader();
+      append(part.el);
+    } else {
+      processLines(part.txt.split("\n"));
+    }
+  }
+
   flushPara();
+  sealHeader();
   return container;
 }
 
@@ -744,41 +755,37 @@ async function renderPaper(content, isMath) {
   // Store SVG data for each diagram (for PDF export)
   const diagramSvgMap = {};
 
-  // First, build a combined text buffer for structured rendering
-  // We interleave text sections with rendered diagrams
+  // Step 1: render all diagram elements first, attach them as part.el
   for (const part of parts) {
-    if (part.kind === "text") {
-      if (part.txt.trim()) {
-        // Render structured text
-        const frag = renderStructuredText(part.txt, isMath);
-        body.appendChild(frag);
-      }
-    } else {
-      diagramsFound++;
-      const dw = document.createElement("div");
-      dw.className = "diagram-wrap";
-      const diagKey = "diag_" + diagramsFound;
-      dw.setAttribute("data-diag-key", diagKey);
-      dw.innerHTML = `<div class="diagram-bar">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        ${part.dtype.toUpperCase()} DIAGRAM${part.title ? " — " + esc(part.title) : ""}
-      </div>`;
-      const dr = document.createElement("div");
-      dr.className = "diagram-render";
-      try {
-        const uid = "d" + (++diagId) + "_" + Date.now();
-        const { svg } = await mermaid.render(uid, part.code);
-        dr.innerHTML = svg;
-        diagramSvgMap[diagKey] = svg;
-      } catch(e) {
-        dr.className = "diagram-err";
-        dr.textContent = "Diagram render error: " + e.message;
-        diagramSvgMap[diagKey] = null;
-      }
-      dw.appendChild(dr);
-      body.appendChild(dw);
+    if (part.kind !== "diagram") continue;
+    diagramsFound++;
+    const diagKey = "diag_" + diagramsFound;
+    const dw = document.createElement("div");
+    dw.className = "diagram-wrap";
+    dw.setAttribute("data-diag-key", diagKey);
+    dw.innerHTML = `<div class="diagram-bar">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      ${part.dtype.toUpperCase()} — ${esc(part.title || part.dtype)}
+    </div>`;
+    const dr = document.createElement("div");
+    dr.className = "diagram-render";
+    try {
+      const uid = "d" + (++diagId) + "_" + Date.now();
+      const { svg } = await mermaid.render(uid, part.code);
+      dr.innerHTML = svg;
+      diagramSvgMap[diagKey] = svg;
+    } catch(e) {
+      dr.className = "diagram-err";
+      dr.textContent = "Diagram error: " + e.message;
+      diagramSvgMap[diagKey] = null;
     }
+    dw.appendChild(dr);
+    part.el = dw; // attach rendered element to part for buildPaperDOM
   }
+
+  // Step 2: single-pass structured render of all parts
+  const paperDOM = buildPaperDOM(parts, isMath);
+  body.appendChild(paperDOM);
 
   block.appendChild(body);
   wrap.appendChild(block);
