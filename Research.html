@@ -591,6 +591,48 @@ function ensureHtml2PdfReady() {
   return html2pdfReadyPromise;
 }
 
+function buildPdfExportNode(pid) {
+  const bodyNode = document.getElementById(pid);
+  if (!bodyNode) return null;
+  const paperBlock = bodyNode.closest(".paper-block") || bodyNode;
+
+  const clone = paperBlock.cloneNode(true);
+  clone.style.background = "#ffffff";
+  clone.style.color = "#111827";
+  clone.style.border = "none";
+  clone.style.boxShadow = "none";
+  clone.style.width = "100%";
+  clone.style.maxWidth = "100%";
+  clone.style.margin = "0";
+
+  clone.querySelectorAll(".copy-btn").forEach(el => el.remove());
+
+  clone.querySelectorAll(".diagram-wrap").forEach(el => {
+    el.style.breakInside = "avoid";
+    el.style.pageBreakInside = "avoid";
+  });
+
+  clone.querySelectorAll(".diagram-render").forEach(el => {
+    el.style.overflow = "visible";
+    el.style.padding = "14px";
+    el.style.minHeight = "0";
+  });
+
+  clone.querySelectorAll(".diagram-render svg").forEach(svg => {
+    svg.style.maxWidth = "100%";
+    svg.style.height = "auto";
+  });
+
+  const shell = document.createElement("div");
+  shell.style.background = "#ffffff";
+  shell.style.padding = "12px";
+  shell.style.width = "820px";
+  shell.style.maxWidth = "820px";
+  shell.style.fontFamily = "'DM Sans', sans-serif";
+  shell.appendChild(clone);
+  return shell;
+}
+
 // ─────────────────────────────────────────
 // Parse content: split text vs <diagram> blocks
 // ─────────────────────────────────────────
@@ -722,7 +764,11 @@ async function renderPaper(content, isMath) {
       dlPdf.className = "dl-btn dl-pdf";
       dlPdf.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Download .pdf`;
       dlPdf.onclick = async () => {
-        const source = document.getElementById(pid);
+        const source = buildPdfExportNode(pid);
+        if (!source) {
+          alert("Unable to prepare this response for PDF export.");
+          return;
+        }
         const prevLabel = dlPdf.innerHTML;
         dlPdf.disabled = true;
         dlPdf.textContent = "Preparing PDF…";
@@ -733,9 +779,20 @@ async function renderPaper(content, isMath) {
             margin: [12, 10, 12, 10],
             filename: `stremini-paper-${Date.now()}.pdf`,
             image: { type: "jpeg", quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+            html2canvas: {
+              scale: 3,
+              useCORS: true,
+              backgroundColor: "#ffffff",
+              scrollX: 0,
+              scrollY: 0,
+              windowWidth: source.scrollWidth,
+              windowHeight: source.scrollHeight
+            },
             jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-            pagebreak: { mode: ["css", "legacy"] }
+            pagebreak: {
+              mode: ["avoid-all", "css", "legacy"],
+              avoid: [".diagram-wrap", ".diagram-render", ".paper-hd", ".paper-text"]
+            }
           }).from(source).save();
         } catch (err) {
           alert("PDF export is currently unavailable. Check your connection and try again.");
