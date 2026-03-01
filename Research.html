@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Stremini — Research & Math Agent</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
 <script src="https://unpkg.com/mammoth@1.6.0/mammoth.browser.min.js"></script>
@@ -18,6 +18,7 @@
   --violet:#7c3aed;--violet-bg:#f5f3ff;
   --green:#059669;--green-bg:#d1fae5;
   --red:#991b1b;--red-bg:#fee2e2;
+  --blue:#1d4ed8;--blue-bg:#eff6ff;
   --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
   --shadow-md:0 4px 14px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.04);
   --r:10px;--r2:6px;
@@ -35,18 +36,15 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .logo-icon svg{width:17px;height:17px}
 .logo-name{font-family:'Lora',serif;font-size:17px;font-weight:600;letter-spacing:-.3px}
 .logo-sub{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-
 .sb-label{font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
-.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:0}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .mode-btn{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 8px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none}
 .mode-btn svg{width:18px;height:18px}
 .mode-btn:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
 .mode-btn.on-research{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
 .mode-btn.on-math{border-color:var(--violet);color:var(--violet);background:var(--violet-bg)}
-
 .sb-sec{padding:16px 20px;border-bottom:1px solid var(--border2)}
 .sb-sec:last-child{border-bottom:none}
-
 .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500}
 .badge-idle{background:var(--surface2);color:var(--muted)}
 .badge-run{background:#fef3c7;color:#92400e}
@@ -55,19 +53,15 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
 .badge-run .dot{animation:pulse 1.2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
 .stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:2px}
 .stat-box{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r2);padding:9px 6px;text-align:center}
 .stat-n{font-family:'Lora',serif;font-size:19px;font-weight:500;line-height:1}
 .stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-top:3px}
-
 .recent-list{display:flex;flex-direction:column;gap:4px;max-height:160px;overflow-y:auto}
 .recent-item{display:flex;align-items:flex-start;gap:7px;padding:7px 9px;background:var(--surface2);border-radius:var(--r2);font-size:12px;color:var(--txt2);cursor:pointer;transition:all .12s;line-height:1.4}
 .recent-item:hover{background:var(--amber-bg);color:var(--amber)}
 .ri-dot{width:5px;height:5px;border-radius:50%;background:var(--muted);flex-shrink:0;margin-top:5px}
-
 .muted-note{font-size:12px;color:var(--muted);font-style:italic}
-
 .new-btn{display:flex;align-items:center;gap:7px;width:100%;padding:9px 11px;background:transparent;border:1.5px dashed var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--txt2);cursor:pointer;transition:all .15s}
 .new-btn:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
 
@@ -78,21 +72,20 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .mode-pill{display:flex;align-items:center;gap:6px;padding:4px 11px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;background:var(--surface);box-shadow:var(--shadow)}
 .mode-pill.research{color:var(--amber);border-color:#fde68a;background:var(--amber-bg)}
 .mode-pill.math{color:var(--violet);border-color:#ddd6fe;background:var(--violet-bg)}
-
 .ghost-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:transparent;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none}
 .ghost-btn:hover{background:var(--surface);border-color:var(--muted)}
 
 /* Messages */
 .msgs-wrap{flex:1;overflow-y:auto;padding:28px 0;scroll-behavior:smooth}
-.msgs{max-width:840px;margin:0 auto;padding:0 28px;display:flex;flex-direction:column}
+.msgs{max-width:860px;margin:0 auto;padding:0 28px;display:flex;flex-direction:column}
 
 /* Welcome */
 .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;text-align:center;padding:20px 0}
 .w-icon{width:62px;height:62px;background:var(--txt);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:var(--shadow-md)}
 .w-icon svg{width:32px;height:32px}
 .welcome h2{font-family:'Lora',serif;font-size:26px;font-weight:500;margin-bottom:8px;letter-spacing:-.4px}
-.welcome p{font-size:14.5px;color:var(--txt2);line-height:1.65;max-width:440px;margin-bottom:26px}
-.hint-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:520px}
+.welcome p{font-size:14.5px;color:var(--txt2);line-height:1.65;max-width:460px;margin-bottom:26px}
+.hint-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:540px}
 .hint{display:flex;align-items:flex-start;gap:10px;padding:13px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);text-align:left;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
 .hint:hover{border-color:var(--amber);background:var(--amber-bg);transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .hint.math-h:hover{border-color:var(--violet);background:var(--violet-bg)}
@@ -133,29 +126,53 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .paper-hd-left{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600}
 .paper-hd-left.research{color:var(--amber)}
 .paper-hd-left.math{color:var(--violet)}
-.copy-btn{background:none;border:1px solid var(--border);cursor:pointer;font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:4px;transition:all .15s}
-.copy-btn:hover{background:var(--border);color:var(--txt)}
+.paper-hd-actions{display:flex;gap:6px;align-items:center}
+.copy-btn,.hd-btn{background:none;border:1px solid var(--border);cursor:pointer;font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:4px;transition:all .15s}
+.copy-btn:hover,.hd-btn:hover{background:var(--border);color:var(--txt)}
 
-/* Paper body — Times New Roman */
+/* Paper body */
 .paper-bd{
-  padding:24px 28px;
-  font-family:'Times New Roman',Times,serif;
-  font-size:15px;
-  line-height:1.88;
+  padding:28px 32px;
+  font-family:'Lora',Times,serif;
+  font-size:15.5px;
+  line-height:1.95;
   color:#1a1814;
-  max-height:580px;
+  max-height:640px;
   overflow-y:auto;
 }
 .paper-bd.math-bd{
   font-family:'DM Mono','Courier New',monospace;
   font-size:13px;
-  line-height:1.85;
+  line-height:1.9;
   background:#fafaf9;
 }
-.paper-text{white-space:pre-wrap;word-break:break-word}
+
+/* Structured paper rendering */
+.paper-title-block{text-align:center;padding:0 0 22px;border-bottom:2px solid var(--border);margin-bottom:24px}
+.paper-main-title{font-family:'Lora',serif;font-size:20px;font-weight:700;line-height:1.35;margin-bottom:10px;letter-spacing:-.3px}
+.paper-meta{font-size:12px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.paper-meta span{display:flex;align-items:center;gap:4px}
+
+.paper-section{margin-bottom:26px}
+.paper-section-heading{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--amber2);margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border2)}
+.paper-section-heading.math-heading{color:var(--violet)}
+.paper-sub-heading{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--txt);margin:18px 0 8px}
+
+.paper-para{margin-bottom:14px;text-align:justify;hyphens:auto}
+.paper-para:last-child{margin-bottom:0}
+
+.paper-divider{border:none;border-top:1px solid var(--border2);margin:20px 0}
+
+.keywords-block{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r2);padding:10px 14px;margin-bottom:18px;font-size:12.5px;color:var(--txt2);font-family:'DM Sans',sans-serif}
+.keywords-block strong{color:var(--txt);margin-right:6px}
+
+.references-section{border-top:2px solid var(--border);padding-top:20px;margin-top:10px}
+.ref-item{font-size:13.5px;line-height:1.7;margin-bottom:8px;padding-left:26px;text-indent:-26px;color:var(--txt2)}
+.ref-item a{color:var(--blue);text-decoration:none}
+.ref-item a:hover{text-decoration:underline}
 
 /* Diagram inside paper */
-.diagram-wrap{margin:16px 0;background:#fafaf8;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.diagram-wrap{margin:18px 0;background:#fafaf8;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;break-inside:avoid;page-break-inside:avoid}
 .diagram-bar{display:flex;align-items:center;gap:7px;padding:7px 13px;background:var(--surface2);border-bottom:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px}
 .diagram-render{padding:18px;display:flex;justify-content:center;overflow-x:auto;min-height:60px}
 .diagram-render svg{max-width:100%;height:auto}
@@ -173,7 +190,7 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 
 /* Input bar */
 .input-bar{padding:16px 28px 20px;background:var(--bg);border-top:1px solid var(--border);flex-shrink:0}
-.input-inner{max-width:840px;margin:0 auto}
+.input-inner{max-width:860px;margin:0 auto}
 .input-wrap{display:flex;align-items:flex-end;gap:9px;background:var(--surface);border:1.5px solid var(--border);border-radius:13px;padding:9px 11px;box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s}
 .input-wrap:focus-within{border-color:var(--amber);box-shadow:0 0 0 3px rgba(217,119,6,.1),var(--shadow)}
 .task-ta{flex:1;border:none!important;background:transparent!important;padding:3px!important;box-shadow:none!important;font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:22px;max-height:160px;resize:none;overflow-y:auto;outline:none;color:var(--txt)}
@@ -194,7 +211,6 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .file-chip button{background:none;border:none;cursor:pointer;color:var(--amber2);font-size:14px;line-height:1;padding:0;display:flex;align-items:center}
 .file-chip-wrap{display:none;padding:0 2px}
 .file-chip-wrap.visible{display:block}
-.extracting-note{font-size:11px;color:var(--muted);font-style:italic}
 
 /* Scrollbar */
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -202,6 +218,8 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
 @media(max-width:720px){.layout{grid-template-columns:1fr}.sidebar{display:none}.hint-grid{grid-template-columns:1fr}}
+
+/* ── PRINT / PDF STYLES (injected into print window) ── */
 </style>
 </head>
 <body>
@@ -245,7 +263,7 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
     <div class="sb-sec">
       <div class="sb-label">Status</div>
       <div id="statusBadge" class="badge badge-idle"><span class="dot"></span>Ready</div>
-      <div style="margin-top:9px;font-size:11.5px;color:var(--muted)" id="modeNote">Research — drafts full papers with diagrams</div>
+      <div style="margin-top:9px;font-size:11.5px;color:var(--muted)" id="modeNote">Research — full structured papers with diagrams</div>
     </div>
 
     <div class="sb-sec">
@@ -302,11 +320,11 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
             </svg>
           </div>
           <h2>Research &amp; Math Agent</h2>
-          <p>Write complete academic papers or solve math problems step-by-step. Papers include auto-generated diagrams — flowcharts, timelines, mindmaps and more.</p>
+          <p>Write complete, structured academic papers or solve math problems step-by-step. Papers include auto-generated diagrams, proper citations, and high-quality PDF export.</p>
           <div class="hint-grid">
             <div class="hint" onclick="hint('research','Write a research paper on the impact of large language models on scientific discovery')">
               <div class="hint-em">📄</div>
-              <div><strong>Research Paper</strong><small>Full paper + auto diagrams</small></div>
+              <div><strong>Research Paper</strong><small>Full structured paper + diagrams</small></div>
             </div>
             <div class="hint" onclick="hint('research','Write a comprehensive paper on quantum computing and cryptographic implications')">
               <div class="hint-em">🔬</div>
@@ -348,21 +366,16 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
             </svg>
           </button>
         </div>
-        <div class="input-hint">Enter to send &middot; Shift+Enter for new line &middot; Upload PDF/DOCX to analyse documents</div>
+        <div class="input-hint">Enter to send · Shift+Enter for new line · Upload PDF/DOCX to analyse documents</div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ─────────────────────────────────────────
-// CONFIG — paste your Worker URL here
-// ─────────────────────────────────────────
 const BACKEND = "https://agentic-research.vishwajeetadkine705.workers.dev";
 
-// ─────────────────────────────────────────
-// Init Mermaid
-// ─────────────────────────────────────────
+// ── Mermaid init ──
 mermaid.initialize({
   startOnLoad: false,
   theme: "neutral",
@@ -372,27 +385,21 @@ mermaid.initialize({
   flowchart: { curve: "basis", padding: 18 },
 });
 
-// ─────────────────────────────────────────
-// State
-// ─────────────────────────────────────────
+// ── State ──
 let mode = "research";
 let running = false;
 let history = [];
 let papers = 0, mathSolved = 0, diagramsTotal = 0;
 let diagId = 0;
 
-// ─────────────────────────────────────────
-// DOM refs
-// ─────────────────────────────────────────
+// ── DOM ──
 const ta       = document.getElementById("ta");
 const sendBtn  = document.getElementById("sendBtn");
 const msgs     = document.getElementById("msgs");
 const welcome  = document.getElementById("welcome");
 const msgsWrap = document.getElementById("msgsWrap");
 
-// ─────────────────────────────────────────
-// Textarea auto-resize + Enter key
-// ─────────────────────────────────────────
+// ── Textarea ──
 ta.addEventListener("input", function() {
   this.style.height = "auto";
   this.style.height = Math.min(this.scrollHeight, 160) + "px";
@@ -401,24 +408,21 @@ ta.addEventListener("keydown", function(e) {
   if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
 });
 
-// ─────────────────────────────────────────
-// Mode switching
-// ─────────────────────────────────────────
+// ── Mode switching ──
 function setMode(m) {
   mode = m;
   document.getElementById("btnResearch").className = "mode-btn" + (m === "research" ? " on-research" : "");
   document.getElementById("btnMath").className     = "mode-btn" + (m === "math"     ? " on-math"     : "");
   const pill = document.getElementById("modePill");
-  const pillTxt = document.getElementById("pillTxt");
   const modeNote = document.getElementById("modeNote");
   if (m === "research") {
     pill.className = "mode-pill research";
-    pillTxt.textContent = "Research Mode";
-    modeNote.textContent = "Research — drafts full papers with diagrams";
+    document.getElementById("pillTxt").textContent = "Research Mode";
+    modeNote.textContent = "Research — full structured papers with diagrams";
     ta.placeholder = "Enter a research topic or question…";
   } else {
     pill.className = "mode-pill math";
-    pillTxt.textContent = "Math Mode";
+    document.getElementById("pillTxt").textContent = "Math Mode";
     modeNote.textContent = "Math — solves problems step by step";
     ta.placeholder = "Enter a math problem or proof…";
   }
@@ -432,9 +436,7 @@ function hint(m, text) {
   ta.focus();
 }
 
-// ─────────────────────────────────────────
-// Status badge
-// ─────────────────────────────────────────
+// ── Status badge ──
 function setStatus(type, label) {
   const cls = { idle:"badge-idle", run:"badge-run", done:"badge-done", err:"badge-err" };
   const el = document.getElementById("statusBadge");
@@ -442,18 +444,14 @@ function setStatus(type, label) {
   el.innerHTML = `<span class="dot"></span>${label}`;
 }
 
-// ─────────────────────────────────────────
-// Stats
-// ─────────────────────────────────────────
+// ── Stats ──
 function updateStats() {
   document.getElementById("sPapers").textContent = papers;
   document.getElementById("sMath").textContent   = mathSolved;
   document.getElementById("sDiags").textContent  = diagramsTotal;
 }
 
-// ─────────────────────────────────────────
-// Recent queries
-// ─────────────────────────────────────────
+// ── Recent ──
 function addRecent(text, m) {
   const list = document.getElementById("recentList");
   const empty = list.querySelector(".muted-note");
@@ -461,30 +459,18 @@ function addRecent(text, m) {
   const item = document.createElement("div");
   item.className = "recent-item";
   item.innerHTML = `<div class="ri-dot"></div>${text.slice(0,55)}${text.length>55?"…":""}`;
-  item.onclick = () => { hint(m, text); };
+  item.onclick = () => hint(m, text);
   list.prepend(item);
   while (list.children.length > 5) list.lastChild.remove();
 }
 
-// ─────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────
-function esc(s) {
-  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-}
-function scrollBottom() {
-  msgsWrap.scrollTop = msgsWrap.scrollHeight;
-}
-function hideWelcome() {
-  if (welcome) welcome.style.display = "none";
-}
-function now() {
-  return new Date().toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" });
-}
+// ── Utils ──
+function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function scrollBottom() { msgsWrap.scrollTop = msgsWrap.scrollHeight; }
+function hideWelcome() { if (welcome) welcome.style.display = "none"; }
+function now() { return new Date().toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" }); }
 
-// ─────────────────────────────────────────
-// Add a plain message row
-// ─────────────────────────────────────────
+// ── Add plain message ──
 function addMsg(role, htmlContent) {
   hideWelcome();
   const row = document.createElement("div");
@@ -505,14 +491,11 @@ function addMsg(role, htmlContent) {
   return row;
 }
 
-// ─────────────────────────────────────────
-// Thinking indicator
-// ─────────────────────────────────────────
+// ── Thinking ──
 function addThinking() {
   hideWelcome();
   const row = document.createElement("div");
-  row.className = "thinking-row";
-  row.id = "thinking";
+  row.className = "thinking-row"; row.id = "thinking";
   row.innerHTML = `
     <div class="av av-agent">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
@@ -526,14 +509,9 @@ function addThinking() {
   msgs.appendChild(row);
   scrollBottom();
 }
-function removeThinking() {
-  const t = document.getElementById("thinking");
-  if (t) t.remove();
-}
+function removeThinking() { const t=document.getElementById("thinking"); if(t)t.remove(); }
 
-// ─────────────────────────────────────────
-// Action card HTML
-// ─────────────────────────────────────────
+// ── Card HTML ──
 function card(type, text) {
   const cls = { ok:"card-ok", work:"card-work", math:"card-math", err:"card-err" };
   const icons = {
@@ -545,97 +523,9 @@ function card(type, text) {
   return `<div class="card ${cls[type]||"card-ok"}">${icons[type]||""} ${text}</div>`;
 }
 
-// ─────────────────────────────────────────
-// HTML to PDF loader with CDN fallback
-// ─────────────────────────────────────────
-let html2pdfReadyPromise = null;
-
-function ensureHtml2PdfReady() {
-  if (typeof html2pdf !== "undefined") return Promise.resolve(html2pdf);
-  if (html2pdfReadyPromise) return html2pdfReadyPromise;
-
-  const sources = [
-    "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js",
-    "https://unpkg.com/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"
-  ];
-
-  html2pdfReadyPromise = new Promise((resolve, reject) => {
-    let idx = 0;
-
-    const loadNext = () => {
-      if (typeof html2pdf !== "undefined") {
-        resolve(html2pdf);
-        return;
-      }
-      if (idx >= sources.length) {
-        html2pdfReadyPromise = null;
-        reject(new Error("PDF exporter failed to load"));
-        return;
-      }
-
-      const src = sources[idx++];
-      const sc = document.createElement("script");
-      sc.src = src;
-      sc.async = true;
-      sc.onload = () => {
-        if (typeof html2pdf !== "undefined") resolve(html2pdf);
-        else loadNext();
-      };
-      sc.onerror = () => loadNext();
-      document.head.appendChild(sc);
-    };
-
-    loadNext();
-  });
-
-  return html2pdfReadyPromise;
-}
-
-function buildPdfExportNode(pid) {
-  const bodyNode = document.getElementById(pid);
-  if (!bodyNode) return null;
-  const paperBlock = bodyNode.closest(".paper-block") || bodyNode;
-
-  const clone = paperBlock.cloneNode(true);
-  clone.style.background = "#ffffff";
-  clone.style.color = "#111827";
-  clone.style.border = "none";
-  clone.style.boxShadow = "none";
-  clone.style.width = "100%";
-  clone.style.maxWidth = "100%";
-  clone.style.margin = "0";
-
-  clone.querySelectorAll(".copy-btn").forEach(el => el.remove());
-
-  clone.querySelectorAll(".diagram-wrap").forEach(el => {
-    el.style.breakInside = "avoid";
-    el.style.pageBreakInside = "avoid";
-  });
-
-  clone.querySelectorAll(".diagram-render").forEach(el => {
-    el.style.overflow = "visible";
-    el.style.padding = "14px";
-    el.style.minHeight = "0";
-  });
-
-  clone.querySelectorAll(".diagram-render svg").forEach(svg => {
-    svg.style.maxWidth = "100%";
-    svg.style.height = "auto";
-  });
-
-  const shell = document.createElement("div");
-  shell.style.background = "#ffffff";
-  shell.style.padding = "12px";
-  shell.style.width = "820px";
-  shell.style.maxWidth = "820px";
-  shell.style.fontFamily = "'DM Sans', sans-serif";
-  shell.appendChild(clone);
-  return shell;
-}
-
-// ─────────────────────────────────────────
-// Parse content: split text vs <diagram> blocks
-// ─────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────
+// CONTENT PARSER — split raw text vs <diagram> blocks
+// ──────────────────────────────────────────────────────────────────
 function parseContent(content) {
   const parts = [];
   const re = /<diagram\s+type=["']?(\w+)["']?\s+title=["']?([^"'>]*)["']?\s*>([\s\S]*?)<\/diagram>/gi;
@@ -649,17 +539,183 @@ function parseContent(content) {
   return parts;
 }
 
-// ─────────────────────────────────────────
-// Render paper/solution element (async for Mermaid)
-// ─────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────
+// STRUCTURED PAPER RENDERER
+// Parses section headings, paragraphs, keywords, references
+// and renders as properly structured HTML
+// ──────────────────────────────────────────────────────────────────
+function renderStructuredText(rawText, isMath) {
+  const lines = rawText.split("\n");
+  const container = document.createDocumentFragment();
+  const headingColor = isMath ? "math-heading" : "";
+
+  // Detect title block (first non-empty lines before "Authors:")
+  let titleFound = false;
+  let titleLines = [];
+  let metaLine = "";
+  let bodyStartIdx = 0;
+
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i].trim();
+    if (!l) continue;
+    if (!titleFound) {
+      titleLines.push(l);
+      titleFound = true;
+    } else if (l.startsWith("Authors:") || l.startsWith("Date:") || l.includes("Stremini Research Agent")) {
+      metaLine = l;
+      bodyStartIdx = i + 1;
+      // skip dividers
+      while (bodyStartIdx < lines.length && /^[━─=\s]*$/.test(lines[bodyStartIdx])) bodyStartIdx++;
+      break;
+    } else if (/^[━─=\s]*$/.test(l)) {
+      bodyStartIdx = i + 1;
+      break;
+    } else {
+      titleLines.push(l);
+    }
+  }
+
+  // Title block
+  if (titleLines.length > 0) {
+    const tb = document.createElement("div");
+    tb.className = "paper-title-block";
+    const th = document.createElement("div");
+    th.className = "paper-main-title";
+    th.textContent = titleLines.join(" ");
+    tb.appendChild(th);
+    if (metaLine) {
+      const tm = document.createElement("div");
+      tm.className = "paper-meta";
+      const parts2 = metaLine.split("|").map(s=>s.trim());
+      parts2.forEach(p => {
+        const sp = document.createElement("span");
+        sp.textContent = p;
+        tm.appendChild(sp);
+      });
+      tb.appendChild(tm);
+    }
+    container.appendChild(tb);
+  }
+
+  // Process body
+  const bodyLines = lines.slice(bodyStartIdx);
+  let currentSection = null;
+  let currentPara = [];
+
+  function flushPara() {
+    if (currentPara.length === 0) return;
+    const text = currentPara.join(" ").trim();
+    if (!text) { currentPara = []; return; }
+    // Keywords block?
+    if (text.toLowerCase().startsWith("keywords:")) {
+      const kb = document.createElement("div");
+      kb.className = "keywords-block";
+      kb.innerHTML = `<strong>Keywords:</strong>${esc(text.slice(9))}`;
+      (currentSection || container).appendChild(kb);
+    } else {
+      const p = document.createElement("p");
+      p.className = "paper-para";
+      p.textContent = text;
+      (currentSection || container).appendChild(p);
+    }
+    currentPara = [];
+  }
+
+  const majorHeadingRe = /^(\d+)\.\s+(.+)$/;
+  const subHeadingRe   = /^(\d+\.\d+)\s+(.+)$/;
+  const refsHeadingRe  = /^REFERENCES\s*$/i;
+  const dividerRe      = /^[━─=\s]{3,}$/;
+
+  let inRefs = false;
+  let refsDiv = null;
+
+  for (let i = 0; i < bodyLines.length; i++) {
+    const raw = bodyLines[i];
+    const l = raw.trim();
+
+    if (!l || dividerRe.test(l)) { flushPara(); continue; }
+
+    if (refsHeadingRe.test(l)) {
+      flushPara();
+      refsDiv = document.createElement("div");
+      refsDiv.className = "references-section";
+      const rh = document.createElement("div");
+      rh.className = "paper-section-heading " + headingColor;
+      rh.textContent = "References";
+      refsDiv.appendChild(rh);
+      container.appendChild(refsDiv);
+      inRefs = true;
+      currentSection = refsDiv;
+      continue;
+    }
+
+    if (inRefs) {
+      // Reference items start with [N]
+      if (/^\[\d+\]/.test(l)) {
+        flushPara();
+        const ri = document.createElement("div");
+        ri.className = "ref-item";
+        ri.textContent = l;
+        refsDiv.appendChild(ri);
+      } else {
+        // continuation of previous ref or new text
+        const lastRef = refsDiv.lastElementChild;
+        if (lastRef && lastRef.classList.contains("ref-item")) {
+          lastRef.textContent += " " + l;
+        } else {
+          currentPara.push(l);
+        }
+      }
+      continue;
+    }
+
+    // Major section heading: "1. INTRODUCTION", "ABSTRACT", etc.
+    const isAllCaps = l === l.toUpperCase() && l.length > 3 && /[A-Z]/.test(l) && !/^\d/.test(l);
+    const majorMatch = majorHeadingRe.exec(l);
+    const subMatch   = subHeadingRe.exec(l);
+
+    if (majorMatch || isAllCaps) {
+      flushPara();
+      const sec = document.createElement("div");
+      sec.className = "paper-section";
+      const sh = document.createElement("div");
+      sh.className = "paper-section-heading " + headingColor;
+      sh.textContent = majorMatch ? `${majorMatch[1]}. ${majorMatch[2]}` : l;
+      sec.appendChild(sh);
+      container.appendChild(sec);
+      currentSection = sec;
+      continue;
+    }
+
+    if (subMatch) {
+      flushPara();
+      const ssh = document.createElement("div");
+      ssh.className = "paper-sub-heading";
+      ssh.textContent = `${subMatch[1]} ${subMatch[2]}`;
+      (currentSection || container).appendChild(ssh);
+      continue;
+    }
+
+    // Regular text line
+    if (l === "" && currentPara.length > 0) {
+      flushPara();
+    } else {
+      currentPara.push(l);
+    }
+  }
+
+  flushPara();
+  return container;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// RENDER PAPER (async — needs Mermaid)
+// ──────────────────────────────────────────────────────────────────
 async function renderPaper(content, isMath) {
   const parts = parseContent(content);
   let diagramsFound = 0;
 
-  // Outer wrapper
   const wrap = document.createElement("div");
-
-  // Paper block
   const block = document.createElement("div");
   block.className = "paper-block";
 
@@ -673,29 +729,36 @@ async function renderPaper(content, isMath) {
   block.innerHTML = `
     <div class="paper-hd">
       <div class="paper-hd-left ${hClass}">${hIcon} ${hLabel}</div>
-      <button class="copy-btn" id="cpbtn-${pid}">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        Copy
-      </button>
+      <div class="paper-hd-actions">
+        <button class="copy-btn" id="cpbtn-${pid}">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Text
+        </button>
+      </div>
     </div>`;
 
   const body = document.createElement("div");
   body.className = isMath ? "paper-bd math-bd" : "paper-bd";
   body.id = pid;
 
-  // Render each part
+  // Store SVG data for each diagram (for PDF export)
+  const diagramSvgMap = {};
+
+  // First, build a combined text buffer for structured rendering
+  // We interleave text sections with rendered diagrams
   for (const part of parts) {
     if (part.kind === "text") {
       if (part.txt.trim()) {
-        const d = document.createElement("div");
-        d.className = "paper-text";
-        d.textContent = part.txt;
-        body.appendChild(d);
+        // Render structured text
+        const frag = renderStructuredText(part.txt, isMath);
+        body.appendChild(frag);
       }
     } else {
       diagramsFound++;
       const dw = document.createElement("div");
       dw.className = "diagram-wrap";
+      const diagKey = "diag_" + diagramsFound;
+      dw.setAttribute("data-diag-key", diagKey);
       dw.innerHTML = `<div class="diagram-bar">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         ${part.dtype.toUpperCase()} DIAGRAM${part.title ? " — " + esc(part.title) : ""}
@@ -706,9 +769,11 @@ async function renderPaper(content, isMath) {
         const uid = "d" + (++diagId) + "_" + Date.now();
         const { svg } = await mermaid.render(uid, part.code);
         dr.innerHTML = svg;
+        diagramSvgMap[diagKey] = svg;
       } catch(e) {
         dr.className = "diagram-err";
         dr.textContent = "Diagram render error: " + e.message;
+        diagramSvgMap[diagKey] = null;
       }
       dw.appendChild(dr);
       body.appendChild(dw);
@@ -723,18 +788,24 @@ async function renderPaper(content, isMath) {
     const btn = document.getElementById("cpbtn-" + pid);
     if (btn) btn.onclick = () => {
       navigator.clipboard.writeText(document.getElementById(pid).innerText || "")
-        .then(() => { btn.textContent = "✓ Copied"; setTimeout(() => btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`, 2000); })
+        .then(() => {
+          btn.textContent = "✓ Copied";
+          setTimeout(() => {
+            btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Text`;
+          }, 2000);
+        })
         .catch(() => {});
     };
   }, 50);
 
-  // Download buttons
+  // ── Download buttons ──
   const dlRow = document.createElement("div");
   dlRow.className = "dl-row";
 
+  // TXT download
   const dlTxt = document.createElement("button");
   dlTxt.className = "dl-btn dl-txt";
-  dlTxt.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download .txt`;
+  dlTxt.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .txt`;
   dlTxt.onclick = () => {
     const text = document.getElementById(pid).innerText || "";
     const a = document.createElement("a");
@@ -745,9 +816,10 @@ async function renderPaper(content, isMath) {
   dlRow.appendChild(dlTxt);
 
   if (!isMath) {
+    // RTF download
     const dlRtf = document.createElement("button");
     dlRtf.className = "dl-btn dl-rtf";
-    dlRtf.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Download .rtf (Word)`;
+    dlRtf.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> .rtf (Word)`;
     dlRtf.onclick = () => {
       const text = document.getElementById(pid).innerText || "";
       const safe = text.replace(/\\/g,"\\\\").replace(/\{/g,"\\{").replace(/\}/g,"\\}").replace(/\n/g,"\\par\n");
@@ -759,61 +831,238 @@ async function renderPaper(content, isMath) {
     };
     dlRow.appendChild(dlRtf);
 
-    if (diagramsFound > 0) {
-      const dlPdf = document.createElement("button");
-      dlPdf.className = "dl-btn dl-pdf";
-      dlPdf.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Download .pdf`;
-      dlPdf.onclick = async () => {
-        const source = buildPdfExportNode(pid);
-        if (!source) {
-          alert("Unable to prepare this response for PDF export.");
-          return;
-        }
-        const prevLabel = dlPdf.innerHTML;
-        dlPdf.disabled = true;
-        dlPdf.textContent = "Preparing PDF…";
-
-        try {
-          const exporter = await ensureHtml2PdfReady();
-          await exporter().set({
-            margin: [12, 10, 12, 10],
-            filename: `stremini-paper-${Date.now()}.pdf`,
-            image: { type: "jpeg", quality: 0.98 },
-            html2canvas: {
-              scale: 3,
-              useCORS: true,
-              backgroundColor: "#ffffff",
-              scrollX: 0,
-              scrollY: 0,
-              windowWidth: source.scrollWidth,
-              windowHeight: source.scrollHeight
-            },
-            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-            pagebreak: {
-              mode: ["avoid-all", "css", "legacy"],
-              avoid: [".diagram-wrap", ".diagram-render", ".paper-hd", ".paper-text"]
-            }
-          }).from(source).save();
-        } catch (err) {
-          alert("PDF export is currently unavailable. Check your connection and try again.");
-        } finally {
-          dlPdf.disabled = false;
-          dlPdf.innerHTML = prevLabel;
-        }
-      };
-      dlRow.appendChild(dlPdf);
-    }
+    // PDF download — proper print-based approach
+    const dlPdf = document.createElement("button");
+    dlPdf.className = "dl-btn dl-pdf";
+    dlPdf.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> .pdf (Print)`;
+    dlPdf.onclick = () => printToPDF(pid, diagramSvgMap);
+    dlRow.appendChild(dlPdf);
   }
 
   wrap.appendChild(dlRow);
   return { el: wrap, diagramsFound };
 }
 
-// ─────────────────────────────────────────
-// PDF.js worker — resolved after scripts load
-// ─────────────────────────────────────────
-// PDF.js setup — wait for library to be available
-// ─────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────
+// PRINT-TO-PDF — opens a dedicated print window with full CSS
+// This produces crisp, properly paginated, multi-page PDFs
+// ──────────────────────────────────────────────────────────────────
+function printToPDF(pid, diagramSvgMap) {
+  const bodyEl = document.getElementById(pid);
+  if (!bodyEl) return;
+
+  // Clone the body element
+  const clone = bodyEl.cloneNode(true);
+
+  // Replace diagram-render containers with inline SVGs from our map
+  clone.querySelectorAll(".diagram-wrap").forEach(dw => {
+    const key = dw.getAttribute("data-diag-key");
+    const dr = dw.querySelector(".diagram-render");
+    if (dr && key && diagramSvgMap[key]) {
+      dr.innerHTML = diagramSvgMap[key];
+    }
+  });
+
+  const printCSS = `
+    @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @page {
+      size: A4;
+      margin: 22mm 20mm 22mm 20mm;
+    }
+
+    body {
+      font-family: 'Lora', 'Times New Roman', Times, serif;
+      font-size: 11pt;
+      line-height: 1.85;
+      color: #1a1814;
+      background: #fff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .paper-bd {
+      max-height: none !important;
+      overflow: visible !important;
+      padding: 0 !important;
+    }
+
+    .paper-title-block {
+      text-align: center;
+      padding-bottom: 16pt;
+      border-bottom: 2pt solid #333;
+      margin-bottom: 20pt;
+      page-break-after: avoid;
+    }
+
+    .paper-main-title {
+      font-family: 'Lora', serif;
+      font-size: 16pt;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 10pt;
+      color: #111;
+    }
+
+    .paper-meta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9pt;
+      color: #888;
+      display: flex;
+      gap: 16pt;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .paper-section {
+      margin-bottom: 18pt;
+    }
+
+    .paper-section-heading {
+      font-family: 'DM Sans', 'Arial', sans-serif;
+      font-size: 9pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5pt;
+      color: #b45309;
+      margin-bottom: 10pt;
+      padding-bottom: 4pt;
+      border-bottom: 0.75pt solid #e4e0d8;
+      page-break-after: avoid;
+    }
+
+    .paper-sub-heading {
+      font-family: 'DM Sans', 'Arial', sans-serif;
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: #1a1814;
+      margin: 14pt 0 6pt;
+      page-break-after: avoid;
+    }
+
+    .paper-para {
+      margin-bottom: 10pt;
+      text-align: justify;
+      hyphens: auto;
+      orphans: 3;
+      widows: 3;
+    }
+
+    .keywords-block {
+      background: #f5f3f0 !important;
+      border: 0.75pt solid #e4e0d8;
+      border-radius: 4pt;
+      padding: 8pt 10pt;
+      margin-bottom: 14pt;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9.5pt;
+      color: #555;
+    }
+
+    .keywords-block strong {
+      color: #333;
+      margin-right: 4pt;
+    }
+
+    .diagram-wrap {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin: 14pt 0;
+      border: 0.75pt solid #e4e0d8;
+      border-radius: 5pt;
+      overflow: hidden;
+      background: #fafaf8 !important;
+    }
+
+    .diagram-bar {
+      background: #f2f0ec !important;
+      padding: 5pt 10pt;
+      border-bottom: 0.75pt solid #e4e0d8;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4pt;
+      color: #6b6459;
+    }
+
+    .diagram-render {
+      padding: 14pt;
+      display: flex;
+      justify-content: center;
+      overflow: visible;
+    }
+
+    .diagram-render svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .references-section {
+      border-top: 1.5pt solid #e4e0d8;
+      padding-top: 16pt;
+      margin-top: 10pt;
+    }
+
+    .ref-item {
+      font-size: 9.5pt;
+      line-height: 1.65;
+      margin-bottom: 7pt;
+      padding-left: 20pt;
+      text-indent: -20pt;
+      color: #444;
+    }
+
+    .paper-hd, .paper-hd-actions, .copy-btn {
+      display: none !important;
+    }
+  `;
+
+  const printWindow = window.open("", "_blank", "width=900,height=700");
+  if (!printWindow) {
+    alert("Pop-up blocked. Please allow pop-ups for this page to export PDF.");
+    return;
+  }
+
+  printWindow.document.open();
+  printWindow.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Stremini Research Paper</title>
+<style>${printCSS}</style>
+</head>
+<body>
+<div class="paper-bd">${clone.innerHTML}</div>
+</body>
+</html>`);
+  printWindow.document.close();
+
+  // Wait for fonts and images to load, then print
+  printWindow.onload = () => {
+    setTimeout(() => {
+      printWindow.focus();
+      printWindow.print();
+      // Optional: close after print dialog
+      // printWindow.close();
+    }, 800);
+  };
+
+  // Fallback if onload doesn't fire
+  setTimeout(() => {
+    try {
+      printWindow.focus();
+      printWindow.print();
+    } catch(e) {}
+  }, 2000);
+}
+
+// ──────────────────────────────────────────────────────────────────
+// PDF.js / DOCX helpers
+// ──────────────────────────────────────────────────────────────────
 function getPdfjsLib() {
   return window.pdfjsLib || window['pdfjs-dist/build/pdf'] || null;
 }
@@ -829,16 +1078,13 @@ function ensurePdfjsReady() {
       } else if (attempts++ < 30) {
         setTimeout(check, 100);
       } else {
-        reject(new Error("PDF.js failed to load. Please refresh the page."));
+        reject(new Error("PDF.js failed to load."));
       }
     };
     check();
   });
 }
 
-// ─────────────────────────────────────────
-// File upload state
-// ─────────────────────────────────────────
 let pendingDocText = null;
 let pendingDocName = null;
 
@@ -852,35 +1098,18 @@ function clearFile() {
 async function handleFileSelect(e) {
   const file = e.target.files[0];
   if (!file) return;
-
-  const name = file.name;
-  const ext = name.split(".").pop().toLowerCase();
-
-  // Show loading chip
+  const ext = file.name.split(".").pop().toLowerCase();
   document.getElementById("fileChipWrap").classList.add("visible");
   document.getElementById("fileChipName").textContent = "Extracting text…";
-
   try {
     let text = "";
-    if (ext === "pdf") {
-      text = await extractPDF(file);
-    } else if (ext === "docx" || ext === "doc") {
-      text = await extractDOCX(file);
-    } else {
-      alert("Only PDF and DOCX files are supported.");
-      clearFile();
-      return;
-    }
-
-    if (!text.trim()) {
-      alert("Could not extract text from this file. It may be scanned/image-based.");
-      clearFile();
-      return;
-    }
-
+    if (ext === "pdf") text = await extractPDF(file);
+    else if (ext === "docx" || ext === "doc") text = await extractDOCX(file);
+    else { alert("Only PDF and DOCX files are supported."); clearFile(); return; }
+    if (!text.trim()) { alert("Could not extract text from this file."); clearFile(); return; }
     pendingDocText = text;
-    pendingDocName = name;
-    document.getElementById("fileChipName").textContent = name;
+    pendingDocName = file.name;
+    document.getElementById("fileChipName").textContent = file.name;
   } catch (err) {
     alert("Error reading file: " + err.message);
     clearFile();
@@ -895,8 +1124,7 @@ async function extractPDF(file) {
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
-    const pageText = content.items.map(item => item.str).join(" ");
-    fullText += pageText + "\n";
+    fullText += content.items.map(item => item.str).join(" ") + "\n";
   }
   return fullText.trim();
 }
@@ -907,14 +1135,13 @@ async function extractDOCX(file) {
   return result.value.trim();
 }
 
-// ─────────────────────────────────────────
-// Main send handler
-// ─────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────
+// MAIN SEND HANDLER
+// ──────────────────────────────────────────────────────────────────
 async function handleSend() {
   const query = ta.value.trim();
   if (!query || running) return;
 
-  // Build final query — prepend doc text if a file was uploaded
   let finalQuery = query;
   let displayQuery = query;
   if (pendingDocText) {
@@ -926,15 +1153,12 @@ async function handleSend() {
     clearFile();
   }
 
-  // Show user message
   addMsg("user", esc(displayQuery));
   addRecent(displayQuery, mode);
   history.push({ role:"user", content: finalQuery });
 
-  ta.value = "";
-  ta.style.height = "auto";
-  running = true;
-  sendBtn.disabled = true;
+  ta.value = ""; ta.style.height = "auto";
+  running = true; sendBtn.disabled = true;
   setStatus("run", mode === "math" ? "Solving…" : "Researching…");
   addThinking();
 
@@ -949,9 +1173,7 @@ async function handleSend() {
   } catch (err) {
     removeThinking();
     addMsg("agent", card("err", "Network error: " + esc(err.message)));
-    setStatus("err", "Error");
-    running = false;
-    sendBtn.disabled = false;
+    setStatus("err", "Error"); running = false; sendBtn.disabled = false;
     return;
   }
 
@@ -994,12 +1216,12 @@ async function handleSend() {
     } else {
       papers++;
       diagramsTotal += diagramsFound;
-      history.push({ role:"assistant", content: "Drafted paper: " + (data.title || "") });
+      history.push({ role:"assistant", content:"Drafted paper: " + (data.title || "") });
       setStatus("done", "Paper Ready");
     }
     updateStats();
 
-    } else if (data.status === "COMPLETED") {
+  } else if (data.status === "COMPLETED") {
     addMsg("agent", `<p>${esc(data.solution || "")}</p>`);
     history.push({ role:"assistant", content: data.solution || "" });
     setStatus("done", "Done");
@@ -1017,9 +1239,7 @@ async function handleSend() {
   sendBtn.disabled = false;
 }
 
-// ─────────────────────────────────────────
-// Clear chat
-// ─────────────────────────────────────────
+// ── Clear chat ──
 function clearChat() {
   msgs.innerHTML = "";
   msgs.appendChild(welcome);
@@ -1029,8 +1249,7 @@ function clearChat() {
   updateStats();
   document.getElementById("recentList").innerHTML = `<div class="muted-note">No queries yet</div>`;
   setStatus("idle", "Ready");
-  running = false;
-  sendBtn.disabled = false;
+  running = false; sendBtn.disabled = false;
 }
 </script>
 </body>
