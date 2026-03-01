@@ -523,287 +523,230 @@ function card(type, text) {
   return `<div class="card ${cls[type]||"card-ok"}">${icons[type]||""} ${text}</div>`;
 }
 
-// ──────────────────────────────────────────────────────────────────
-// CONTENT PARSER — extract <diagram> blocks from raw text
-// Returns array of {kind:"text"|"diagram", ...} parts
-// ──────────────────────────────────────────────────────────────────
+// ── Extract <diagram> blocks, return parts array ──────────────────
 function parseContent(content) {
   const parts = [];
   const re = /<diagram\s+type=["']?(\w+)["']?\s+title=["']?([^"'>]*)["']?\s*>([\s\S]*?)<\/diagram>/gi;
   let last = 0, m;
   while ((m = re.exec(content)) !== null) {
-    if (m.index > last) parts.push({ kind:"text", txt: content.slice(last, m.index) });
-    parts.push({ kind:"diagram", dtype: m[1], title: m[2], code: m[3].trim() });
+    if (m.index > last) parts.push({ kind: "text", txt: content.slice(last, m.index) });
+    parts.push({ kind: "diagram", dtype: m[1], title: m[2], code: m[3].trim() });
     last = m.index + m[0].length;
   }
-  if (last < content.length) parts.push({ kind:"text", txt: content.slice(last) });
+  if (last < content.length) parts.push({ kind: "text", txt: content.slice(last) });
   return parts;
 }
 
-// ──────────────────────────────────────────────────────────────────
-// buildPaperDOM — single-pass structured renderer
-// Takes allParts (text + pre-rendered diagram elements), returns a
-// fully structured DOM fragment.
-//
-// KEY BEHAVIOUR: the model sometimes outputs a compact prose summary
-// of the entire paper BEFORE the structured sections begin. We detect
-// this by finding where the real structure starts (the Authors: line
-// or the first numbered section heading) and discard everything that
-// comes before the title + authors block.
-// ──────────────────────────────────────────────────────────────────
-function buildPaperDOM(allParts, isMath) {
-  const container = document.createElement("div");
-  const hClass    = isMath ? "math-heading" : "";
+// ── Render one line into the right DOM element ─────────────────────
+function renderLine(l, state) {
+  const { container, hClass } = state;
 
-  // ── Regex patterns ──
-  const majorRe     = /^(\d+)\.\s+(.+)$/;
-  const subRe       = /^(\d+\.\d+)\s+(.+)$/;
-  const refsRe      = /^REFERENCES\s*$/i;
-  const abstractRe  = /^ABSTRACT\s*$/i;
-  const keywordsRe  = /^keywords:/i;
-  const authorsRe   = /^authors:/i;
-  const dateRe      = /^date:/i;
-  const dividerRe   = /^[━─=\-]{3,}$/;
-  // Lines the model emits as diagram labels (not real content)
-  const diagLabelRe = /^(MINDMAP|FLOWCHART|TIMELINE|GRAPH|SEQUENCE)\s+(DIAGRAM|—)/i;
+  // Skip empty, dividers, diagram label lines
+  if (!l) return;
+  if (/^[━─=\-]{3,}$/.test(l)) return;
+  if (/^(MINDMAP|FLOWCHART|TIMELINE|GRAPH|SEQUENCE)\s/i.test(l)) return;
 
-  // ── Reconstruct full text to find where structured content starts ──
-  // The model may dump a prose blob before the real title line.
-  // Real structure begins at: a line that is ONLY the paper title
-  // (no punctuation like "ABSTRACT" or section numbers) followed
-  // immediately by an "Authors:" line.
-  // Strategy: collect all text lines first, find the Authors: line,
-  // then take the line immediately before it as the title start.
-  
-  let allTextLines = [];
-  // We'll process parts twice: first pass to find header boundary,
-  // second pass to actually render.
-  const textOnlyParts = [];
-  for (const part of allParts) {
-    if (part.kind === "text") {
-      const lines = part.txt.split("\n").map(l => l.trim());
-      textOnlyParts.push({ kind:"text", lines });
-      allTextLines = allTextLines.concat(lines);
-    } else {
-      textOnlyParts.push(part); // diagram
-    }
-  }
-
-  // Find the Authors: line index in allTextLines
-  let authorsLineIdx = -1;
-  for (let i = 0; i < allTextLines.length; i++) {
-    if (authorsRe.test(allTextLines[i]) || dateRe.test(allTextLines[i])) {
-      authorsLineIdx = i;
-      break;
-    }
-  }
-
-  // If we found Authors:, the title is the last non-empty line before it
-  // Everything before that title line is the preamble blob — skip it.
-  let skipUntilLineIdx = 0; // global line index in allTextLines where real content starts
-  let paperTitle = "";
-  if (authorsLineIdx > 0) {
-    // Walk back from Authors: to find the title line
-    for (let i = authorsLineIdx - 1; i >= 0; i--) {
-      if (allTextLines[i].trim()) {
-        paperTitle = allTextLines[i].trim();
-        skipUntilLineIdx = i; // start rendering from the title line
-        break;
-      }
-    }
-  }
-
-  // ── State for rendering ──
-  let currentSection = null;
-  let currentPara    = [];
-  let inRefs         = false;
-  let refsDiv        = null;
-  let headerDone     = false;
-  let titleLines     = [];
-  let metaLines      = [];
-  let globalLineIdx  = -1; // tracks position in allTextLines
-
-  function append(el) { (currentSection || container).appendChild(el); }
+  function getTarget() { return state.section || container; }
 
   function flushPara() {
-    if (!currentPara.length) return;
-    const text = currentPara.join(" ").trim();
-    currentPara = [];
+    if (!state.para.length) return;
+    const text = state.para.join(" ").trim();
+    state.para = [];
     if (!text) return;
-    if (keywordsRe.test(text)) {
+    if (/^keywords:/i.test(text)) {
       const kb = document.createElement("div");
       kb.className = "keywords-block";
       kb.innerHTML = "<strong>Keywords:</strong> " + esc(text.replace(/^keywords:\s*/i, ""));
-      append(kb); return;
+      getTarget().appendChild(kb);
+    } else {
+      const p = document.createElement("p");
+      p.className = "paper-para";
+      p.textContent = text;
+      getTarget().appendChild(p);
     }
-    const p = document.createElement("p");
-    p.className = "paper-para";
-    p.textContent = text;
-    append(p);
   }
 
-  function sealHeader() {
-    if (headerDone) return;
-    headerDone = true;
-    if (!titleLines.length) return;
+  // References section
+  if (/^REFERENCES\s*$/i.test(l)) {
+    flushPara();
+    state.inRefs = true;
+    const sec = document.createElement("div");
+    sec.className = "paper-section";
+    const h = document.createElement("div");
+    h.className = "paper-section-heading " + hClass;
+    h.textContent = "References";
+    sec.appendChild(h);
+    container.appendChild(sec);
+    state.section = sec;
+    state.refsDiv = sec;
+    return;
+  }
+
+  if (state.inRefs) {
+    flushPara();
+    const ri = document.createElement("div");
+    ri.className = "ref-item";
+    // Append to last ref-item if this looks like a continuation
+    const last = state.refsDiv.lastElementChild;
+    const isNewRef = /^\[\d+\]/.test(l) || /^[A-Z][a-zA-Z]+,/.test(l) || /^[A-Z][a-z]+ [A-Z]/.test(l);
+    if (isNewRef || !last || !last.classList.contains("ref-item")) {
+      ri.textContent = l;
+      state.refsDiv.appendChild(ri);
+    } else {
+      last.textContent += " " + l;
+    }
+    return;
+  }
+
+  // Abstract heading
+  if (/^ABSTRACT\s*$/i.test(l)) {
+    flushPara();
+    const sec = document.createElement("div");
+    sec.className = "paper-section";
+    const h = document.createElement("div");
+    h.className = "paper-section-heading " + hClass;
+    h.textContent = "Abstract";
+    sec.appendChild(h);
+    container.appendChild(sec);
+    state.section = sec;
+    return;
+  }
+
+  // Numbered section "1. INTRODUCTION"
+  const mjMatch = /^(\d+)\.\s+(.+)$/.exec(l);
+  if (mjMatch) {
+    flushPara();
+    const sec = document.createElement("div");
+    sec.className = "paper-section";
+    const h = document.createElement("div");
+    h.className = "paper-section-heading " + hClass;
+    h.textContent = mjMatch[1] + ". " + mjMatch[2];
+    sec.appendChild(h);
+    container.appendChild(sec);
+    state.section = sec;
+    return;
+  }
+
+  // Sub-heading "2.1 Foundational Works"
+  const sbMatch = /^(\d+\.\d+)\s+(.+)$/.exec(l);
+  if (sbMatch) {
+    flushPara();
+    const sh = document.createElement("div");
+    sh.className = "paper-sub-heading";
+    sh.textContent = sbMatch[1] + " " + sbMatch[2];
+    getTarget().appendChild(sh);
+    return;
+  }
+
+  // Keywords on its own line
+  if (/^keywords:/i.test(l)) {
+    flushPara();
+    const kb = document.createElement("div");
+    kb.className = "keywords-block";
+    kb.innerHTML = "<strong>Keywords:</strong> " + esc(l.replace(/^keywords:\s*/i, ""));
+    getTarget().appendChild(kb);
+    return;
+  }
+
+  // Everything else is prose — accumulate into paragraph
+  state.para.push(l);
+}
+
+// ── Build the full paper DOM from parts ───────────────────────────
+function buildPaperDOM(allParts, isMath) {
+  const container = document.createElement("div");
+  const hClass = isMath ? "math-heading" : "";
+
+  // Find where real structured content starts by locating the Authors: line.
+  // Everything before the title line (the line just before Authors:) is preamble and is skipped.
+  let allLines = [];
+  for (const p of allParts) {
+    if (p.kind === "text") allLines = allLines.concat(p.txt.split("\n").map(l => l.trim()));
+    else allLines.push("__DIAGRAM__");
+  }
+
+  let authorsIdx = allLines.findIndex(l => /^authors:/i.test(l));
+  // Find title: last non-empty line before authorsIdx
+  let titleIdx = 0;
+  if (authorsIdx > 0) {
+    for (let i = authorsIdx - 1; i >= 0; i--) {
+      if (allLines[i].trim()) { titleIdx = i; break; }
+    }
+  }
+
+  // Render title block
+  if (authorsIdx > 0) {
     const tb = document.createElement("div");
     tb.className = "paper-title-block";
     const th = document.createElement("div");
     th.className = "paper-main-title";
-    th.textContent = titleLines.join(" ");
+    th.textContent = allLines[titleIdx];
     tb.appendChild(th);
-    if (metaLines.length) {
-      const tm = document.createElement("div");
-      tm.className = "paper-meta";
-      metaLines.forEach(ml => {
-        ml.split("|").map(s => s.trim()).filter(Boolean).forEach(seg => {
-          const sp = document.createElement("span");
-          sp.textContent = seg;
-          tm.appendChild(sp);
-        });
-      });
-      tb.appendChild(tm);
-    }
+    // Meta line (Authors | Date)
+    const metaText = allLines[authorsIdx];
+    const tm = document.createElement("div");
+    tm.className = "paper-meta";
+    metaText.split("|").map(s => s.trim()).filter(Boolean).forEach(seg => {
+      const sp = document.createElement("span");
+      sp.textContent = seg;
+      tm.appendChild(sp);
+    });
+    tb.appendChild(tm);
     container.appendChild(tb);
   }
 
-  function newSection(label) {
-    flushPara(); sealHeader();
-    const sec = document.createElement("div");
-    sec.className = "paper-section";
-    const sh = document.createElement("div");
-    sh.className = "paper-section-heading " + hClass;
-    sh.textContent = label;
-    sec.appendChild(sh);
-    container.appendChild(sec);
-    currentSection = sec;
+  // State for line-by-line rendering
+  const state = {
+    container,
+    hClass,
+    section: null,
+    para: [],
+    inRefs: false,
+    refsDiv: null,
+  };
+
+  // Track global line index to skip preamble
+  let globalIdx = 0;
+  // Lines after the Authors line (or from start if no Authors found) are real content
+  const contentStartIdx = authorsIdx >= 0 ? authorsIdx + 1 : 0;
+
+  function flushParaFinal() {
+    if (!state.para.length) return;
+    const text = state.para.join(" ").trim();
+    state.para = [];
+    if (!text) return;
+    const p = document.createElement("p");
+    p.className = "paper-para";
+    p.textContent = text;
+    (state.section || container).appendChild(p);
   }
 
-  function processLine(l) {
-    if (!l || dividerRe.test(l))   { flushPara(); return; }
-    if (diagLabelRe.test(l))       { flushPara(); return; }
-
-    // ── Pre-header: collect title + meta ──
-    if (!headerDone) {
-      if (authorsRe.test(l) || dateRe.test(l)) { metaLines.push(l); return; }
-      const isSection = majorRe.test(l) || abstractRe.test(l) || refsRe.test(l);
-      if (!isSection) { titleLines.push(l); return; }
-      // Hit a section — seal header and continue processing this line
-    }
-
-    // ── REFERENCES ──
-    if (refsRe.test(l)) {
-      flushPara(); sealHeader();
-      refsDiv = document.createElement("div");
-      refsDiv.className = "references-section";
-      const rh = document.createElement("div");
-      rh.className = "paper-section-heading " + hClass;
-      rh.textContent = "References";
-      refsDiv.appendChild(rh);
-      container.appendChild(refsDiv);
-      inRefs = true; currentSection = refsDiv; return;
-    }
-
-    if (inRefs) {
-      // Each reference starts a new item
-      const isNewRef = /^\[\d+\]/.test(l) || /^[A-Z][a-zA-Z\-]+,\s/.test(l) || /^[A-Z][a-z]+,\s[A-Z]/.test(l);
-      if (isNewRef) {
-        flushPara();
-        const ri = document.createElement("div");
-        ri.className = "ref-item";
-        ri.textContent = l;
-        refsDiv.appendChild(ri);
-      } else {
-        const last = refsDiv.lastElementChild;
-        if (last && last.classList.contains("ref-item")) last.textContent += " " + l;
-        else currentPara.push(l);
-      }
-      return;
-    }
-
-    if (abstractRe.test(l))  { newSection("Abstract"); return; }
-
-    const mj = majorRe.exec(l);
-    if (mj) { newSection(mj[1] + ". " + mj[2]); return; }
-
-    const sb = subRe.exec(l);
-    if (sb) {
-      flushPara();
-      const ssh = document.createElement("div");
-      ssh.className = "paper-sub-heading";
-      ssh.textContent = sb[1] + " " + sb[2];
-      append(ssh); return;
-    }
-
-    if (keywordsRe.test(l)) {
-      flushPara();
-      const kb = document.createElement("div");
-      kb.className = "keywords-block";
-      kb.innerHTML = "<strong>Keywords:</strong> " + esc(l.replace(/^keywords:\s*/i, ""));
-      append(kb); return;
-    }
-
-    currentPara.push(l);
-  }
-
-  // ── Second pass: render ──
-  for (const part of textOnlyParts) {
+  for (const part of allParts) {
     if (part.kind === "diagram") {
-      flushPara(); sealHeader();
-      append(part.el);
+      flushParaFinal();
+      if (part.el) (state.section || container).appendChild(part.el);
     } else {
-      // part.kind === "text" with pre-split lines
-      for (const l of part.lines) {
-        globalLineIdx++;
-        // Skip lines before the real content starts (the preamble blob)
-        if (globalLineIdx < skipUntilLineIdx) continue;
-        processLine(l);
+      const lines = part.txt.split("\n").map(l => l.trim());
+      for (const l of lines) {
+        if (globalIdx >= contentStartIdx) {
+          renderLine(l, state);
+        }
+        globalIdx++;
       }
     }
   }
 
-  flushPara();
-  sealHeader();
+  flushParaFinal();
   return container;
 }
 
-// ──────────────────────────────────────────────────────────────────
-// RENDER PAPER (async — needs Mermaid)
-// ──────────────────────────────────────────────────────────────────
+// ── Main render function ───────────────────────────────────────────
 async function renderPaper(content, isMath) {
   const parts = parseContent(content);
   let diagramsFound = 0;
-
-  const wrap = document.createElement("div");
-  const block = document.createElement("div");
-  block.className = "paper-block";
-
-  const pid = "p" + Date.now();
-  const hClass = isMath ? "math" : "research";
-  const hLabel = isMath ? "Math Solution" : "Research Paper";
-  const hIcon  = isMath
-    ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`
-    : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>`;
-
-  block.innerHTML = `
-    <div class="paper-hd">
-      <div class="paper-hd-left ${hClass}">${hIcon} ${hLabel}</div>
-      <div class="paper-hd-actions">
-        <button class="copy-btn" id="cpbtn-${pid}">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          Copy Text
-        </button>
-      </div>
-    </div>`;
-
-  const body = document.createElement("div");
-  body.className = isMath ? "paper-bd math-bd" : "paper-bd";
-  body.id = pid;
-
-  // Store SVG data for each diagram (for PDF export)
   const diagramSvgMap = {};
 
-  // Step 1: render all diagram elements first, attach them as part.el
+  // Render diagrams first, attach as part.el
   for (const part of parts) {
     if (part.kind !== "diagram") continue;
     diagramsFound++;
@@ -813,7 +756,7 @@ async function renderPaper(content, isMath) {
     dw.setAttribute("data-diag-key", diagKey);
     dw.innerHTML = `<div class="diagram-bar">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      ${part.dtype.toUpperCase()} — ${esc(part.title || part.dtype)}
+      ${esc(part.title || part.dtype)}
     </div>`;
     const dr = document.createElement("div");
     dr.className = "diagram-render";
@@ -822,74 +765,74 @@ async function renderPaper(content, isMath) {
       const { svg } = await mermaid.render(uid, part.code);
       dr.innerHTML = svg;
       diagramSvgMap[diagKey] = svg;
-    } catch(e) {
+    } catch (e) {
       dr.className = "diagram-err";
       dr.textContent = "Diagram error: " + e.message;
-      diagramSvgMap[diagKey] = null;
     }
     dw.appendChild(dr);
-    part.el = dw; // attach rendered element to part for buildPaperDOM
+    part.el = dw;
   }
 
-  // Step 2: single-pass structured render of all parts
+  // Build outer structure
+  const wrap  = document.createElement("div");
+  const block = document.createElement("div");
+  block.className = "paper-block";
+  const pid = "p" + Date.now();
+  const hClass = isMath ? "math" : "research";
+  const hLabel = isMath ? "Math Solution" : "Research Paper";
+  const hIcon  = isMath
+    ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`
+    : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>`;
+
+  block.innerHTML = `<div class="paper-hd">
+    <div class="paper-hd-left ${hClass}">${hIcon} ${hLabel}</div>
+    <div class="paper-hd-actions">
+      <button class="copy-btn" id="cpbtn-${pid}">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copy
+      </button>
+    </div>
+  </div>`;
+
+  const body = document.createElement("div");
+  body.className = isMath ? "paper-bd math-bd" : "paper-bd";
+  body.id = pid;
+
+  // Build the structured DOM
   const paperDOM = buildPaperDOM(parts, isMath);
   body.appendChild(paperDOM);
-
   block.appendChild(body);
   wrap.appendChild(block);
 
-  // Copy button
+  // Copy button handler
   setTimeout(() => {
     const btn = document.getElementById("cpbtn-" + pid);
     if (btn) btn.onclick = () => {
       navigator.clipboard.writeText(document.getElementById(pid).innerText || "")
-        .then(() => {
-          btn.textContent = "✓ Copied";
-          setTimeout(() => {
-            btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Text`;
-          }, 2000);
-        })
+        .then(() => { btn.textContent = "Copied!"; setTimeout(() => btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`, 2000); })
         .catch(() => {});
     };
   }, 50);
 
-  // ── Download buttons ──
+  // Download buttons
   const dlRow = document.createElement("div");
   dlRow.className = "dl-row";
 
-  // TXT download
   const dlTxt = document.createElement("button");
   dlTxt.className = "dl-btn dl-txt";
   dlTxt.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .txt`;
   dlTxt.onclick = () => {
-    const text = document.getElementById(pid).innerText || "";
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([text], {type:"text/plain"}));
-    a.download = `stremini-${isMath?"solution":"paper"}-${Date.now()}.txt`;
+    a.href = URL.createObjectURL(new Blob([document.getElementById(pid).innerText || ""], { type: "text/plain" }));
+    a.download = `stremini-${Date.now()}.txt`;
     a.click();
   };
   dlRow.appendChild(dlTxt);
 
   if (!isMath) {
-    // RTF download
-    const dlRtf = document.createElement("button");
-    dlRtf.className = "dl-btn dl-rtf";
-    dlRtf.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> .rtf (Word)`;
-    dlRtf.onclick = () => {
-      const text = document.getElementById(pid).innerText || "";
-      const safe = text.replace(/\\/g,"\\\\").replace(/\{/g,"\\{").replace(/\}/g,"\\}").replace(/\n/g,"\\par\n");
-      const rtf = `{\\rtf1\\ansi\\deff0\n{\\fonttbl{\\f0\\froman\\fcharset0 Times New Roman;}}\n{\\f0\\fs28 ${safe}}\n}`;
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([rtf], {type:"application/rtf"}));
-      a.download = `stremini-paper-${Date.now()}.rtf`;
-      a.click();
-    };
-    dlRow.appendChild(dlRtf);
-
-    // PDF download — proper print-based approach
     const dlPdf = document.createElement("button");
     dlPdf.className = "dl-btn dl-pdf";
-    dlPdf.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> .pdf (Print)`;
+    dlPdf.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> .pdf`;
     dlPdf.onclick = () => printToPDF(pid, diagramSvgMap);
     dlRow.appendChild(dlPdf);
   }
