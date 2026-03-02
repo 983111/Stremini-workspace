@@ -425,6 +425,13 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
             <path d="M3 9h18M3 15h18M9 3v18"/>
           </svg>CSV / Data
         </button>
+        <button class="mode-btn" id="btnModelEvaluator" onclick="setMode('modelEvaluator')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/>
+            <path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/>
+            <path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>
+          </svg>Model Evaluator
+        </button>
       </div>
     </div>
     <div class="sb-sec">
@@ -499,6 +506,10 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
               <div class="hint-em">💰</div>
               <div><strong>Cost Analysis</strong><small>Per-user cost projections</small></div>
             </div>
+            <div class="hint v-h" onclick="hint('modelEvaluator','Evaluate this model response for factuality, reasoning quality, and missing points.\n\nPrompt: Explain how transformers work\nModel response: Transformers process words sequentially and cannot attend globally.')">
+              <div class="hint-em">🧪</div>
+              <div><strong>Model Evaluator</strong><small>Structured model quality reviews</small></div>
+            </div>
           </div>
         </div>
       </div>
@@ -522,6 +533,7 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 
 <script>
 const BACKEND = "https://ai-architect.vishwajeetadkine705.workers.dev";
+const MODEL_EVALUATOR_BACKEND = "https://model-evaluator.vishwajeetadkine705.workers.dev";
 let mode = "architecture", running = false, history = [], reportsCount = 0, totalSections = 0, scoreSum = 0, scoreCount = 0;
 const ta = document.getElementById("ta"), sendBtn = document.getElementById("sendBtn"), msgs = document.getElementById("msgs"), welcome = document.getElementById("welcome"), msgsWrap = document.getElementById("msgsWrap");
 
@@ -538,6 +550,7 @@ const modeConfig = {
   anomaly:      { label:"Anomaly Detection Mode", note:"Root cause analysis", ph:"Describe the anomaly or paste the data…", color:"amber" },
   forecast:     { label:"Forecast Mode", note:"Scenario models & projections", ph:"Describe the metric and current trajectory…", color:"violet" },
   csv:          { label:"CSV / Data Mode", note:"Deep data analysis", ph:"Paste CSV, JSON, or describe your dataset…", color:"amber" },
+  modelEvaluator:{ label:"Model Evaluator Mode", note:"Structured quality reviews for model responses", ph:"Paste prompt + model response to evaluate quality, factuality, and gaps…", color:"violet" },
 };
 const amberModes = new Set(["architecture","rag","diagnose","anomaly","csv"]);
 
@@ -563,6 +576,23 @@ function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").rep
 function scrollBottom(){ msgsWrap.scrollTop=msgsWrap.scrollHeight; }
 function hideWelcome(){ if(welcome)welcome.style.display="none"; }
 function now(){ return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); }
+
+function buildModelEvaluatorPrompt(query){
+  return [
+    "Act as a senior model evaluator.",
+    "Return a structured answer using these exact sections:",
+    "1) Overall Verdict",
+    "2) Dimension Scores (Accuracy, Reasoning, Completeness, Safety)",
+    "3) Strengths",
+    "4) Weaknesses / Hallucinations",
+    "5) Missing Points",
+    "6) Improved Response",
+    "7) Actionable Next Steps",
+    "Use concise bullets and include confidence notes where relevant.",
+    "",
+    `Input:\n${query}`,
+  ].join("\n");
+}
 
 function agentAvatar(){ return `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`; }
 
@@ -882,7 +912,8 @@ function renderReport(data) {
     architect:"rtb-amber", architecture:"rtb-amber", rag:"rtb-amber",
     agent:"rtb-violet", cost:"rtb-violet",
     diagnose:"rtb-amber", cohort:"rtb-blue", conversion:"rtb-amber",
-    anomaly:"rtb-amber", forecast:"rtb-violet", csv:"rtb-green"
+    anomaly:"rtb-amber", forecast:"rtb-violet", csv:"rtb-green",
+    evaluation:"rtb-violet", comparison:"rtb-violet", hallucination:"rtb-amber", benchmark:"rtb-blue", score:"rtb-violet"
   }[data.type||""] || "rtb-amber";
 
   const typeLabel = (data.type||"report").toUpperCase();
@@ -972,12 +1003,17 @@ async function handleSend() {
   addMsg("user", esc(query)); addRecent(query, mode);
   history.push({role:"user",content:query});
   ta.value=""; ta.style.height="auto"; running=true; sendBtn.disabled=true;
-  const sLabels={architecture:"Designing architecture…",rag:"Designing RAG pipeline…",agent:"Designing agent system…",cost:"Calculating costs…",diagnose:"Diagnosing metrics…",anomaly:"Detecting anomalies…",forecast:"Building forecast model…",csv:"Analysing data…"};
+  const sLabels={architecture:"Designing architecture…",rag:"Designing RAG pipeline…",agent:"Designing agent system…",cost:"Calculating costs…",diagnose:"Diagnosing metrics…",anomaly:"Detecting anomalies…",forecast:"Building forecast model…",csv:"Analysing data…",modelEvaluator:"Evaluating model response…"};
   setStatus("run", sLabels[mode]||"Processing…"); addThinking();
 
   let data;
   try {
-    const res = await fetch(BACKEND,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query,mode,history:history.slice(-10),iteration:0})});
+    const isModelEval = mode === "modelEvaluator";
+    const endpoint = isModelEval ? MODEL_EVALUATOR_BACKEND : BACKEND;
+    const payload = isModelEval
+      ? { mode:"evaluate", prompt: buildModelEvaluatorPrompt(query), responseA: query, responseFormat:"structured_actionable" }
+      : { query, mode, history:history.slice(-10), iteration:0 };
+    const res = await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
     data = await res.json();
   } catch(err) {
     removeThinking(); addMsg("agent", card("err","Network error: "+esc(err.message))); setStatus("err","Error"); running=false; sendBtn.disabled=false; return;
@@ -1015,6 +1051,12 @@ async function handleSend() {
   } else if(data.status === "COMPLETED") {
     addMsg("agent", `<p>${esc(data.solution||"")}</p>`);
     history.push({role:"assistant",content:data.solution||""});
+    setStatus("done","Done");
+
+  } else if(["EVALUATION","COMPARISON","HALLUCINATION","BENCHMARK","SCORE"].includes(data.status)) {
+    const content = data.content || data.solution || "";
+    addMsg("agent", `<div class="card card-ok">Structured ${esc(data.status.toLowerCase())} ready</div><pre style="white-space:pre-wrap;font-family:DM Mono,monospace;font-size:12.5px;line-height:1.7;margin-top:10px;color:var(--txt2)">${esc(content)}</pre>`);
+    history.push({role:"assistant",content});
     setStatus("done","Done");
 
   } else if(data.status === "ERROR") {
