@@ -11,38 +11,37 @@
   --bg:#f7f5f2;--surface:#fff;--surface2:#f2f0ec;
   --border:#e4e0d8;--border2:#ece9e2;
   --txt:#1a1814;--txt2:#6b6459;--muted:#9e9589;
-  --amber:#d97706;--amber2:#b45309;--amber-bg:#fffbf5;
+  --amber:#d97706;--amber-bg:#fffbf5;--amber-light:#fef3c7;
   --violet:#7c3aed;--violet-bg:#f5f3ff;
-  --green:#059669;--green-bg:#d1fae5;
+  --green:#059669;--green-bg:#d1fae5;--green-light:#ecfdf5;
   --red:#991b1b;--red-bg:#fee2e2;
   --blue:#1d4ed8;--blue-bg:#eff6ff;
   --teal:#0f766e;--teal-bg:#f0fdfa;
+  --orange:#c2410c;--orange-bg:#fff7ed;
   --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
   --shadow-md:0 4px 14px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.04);
   --r:10px;--r2:6px;
 }
 html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--txt);-webkit-font-smoothing:antialiased}
-.layout{display:grid;grid-template-columns:290px 1fr;height:100vh;overflow:hidden}
+.layout{display:grid;grid-template-columns:280px 1fr;height:100vh;overflow:hidden}
 
-/* ── Sidebar ── */
+/* Sidebar */
 .sidebar{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
-.sb-head{padding:24px 20px 18px;border-bottom:1px solid var(--border2)}
-.logo{display:flex;align-items:center;gap:10px;margin-bottom:20px}
-.logo-icon{width:32px;height:32px;background:var(--txt);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-icon svg{width:17px;height:17px}
-.logo-name{font-family:'Lora',serif;font-size:17px;font-weight:600;letter-spacing:-.3px}
-.logo-sub{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.sb-label{font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
-.agent-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px}
-.agent-tab{padding:8px 10px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:600;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none;text-align:center}
-.agent-tab:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
+.sb-head{padding:22px 18px 16px;border-bottom:1px solid var(--border2)}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.logo-icon{width:30px;height:30px;background:var(--txt);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon svg{width:16px;height:16px}
+.logo-name{font-family:'Lora',serif;font-size:16px;font-weight:600;letter-spacing:-.3px}
+.logo-sub{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.sb-label{font-size:10.5px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.agent-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:13px}
+.agent-tab{padding:7px 8px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none;text-align:center}
 .agent-tab.active-strategy{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
 .agent-tab.active-legal{border-color:var(--violet);color:var(--violet);background:var(--violet-bg)}
-.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.mode-btn{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none;text-align:center;line-height:1.3}
-.mode-btn svg{width:16px;height:16px;flex-shrink:0}
-.mode-btn:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
-.mode-btn.on-business_model{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.mode-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 5px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none;text-align:center;line-height:1.3}
+.mode-btn svg{width:14px;height:14px;flex-shrink:0}
+.mode-btn:hover,.mode-btn.on-business_model{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
 .mode-btn.on-revenue{border-color:var(--green);color:var(--green);background:var(--green-bg)}
 .mode-btn.on-market{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
 .mode-btn.on-pitch{border-color:var(--violet);color:var(--violet);background:var(--violet-bg)}
@@ -51,48 +50,47 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .mode-btn.on-tnc{border-color:var(--red);color:var(--red);background:var(--red-bg)}
 .mode-btn.on-privacy{border-color:var(--violet);color:var(--violet);background:var(--violet-bg)}
 .mode-btn.on-compliance{border-color:var(--green);color:var(--green);background:var(--green-bg)}
-.sb-sec{padding:16px 20px;border-bottom:1px solid var(--border2)}
+.sb-sec{padding:14px 18px;border-bottom:1px solid var(--border2)}
 .sb-sec:last-child{border-bottom:none}
-.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:500}
 .badge-idle{background:var(--surface2);color:var(--muted)}
-.badge-run{background:#fef3c7;color:#92400e}
+.badge-run{background:var(--amber-light);color:#92400e}
 .badge-done{background:var(--green-bg);color:#065f46}
 .badge-err{background:var(--red-bg);color:var(--red)}
-.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
 .badge-run .dot{animation:pulse 1.2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:2px}
-.stat-box{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r2);padding:9px 6px;text-align:center}
-.stat-n{font-family:'Lora',serif;font-size:19px;font-weight:500;line-height:1}
-.stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-top:3px}
-.recent-list{display:flex;flex-direction:column;gap:4px;max-height:140px;overflow-y:auto}
-.recent-item{display:flex;align-items:flex-start;gap:7px;padding:7px 9px;background:var(--surface2);border-radius:var(--r2);font-size:12px;color:var(--txt2);cursor:pointer;transition:all .12s;line-height:1.4}
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:2px}
+.stat-box{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r2);padding:8px 5px;text-align:center}
+.stat-n{font-family:'Lora',serif;font-size:18px;font-weight:500;line-height:1}
+.stat-l{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-top:2px}
+.recent-list{display:flex;flex-direction:column;gap:3px;max-height:120px;overflow-y:auto}
+.recent-item{display:flex;align-items:flex-start;gap:6px;padding:6px 8px;background:var(--surface2);border-radius:var(--r2);font-size:11.5px;color:var(--txt2);cursor:pointer;transition:all .12s;line-height:1.4}
 .recent-item:hover{background:var(--amber-bg);color:var(--amber)}
-.ri-dot{width:5px;height:5px;border-radius:50%;background:var(--muted);flex-shrink:0;margin-top:5px}
-.muted-note{font-size:12px;color:var(--muted);font-style:italic}
-.new-btn{display:flex;align-items:center;gap:7px;width:100%;padding:9px 11px;background:transparent;border:1.5px dashed var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--txt2);cursor:pointer;transition:all .15s}
+.ri-dot{width:4px;height:4px;border-radius:50%;background:var(--muted);flex-shrink:0;margin-top:5px}
+.muted-note{font-size:11.5px;color:var(--muted);font-style:italic}
+.new-btn{display:flex;align-items:center;gap:7px;width:100%;padding:8px 10px;background:transparent;border:1.5px dashed var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--txt2);cursor:pointer;transition:all .15s}
 .new-btn:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
 
-/* ── Main ── */
-.main{display:flex;flex-direction:column;height:100vh;overflow:hidden;background:var(--bg)}
-.topbar{padding:13px 28px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.tl{display:flex;align-items:center;gap:10px}
-.mode-pill{display:flex;align-items:center;gap:6px;padding:4px 11px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;background:var(--surface);box-shadow:var(--shadow)}
+/* Main */
+.main{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.topbar{padding:12px 24px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.mode-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid var(--border);border-radius:20px;font-size:11.5px;font-weight:500;background:var(--surface)}
 .mode-pill.strategy{color:var(--amber);border-color:#fde68a;background:var(--amber-bg)}
 .mode-pill.legal{color:var(--violet);border-color:#ddd6fe;background:var(--violet-bg)}
-.ghost-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:transparent;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none}
+.ghost-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:transparent;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none}
 .ghost-btn:hover{background:var(--surface);border-color:var(--muted)}
-.workspace{flex:1;overflow-y:auto;padding:28px;scroll-behavior:smooth}
-.workspace-inner{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.workspace{flex:1;overflow-y:auto;padding:24px;scroll-behavior:smooth}
+.workspace-inner{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
 
 /* Welcome */
-.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:380px;text-align:center;padding:20px 0}
-.w-icon{width:62px;height:62px;background:var(--txt);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:var(--shadow-md)}
-.w-icon svg{width:32px;height:32px}
-.welcome h2{font-family:'Lora',serif;font-size:26px;font-weight:500;margin-bottom:8px;letter-spacing:-.4px}
-.welcome p{font-size:14.5px;color:var(--txt2);line-height:1.65;max-width:500px;margin-bottom:26px}
-.hint-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;width:100%;max-width:640px}
-.hint{display:flex;align-items:flex-start;gap:10px;padding:13px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);text-align:left;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;text-align:center;padding:20px 0}
+.w-icon{width:56px;height:56px;background:var(--txt);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:var(--shadow-md)}
+.w-icon svg{width:28px;height:28px}
+.welcome h2{font-family:'Lora',serif;font-size:24px;font-weight:500;margin-bottom:8px}
+.welcome p{font-size:14px;color:var(--txt2);line-height:1.6;max-width:480px;margin-bottom:24px}
+.hint-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;width:100%;max-width:620px}
+.hint{display:flex;align-items:flex-start;gap:9px;padding:12px 13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);text-align:left;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
 .hint:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .hint.h-amber:hover{border-color:var(--amber);background:var(--amber-bg)}
 .hint.h-green:hover{border-color:var(--green);background:var(--green-bg)}
@@ -100,100 +98,200 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .hint.h-violet:hover{border-color:var(--violet);background:var(--violet-bg)}
 .hint.h-red:hover{border-color:var(--red);background:var(--red-bg)}
 .hint.h-teal:hover{border-color:var(--teal);background:var(--teal-bg)}
-.hint-em{font-size:20px;flex-shrink:0;margin-top:1px}
-.hint strong{display:block;font-size:12.5px;font-weight:500;margin-bottom:2px}
-.hint small{font-size:11px;color:var(--muted)}
+.hint-em{font-size:18px;flex-shrink:0;margin-top:1px}
+.hint strong{display:block;font-size:12px;font-weight:600;margin-bottom:2px}
+.hint small{font-size:10.5px;color:var(--muted)}
 
 /* Input Panel */
 .input-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
-.panel-hd{padding:13px 16px;border-bottom:1px solid var(--border2);background:var(--surface2);display:flex;align-items:center;gap:9px}
-.panel-hd-icon{color:var(--txt2)}
-.panel-title{font-size:13px;font-weight:600;color:var(--txt2)}
-.panel-body{padding:18px;display:flex;flex-direction:column;gap:14px}
-.field-label{font-size:11.5px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.panel-hd{padding:11px 15px;border-bottom:1px solid var(--border2);background:var(--surface2);display:flex;align-items:center;gap:8px}
+.panel-title{font-size:12.5px;font-weight:600;color:var(--txt2)}
+.panel-body{padding:16px;display:flex;flex-direction:column;gap:12px}
+.field-label{font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;display:flex;align-items:center;gap:5px}
 .field-label span{font-size:10px;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0}
-.ta-field{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:13.5px;line-height:1.6;color:var(--txt);background:var(--surface);resize:vertical;outline:none;transition:border-color .15s}
-.ta-field:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(217,119,6,.1)}
+.ta-field{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;color:var(--txt);background:var(--surface);resize:vertical;outline:none;transition:border-color .15s}
+.ta-field:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(217,119,6,.08)}
 .ta-field::placeholder{color:var(--muted)}
-.ta-sm{min-height:70px}
-.ta-md{min-height:120px}
-.ta-lg{min-height:180px}
-.input-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.input-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-select.sel-field{width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--txt);background:var(--surface);outline:none;cursor:pointer}
+.ta-sm{min-height:65px}
+.ta-md{min-height:110px}
+.ta-lg{min-height:160px}
+.input-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.input-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+select.sel-field{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--txt);background:var(--surface);outline:none;cursor:pointer}
 select.sel-field:focus{border-color:var(--amber)}
-.run-row{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid var(--border2)}
-.run-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:var(--txt);border:none;border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#fff;cursor:pointer;transition:all .15s}
+.run-row{display:flex;align-items:center;gap:10px;padding-top:12px;border-top:1px solid var(--border2)}
+.run-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;background:var(--txt);border:none;border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;color:#fff;cursor:pointer;transition:all .15s}
 .run-btn:hover{background:#2d2a26;transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .run-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.run-hint{font-size:12px;color:var(--muted)}
+.run-hint{font-size:11.5px;color:var(--muted)}
 
-/* Result */
-.result-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);animation:fadein .35s ease}
-@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.result-hd{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:var(--surface2)}
-.result-hd-left{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--amber)}
-.result-hd-left.violet{color:var(--violet)}
-.result-hd-left.green{color:var(--green)}
-.result-hd-left.blue{color:var(--blue)}
-.result-hd-left.red{color:var(--red)}
-.result-hd-left.teal{color:var(--teal)}
-.copy-btn{background:none;border:1px solid var(--border);cursor:pointer;font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:4px;transition:all .15s}
-.copy-btn:hover{background:var(--border);color:var(--txt)}
-.result-body{max-height:680px;overflow-y:auto;background:#fafaf9}
-.result-sec{border-bottom:1px solid var(--border)}
-.result-sec:last-child{border-bottom:none}
-.result-sec-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;cursor:pointer;background:#fff;transition:background .12s;user-select:none}
-.result-sec-head:hover{background:var(--surface2)}
-.result-sec-title{font-size:12.5px;font-weight:600;color:var(--txt)}
-.result-chevron{width:14px;height:14px;color:var(--muted);transition:transform .2s;flex-shrink:0}
-.result-chevron.open{transform:rotate(90deg)}
-.result-sec-content{padding:14px 18px 16px;background:#fafaf9;font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.75;color:var(--txt)}
-.result-sec-content.closed{display:none}
-.result-sec-content p{margin:0 0 8px}
-.result-sec-content p:last-child{margin-bottom:0}
-.result-sec-content ul{margin:0 0 8px;padding-left:18px;display:flex;flex-direction:column;gap:5px}
-.result-sec-content li{line-height:1.65}
-.result-sec-content strong{font-weight:600}
-.dl-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.dl-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border:none;border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .15s}
-.dl-txt{background:var(--txt);color:#fff}
-.dl-txt:hover{background:#2d2a26;transform:translateY(-1px);box-shadow:var(--shadow-md)}
-.info-card{display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:var(--r);margin:4px 0;font-size:13px;font-weight:500}
-.card-ok{background:var(--green-bg);color:#065f46;border:1px solid #a7f3d0}
-.card-work{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
-.card-err{background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
-.thinking-card{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow)}
+/* Result block */
+.result-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);animation:fadein .3s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.result-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 15px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.result-hd-title{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600}
+.copy-btn{background:none;border:1px solid var(--border);cursor:pointer;font-size:10.5px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;transition:all .15s}
+.copy-btn:hover{background:var(--border2);color:var(--txt)}
+
+/* Accordion sections */
+.result-body{background:#fafaf9}
+.acc-sec{border-bottom:1px solid var(--border2)}
+.acc-sec:last-child{border-bottom:none}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:10px 15px;cursor:pointer;background:#fff;transition:background .12s;user-select:none}
+.acc-head:hover{background:var(--surface2)}
+.acc-title{font-size:12px;font-weight:600;color:var(--txt);display:flex;align-items:center;gap:6px}
+.acc-badge{font-size:9.5px;font-weight:600;padding:1px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:.3px}
+.badge-critical{background:var(--red-bg);color:var(--red)}
+.badge-warn{background:var(--amber-light);color:#92400e}
+.badge-good{background:var(--green-bg);color:#065f46}
+.badge-info{background:var(--blue-bg);color:var(--blue)}
+.chevron{width:13px;height:13px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.chevron.open{transform:rotate(90deg)}
+.acc-body{padding:14px 16px;background:#fafaf9;font-size:12.5px;line-height:1.7;color:var(--txt)}
+.acc-body.closed{display:none}
+
+/* Strategy JSON renderers */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.card-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px}
+.mini-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:11px 13px}
+.mini-card-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.mini-card-value{font-size:13px;font-weight:500;color:var(--txt);line-height:1.5}
+.mini-card-sub{font-size:11px;color:var(--txt2);margin-top:3px;line-height:1.4}
+.kv-list{display:flex;flex-direction:column;gap:6px}
+.kv-row{display:grid;grid-template-columns:130px 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--border2)}
+.kv-row:last-child{border-bottom:none}
+.kv-key{font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.3px;padding-top:1px}
+.kv-val{font-size:12.5px;color:var(--txt);line-height:1.5}
+.tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.tag{display:inline-flex;padding:3px 9px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;font-size:11px;font-weight:500;color:var(--txt2)}
+.score-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:13px;font-weight:700;background:var(--amber-light);color:#92400e;border:1px solid #fde68a}
+.risk-item{display:flex;gap:8px;padding:9px 11px;border-radius:var(--r2);margin-bottom:6px;border-left:3px solid}
+.risk-item:last-child{margin-bottom:0}
+.risk-item.r-red{background:var(--red-bg);border-color:var(--red)}
+.risk-item.r-amber{background:var(--amber-light);border-color:var(--amber)}
+.risk-item.r-green{background:var(--green-light);border-color:var(--green)}
+.risk-name{font-size:11.5px;font-weight:700;color:var(--txt);margin-bottom:2px}
+.risk-desc{font-size:11.5px;color:var(--txt2);line-height:1.5}
+.risk-mit{font-size:11px;color:var(--green);margin-top:3px;font-weight:500}
+.swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.swot-quad{border-radius:var(--r2);padding:11px 13px}
+.swot-quad.s{background:#ecfdf5;border:1px solid #a7f3d0}
+.swot-quad.w{background:var(--red-bg);border:1px solid #fecaca}
+.swot-quad.o{background:var(--blue-bg);border:1px solid #bfdbfe}
+.swot-quad.t{background:var(--amber-light);border:1px solid #fde68a}
+.swot-quad-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+.swot-quad.s .swot-quad-title{color:var(--green)}
+.swot-quad.w .swot-quad-title{color:var(--red)}
+.swot-quad.o .swot-quad-title{color:var(--blue)}
+.swot-quad.t .swot-quad-title{color:var(--amber)}
+.swot-item{display:flex;gap:6px;margin-bottom:5px;font-size:11.5px;line-height:1.5}
+.swot-id{font-weight:700;min-width:22px;flex-shrink:0;opacity:.7}
+.month-table{width:100%;border-collapse:collapse;font-size:11.5px}
+.month-table th{background:var(--surface2);padding:5px 8px;text-align:right;font-weight:600;font-size:10.5px;color:var(--txt2);border:1px solid var(--border);text-transform:uppercase;letter-spacing:.3px}
+.month-table th:first-child{text-align:center}
+.month-table td{padding:5px 8px;border:1px solid var(--border2);text-align:right;color:var(--txt)}
+.month-table td:first-child{text-align:center;font-weight:600;background:var(--surface2);color:var(--txt2)}
+.month-table tr:nth-child(even) td{background:#f7f6f3}
+.scenario-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.scenario-card{border-radius:var(--r2);padding:11px 13px;text-align:center}
+.scenario-card.cons{background:var(--blue-bg);border:1px solid #bfdbfe}
+.scenario-card.base{background:var(--green-light);border:1px solid #a7f3d0}
+.scenario-card.opt{background:var(--amber-light);border:1px solid #fde68a}
+.scenario-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;color:var(--txt2)}
+.scenario-val{font-size:16px;font-weight:700;color:var(--txt);line-height:1.2}
+.scenario-sub{font-size:10.5px;color:var(--txt2);margin-top:3px}
+.phase-steps{display:flex;flex-direction:column;gap:6px}
+.phase-step{display:flex;gap:10px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2)}
+.phase-num{width:22px;height:22px;border-radius:50%;background:var(--txt);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.phase-text{font-size:12px;line-height:1.5;color:var(--txt)}
+.slide-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;margin-bottom:8px}
+.slide-card:last-child{margin-bottom:0}
+.slide-num{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.slide-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:6px}
+.slide-body{font-size:12px;color:var(--txt2);line-height:1.6}
+.tows-item{display:flex;gap:8px;padding:7px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:5px}
+.tows-item:last-child{margin-bottom:0}
+.tows-refs{display:flex;gap:3px;flex-shrink:0;margin-top:2px}
+.tows-ref{font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:4px;background:var(--surface2);border:1px solid var(--border);color:var(--txt2)}
+.priority-item{display:flex;align-items:flex-start;gap:10px;padding:8px 11px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:5px}
+.priority-item:last-child{margin-bottom:0}
+.priority-num{width:24px;height:24px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.p1{background:var(--red)}
+.p2{background:var(--amber)}
+.p3{background:var(--blue)}
+.p4{background:var(--teal)}
+.priority-content{flex:1}
+.priority-action{font-size:12.5px;font-weight:500;color:var(--txt);margin-bottom:3px}
+.priority-meta{font-size:11px;color:var(--muted)}
+.comp-row{display:flex;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:5px}
+.comp-row:last-child{margin-bottom:0}
+.comp-name{font-size:12px;font-weight:700;color:var(--txt);min-width:90px}
+.comp-detail{font-size:11.5px;color:var(--txt2);line-height:1.4}
+.verdict-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r2);padding:13px 15px}
+.verdict-score{font-family:'Lora',serif;font-size:28px;font-weight:600;color:var(--amber);margin-bottom:8px}
+.highlight-box{background:var(--amber-bg);border:1px solid #fde68a;border-radius:var(--r2);padding:10px 13px;margin-bottom:8px}
+.highlight-box.green{background:var(--green-light);border-color:#a7f3d0}
+.highlight-box.blue{background:var(--blue-bg);border-color:#bfdbfe}
+.highlight-box.red{background:var(--red-bg);border-color:#fecaca}
+.highlight-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:3px}
+.highlight-text{font-size:12.5px;line-height:1.5;color:var(--txt)}
+.ul-clean{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px}
+.ul-clean li{display:flex;gap:7px;font-size:12.5px;line-height:1.5;color:var(--txt)}
+.ul-clean li::before{content:"→";color:var(--muted);flex-shrink:0;margin-top:1px}
+.checklist-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border2);font-size:12.5px;color:var(--txt);line-height:1.5}
+.checklist-item:last-child{border-bottom:none}
+.check-sq{width:14px;height:14px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;margin-top:2px;background:#fff}
+
+/* Legal text renderer */
+.legal-body{padding:16px 18px;font-size:12.5px;line-height:1.75;color:var(--txt)}
+.legal-body p{margin:0 0 7px}
+.legal-body ul{margin:4px 0 8px;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.legal-body li{line-height:1.6}
+.legal-kv{display:grid;grid-template-columns:140px 1fr;gap:5px 10px;padding:4px 0;border-bottom:1px solid var(--border2)}
+.legal-kv:last-child{border-bottom:none}
+.legal-kv-key{font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.3px;padding-top:2px}
+.legal-kv-val{font-size:12.5px;color:var(--txt)}
+.legal-table{width:100%;border-collapse:collapse;font-size:11.5px;margin:6px 0}
+.legal-table th{background:var(--surface2);padding:5px 9px;text-align:left;font-weight:600;font-size:10.5px;color:var(--txt2);border:1px solid var(--border);text-transform:uppercase;letter-spacing:.3px}
+.legal-table td{padding:6px 9px;border:1px solid var(--border2);vertical-align:top;line-height:1.5}
+.legal-table tr:nth-child(even) td{background:#f7f6f3}
+.flag-box{display:flex;gap:8px;padding:9px 11px;border-radius:var(--r2);margin:4px 0;border-left:3px solid}
+.flag-box.f-red{background:var(--red-bg);border-color:var(--red)}
+.flag-box.f-amber{background:var(--amber-light);border-color:var(--amber)}
+.flag-box.f-green{background:var(--green-light);border-color:var(--green)}
+.flag-icon{flex-shrink:0;font-size:13px;margin-top:1px}
+.flag-text{font-size:12px;line-height:1.55;color:var(--txt)}
+.legal-quote{font-family:'DM Mono',monospace;font-size:11px;background:#f0ede8;padding:9px 12px;border-radius:var(--r2);margin:5px 0;border-left:3px solid var(--border);white-space:pre-wrap;word-break:break-word;color:var(--txt2)}
+
+.dl-row{display:flex;gap:7px;margin-top:10px}
+.dl-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:none;border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;background:var(--txt);color:#fff}
+.dl-btn:hover{background:#2d2a26;transform:translateY(-1px)}
+
+.info-card{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:var(--r);margin:3px 0;font-size:12.5px;font-weight:500}
+.c-ok{background:var(--green-bg);color:#065f46;border:1px solid #a7f3d0}
+.c-err{background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
+.thinking-card{display:flex;align-items:center;gap:10px;padding:13px 15px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow)}
 .dots{display:flex;gap:4px;align-items:center}
-.dots span{width:6px;height:6px;background:var(--muted);border-radius:50%;animation:bonce 1.2s infinite}
+.dots span{width:5px;height:5px;background:var(--muted);border-radius:50%;animation:bonce 1.2s infinite}
 .dots span:nth-child(2){animation-delay:.15s}
 .dots span:nth-child(3){animation-delay:.3s}
 @keyframes bonce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
-::-webkit-scrollbar{width:5px;height:5px}
+
+::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-@media(max-width:720px){.layout{grid-template-columns:1fr}.sidebar{display:none}.hint-grid{grid-template-columns:1fr 1fr}.input-row-2,.input-row-3{grid-template-columns:1fr}}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.sidebar{display:none}.hint-grid{grid-template-columns:1fr 1fr}.input-row-2,.input-row-3{grid-template-columns:1fr}.card-grid,.card-grid-3,.swot-grid,.scenario-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sb-head">
       <div class="logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
-            <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
-            <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
-          </svg>
-        </div>
-        <div>
-          <div class="logo-name">Stremini</div>
-          <div class="logo-sub">Strategy &amp; Legal</div>
-        </div>
+        <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+        <div><div class="logo-name">Stremini</div><div class="logo-sub">Strategy &amp; Legal</div></div>
       </div>
-      <div class="sb-label" style="margin-bottom:6px">Agent</div>
+      <div class="sb-label" style="margin-bottom:5px">Agent</div>
       <div class="agent-tabs">
         <button class="agent-tab active-strategy" id="tab-strategy" onclick="switchAgent('strategy')">📈 Strategy</button>
         <button class="agent-tab" id="tab-legal" onclick="switchAgent('legal')">⚖️ Legal</button>
@@ -204,7 +302,7 @@ select.sel-field:focus{border-color:var(--amber)}
     <div class="sb-sec">
       <div class="sb-label">Status</div>
       <div id="statusBadge" class="badge badge-idle"><span class="dot"></span>Ready</div>
-      <div style="margin-top:9px;font-size:11.5px;color:var(--muted)" id="modeNote">Select a mode to begin</div>
+      <div style="margin-top:8px;font-size:11px;color:var(--muted)" id="modeNote">Select a mode to begin</div>
     </div>
     <div class="sb-sec">
       <div class="sb-label">Session Stats</div>
@@ -220,51 +318,34 @@ select.sel-field:focus{border-color:var(--amber)}
     </div>
     <div class="sb-sec">
       <button class="new-btn" onclick="clearAll()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         New session
       </button>
     </div>
   </aside>
 
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar">
-      <div class="tl">
-        <div class="mode-pill strategy" id="modePill">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
-          </svg>
-          <span id="pillTxt">Strategy Agent</span>
-        </div>
+      <div class="mode-pill strategy" id="modePill">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span id="pillTxt">Strategy Agent</span>
       </div>
       <button class="ghost-btn" onclick="clearAll()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
-        </svg>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
         Clear
       </button>
     </div>
-
     <div class="workspace" id="workspace">
-      <div class="workspace-inner" id="workspaceInner">
+      <div class="workspace-inner">
         <div class="welcome" id="welcome">
-          <div class="w-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round">
-              <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
-              <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
-            </svg>
-          </div>
+          <div class="w-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
           <h2>Strategy &amp; Legal Agent</h2>
-          <p>Build business models, revenue projections, market maps, and pitch decks — or analyse contracts, flag legal risks, and get compliance checklists for India, UAE, and US.</p>
+          <p>Build business models, revenue projections, market maps, and pitch decks — or analyse contracts, flag legal risks, and generate compliance checklists.</p>
           <div class="hint-grid" id="hintGrid"></div>
         </div>
         <div class="input-panel" id="inputPanel" style="display:none">
           <div class="panel-hd">
-            <svg class="panel-hd-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
-            </svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--txt2)"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
             <span class="panel-title" id="panelTitle">Input</span>
           </div>
           <div class="panel-body" id="panelBody"></div>
@@ -276,173 +357,151 @@ select.sel-field:focus{border-color:var(--amber)}
 </div>
 
 <script>
-// ─────────────────────────────────────────
-// CONFIG — original endpoints preserved
-// ─────────────────────────────────────────
 const STRATEGY_BACKEND = "https://startup-strategy.vishwajeetadkine705.workers.dev";
 const LEGAL_BACKEND    = "https://legal-compliance.vishwajeetadkine705.workers.dev";
 
-// ─────────────────────────────────────────
-// State
-// ─────────────────────────────────────────
-let agent = "strategy";
-let mode  = "business_model";
-let running = false;
-let stats = { docs:0, plans:0, flags:0 };
+let agent = "strategy", mode = "business_model", running = false;
+let stats = {docs:0,plans:0,flags:0};
 
-// ─────────────────────────────────────────
-// Mode configs
-// ─────────────────────────────────────────
 const STRATEGY_MODES = {
-  business_model:{label:"Business Model",note:"Business model canvas & strategy",color:"amber",runLabel:"Generate Business Model",runHint:"Full canvas · 20-40 seconds",svg:`<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>`},
-  revenue:{label:"Revenue Projection",note:"Financial projections & unit economics",color:"green",runLabel:"Build Projection",runHint:"3-year model · 20-35 seconds",svg:`<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>`},
-  market:{label:"Market Sizing",note:"TAM/SAM/SOM & competitive landscape",color:"blue",runLabel:"Analyse Market",runHint:"Full sizing analysis · 20-35 seconds",svg:`<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>`},
-  pitch:{label:"Pitch Deck",note:"12-slide investor pitch narrative",color:"violet",runLabel:"Write Pitch Deck",runHint:"Full 12-slide deck · 25-45 seconds",svg:`<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>`},
-  swot:{label:"SWOT Analysis",note:"Strategic SWOT + TOWS matrix",color:"teal",runLabel:"Run SWOT Analysis",runHint:"Full strategic analysis · 15-30 seconds",svg:`<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/>`},
+  business_model:{label:"Business Model",note:"Business model canvas & strategy",color:"amber",runLabel:"Generate Business Model",runHint:"20-40 sec",svg:`<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>`},
+  revenue:{label:"Revenue Projection",note:"Financial projections & unit economics",color:"green",runLabel:"Build Projection",runHint:"20-35 sec",svg:`<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>`},
+  market:{label:"Market Sizing",note:"TAM/SAM/SOM & competitive landscape",color:"blue",runLabel:"Analyse Market",runHint:"20-35 sec",svg:`<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>`},
+  pitch:{label:"Pitch Deck",note:"12-slide investor pitch narrative",color:"violet",runLabel:"Write Pitch Deck",runHint:"25-45 sec",svg:`<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>`},
+  swot:{label:"SWOT Analysis",note:"Strategic SWOT + TOWS matrix",color:"teal",runLabel:"Run SWOT",runHint:"15-30 sec",svg:`<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/>`},
 };
-
 const LEGAL_MODES = {
-  contract:{label:"Contract Review",note:"Contract summariser & red flag analysis",color:"amber",runLabel:"Analyse Contract",runHint:"Full review · 20-40 seconds",svg:`<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>`},
-  tnc:{label:"T&C Risk Flagger",note:"Terms & conditions risk analysis",color:"red",runLabel:"Flag Risks",runHint:"T&C audit · 15-30 seconds",svg:`<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`},
-  privacy:{label:"Privacy Analysis",note:"Privacy policy compliance analysis",color:"violet",runLabel:"Analyse Privacy Policy",runHint:"DPDP/GDPR/CCPA · 15-30 seconds",svg:`<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`},
-  compliance:{label:"Compliance Checklist",note:"India, UAE, US startup compliance",color:"green",runLabel:"Generate Checklist",runHint:"Jurisdiction checklist · 15-30 seconds",svg:`<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>`},
+  contract:{label:"Contract Review",note:"Contract summariser & red flag analysis",color:"amber",runLabel:"Analyse Contract",runHint:"20-40 sec",svg:`<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>`},
+  tnc:{label:"T&C Risk Flagger",note:"Terms & conditions risk analysis",color:"red",runLabel:"Flag Risks",runHint:"15-30 sec",svg:`<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`},
+  privacy:{label:"Privacy Analysis",note:"Privacy policy compliance analysis",color:"violet",runLabel:"Analyse Privacy Policy",runHint:"15-30 sec",svg:`<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`},
+  compliance:{label:"Compliance Checklist",note:"India, UAE, US startup compliance",color:"green",runLabel:"Generate Checklist",runHint:"15-30 sec",svg:`<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>`},
 };
 
-// ─────────────────────────────────────────
-// FIX 1: card() was never defined — caused silent JS crash
-// ─────────────────────────────────────────
-function card(type, message) {
-  const cfg = {
-    ok:  { cls:"card-ok",   svg:`<polyline points="20 6 9 17 4 12"/>` },
-    work:{ cls:"card-work", svg:`<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>` },
-    err: { cls:"card-err",  svg:`<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>` },
-  };
-  const t = cfg[type] || cfg.work;
-  const div = document.createElement("div");
-  div.className = `info-card ${t.cls}`;
-  div.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">${t.svg}</svg>${esc(message)}`;
-  return div;
+// ── Helpers ──────────────────────────────
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function val(id){const el=document.getElementById(id);return el?el.value.trim():""}
+function fmt(n){if(typeof n!=="number")return String(n||"—");if(n>=10000000)return "₹"+(n/10000000).toFixed(1)+"Cr";if(n>=100000)return "₹"+(n/100000).toFixed(1)+"L";if(n>=1000)return (n/1000).toFixed(1)+"K";return String(n)}
+function scrollBottom(){const ws=document.getElementById("workspace");ws.scrollTop=ws.scrollHeight}
+
+function infoCard(type,msg){
+  const d=document.createElement("div");
+  d.className=`info-card ${type==="ok"?"c-ok":"c-err"}`;
+  const icons={ok:`<polyline points="20 6 9 17 4 12"/>`,err:`<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>`};
+  d.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">${icons[type]||icons.err}</svg>${esc(msg)}`;
+  return d;
+}
+function setStatus(type,label){
+  const cls={idle:"badge-idle",run:"badge-run",done:"badge-done",err:"badge-err"};
+  const el=document.getElementById("statusBadge");
+  el.className="badge "+(cls[type]||"badge-idle");
+  el.innerHTML=`<span class="dot"></span>${label}`;
+}
+function updateStats(){
+  document.getElementById("sDocs").textContent=stats.docs;
+  document.getElementById("sPlans").textContent=stats.plans;
+  document.getElementById("sFlags").textContent=stats.flags;
+}
+function addRecent(text,a,m){
+  const list=document.getElementById("recentList");
+  const empty=list.querySelector(".muted-note");if(empty)empty.remove();
+  const item=document.createElement("div");
+  item.className="recent-item";
+  item.innerHTML=`<div class="ri-dot"></div>${esc(text.slice(0,50))}${text.length>50?"…":""}`;
+  item.onclick=()=>loadHint(a,m,text);
+  list.prepend(item);
+  while(list.children.length>6)list.lastChild.remove();
 }
 
-// ─────────────────────────────────────────
-// Agent switching
-// ─────────────────────────────────────────
-function switchAgent(a) {
-  agent = a;
-  document.getElementById("tab-strategy").className = "agent-tab" + (a==="strategy" ? " active-strategy" : "");
-  document.getElementById("tab-legal").className    = "agent-tab" + (a==="legal"    ? " active-legal"    : "");
-  const pill = document.getElementById("modePill");
-  if (a === "strategy") {
-    pill.className = "mode-pill strategy";
-    pill.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Strategy Agent</span>`;
-    renderModeButtons(STRATEGY_MODES);
-    setMode("business_model");
-  } else {
-    pill.className = "mode-pill legal";
-    pill.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6l9-4 9 4v6c0 5.25-3.75 10.15-9 11.5C6.75 22.15 3 17.25 3 12V6z"/></svg><span>Legal Agent</span>`;
-    renderModeButtons(LEGAL_MODES);
-    setMode("contract");
+// ── Agent / mode switching ────────────────
+function switchAgent(a){
+  agent=a;
+  document.getElementById("tab-strategy").className="agent-tab"+(a==="strategy"?" active-strategy":"");
+  document.getElementById("tab-legal").className="agent-tab"+(a==="legal"?" active-legal":"");
+  const pill=document.getElementById("modePill");
+  if(a==="strategy"){
+    pill.className="mode-pill strategy";
+    pill.innerHTML=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Strategy Agent</span>`;
+    renderModeButtons(STRATEGY_MODES);setMode("business_model");
+  }else{
+    pill.className="mode-pill legal";
+    pill.innerHTML=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6l9-4 9 4v6c0 5.25-3.75 10.15-9 11.5C6.75 22.15 3 17.25 3 12V6z"/></svg><span>Legal Agent</span>`;
+    renderModeButtons(LEGAL_MODES);setMode("contract");
   }
-  renderHints();
-  clearAll(true);
+  renderHints();clearAll(true);
 }
-
-function renderModeButtons(modes) {
-  const grid = document.getElementById("modeGrid");
-  grid.innerHTML = "";
-  Object.entries(modes).forEach(([key, cfg]) => {
-    const btn = document.createElement("button");
-    btn.id = "btn-" + key;
-    btn.className = "mode-btn";
-    btn.onclick = () => setMode(key);
-    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${cfg.svg}</svg>${cfg.label}`;
+function renderModeButtons(modes){
+  const grid=document.getElementById("modeGrid");grid.innerHTML="";
+  Object.entries(modes).forEach(([key,cfg])=>{
+    const btn=document.createElement("button");btn.id="btn-"+key;btn.className="mode-btn";btn.onclick=()=>setMode(key);
+    btn.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${cfg.svg}</svg>${cfg.label}`;
     grid.appendChild(btn);
   });
 }
-
-function setMode(m) {
-  mode = m;
-  const modes = agent === "strategy" ? STRATEGY_MODES : LEGAL_MODES;
-  const cfg = modes[m];
-  if (!cfg) return;
-  Object.keys(modes).forEach(k => {
-    const btn = document.getElementById("btn-" + k);
-    if (btn) btn.className = "mode-btn" + (k === m ? " on-" + k : "");
-  });
-  document.getElementById("modeNote").textContent = cfg.note;
-  buildPanel(m, cfg);
-  showPanel();
-  document.getElementById("resultZone").innerHTML = "";
+function setMode(m){
+  mode=m;const modes=agent==="strategy"?STRATEGY_MODES:LEGAL_MODES;const cfg=modes[m];if(!cfg)return;
+  Object.keys(modes).forEach(k=>{const btn=document.getElementById("btn-"+k);if(btn)btn.className="mode-btn"+(k===m?" on-"+k:"");});
+  document.getElementById("modeNote").textContent=cfg.note;
+  buildPanel(m,cfg);showPanel();document.getElementById("resultZone").innerHTML="";
 }
+function showPanel(){document.getElementById("welcome").style.display="none";document.getElementById("inputPanel").style.display="block";}
 
-// ─────────────────────────────────────────
-// Input panels
-// ─────────────────────────────────────────
-function buildPanel(m, cfg) {
-  document.getElementById("panelTitle").textContent = cfg.label;
-  const body = document.getElementById("panelBody");
-  body.innerHTML = "";
-
-  if (agent === "strategy") {
-    if (m === "business_model") {
-      body.innerHTML = `
-        <div><div class="field-label">Describe your business idea <span>(be specific)</span></div>
-        <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. A SaaS platform that helps Indian freelancers manage their client contracts, invoices, and payments in one place…"></textarea></div>
-        <div class="input-row-3">
-          <div><div class="field-label">Industry</div><select id="f-industry" class="sel-field"><option>SaaS</option><option>Marketplace</option><option>D2C</option><option>Fintech</option><option>Edtech</option><option>Healthtech</option><option>Services</option><option>E-commerce</option><option>AI/ML</option><option>Hardware</option><option>Other</option></select></div>
-          <div><div class="field-label">Stage</div><select id="f-stage" class="sel-field"><option>Idea</option><option>MVP</option><option>Pre-revenue</option><option>Revenue</option><option>Growth</option></select></div>
-          <div><div class="field-label">Primary Market</div><select id="f-location" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>India + UAE</option><option>Global</option></select></div>
-        </div>`;
-    } else if (m === "revenue") {
-      body.innerHTML = `
-        <div><div class="field-label">Business description & revenue model</div>
-        <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. SaaS tool for freelancers, ₹499/mo basic and ₹1499/mo pro, starting with 10 beta users, targeting Indian market…"></textarea></div>
-        <div class="input-row-2">
-          <div><div class="field-label">Market</div><select id="f-location" class="sel-field"><option>India (₹)</option><option>UAE (AED)</option><option>US ($)</option><option>Global ($)</option></select></div>
-          <div><div class="field-label">Stage</div><select id="f-stage" class="sel-field"><option>Pre-revenue</option><option>Early revenue</option><option>Growing</option></select></div>
-        </div>`;
-    } else if (m === "market") {
-      body.innerHTML = `
-        <div><div class="field-label">Business / product to size the market for</div>
-        <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. AI-powered legal document tool for small businesses and freelancers in India…"></textarea></div>
-        <div class="input-row-2">
-          <div><div class="field-label">Primary Geography</div><select id="f-location" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>India + UAE</option><option>Global</option></select></div>
-          <div><div class="field-label">Industry</div><select id="f-industry" class="sel-field"><option>SaaS</option><option>Marketplace</option><option>Fintech</option><option>Edtech</option><option>Healthtech</option><option>D2C</option><option>Services</option><option>Other</option></select></div>
-        </div>`;
-    } else if (m === "pitch") {
-      body.innerHTML = `
-        <div><div class="field-label">Describe your startup <span>(more detail = better deck)</span></div>
-        <textarea id="f-query" class="ta-field ta-lg" placeholder="e.g. AI contracts platform for Indian freelancers. Problem: 90% face payment disputes. Solution automates contracts + invoices. 200 beta users, ₹45K MRR, 30% MoM growth. Raising ₹2 crore pre-seed…"></textarea></div>
-        <div class="input-row-3">
-          <div><div class="field-label">Raise Amount</div><textarea id="f-targetMarket" class="ta-field ta-sm" placeholder="e.g. ₹2 crore / $500K"></textarea></div>
-          <div><div class="field-label">Stage</div><select id="f-stage" class="sel-field"><option>Pre-seed</option><option>Seed</option><option>Series A</option></select></div>
-          <div><div class="field-label">Market</div><select id="f-location" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>Global</option></select></div>
-        </div>`;
-    } else if (m === "swot") {
-      body.innerHTML = `
-        <div><div class="field-label">Describe your business for SWOT analysis</div>
-        <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. 6-month-old EdTech startup offering live coding bootcamps to college students in Tier 2 Indian cities. ₹15,000/cohort. 3 cohorts of 30 students…"></textarea></div>
-        <div class="input-row-2">
-          <div><div class="field-label">Industry</div><select id="f-industry" class="sel-field"><option>SaaS</option><option>Edtech</option><option>Fintech</option><option>D2C</option><option>Marketplace</option><option>Healthtech</option><option>Services</option><option>Other</option></select></div>
-          <div><div class="field-label">Market</div><select id="f-location" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>Global</option></select></div>
-        </div>`;
-    }
-  } else {
-    if (m === "compliance") {
-      body.innerHTML = `
-        <div><div class="field-label">Describe your business <span>(type, activities, team location)</span></div>
-        <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. A SaaS startup building a payment tool, registered as Pvt Ltd, 3 founders, based in Bangalore, planning to onboard users across India and UAE…"></textarea></div>
-        <div class="input-row-2">
-          <div><div class="field-label">Jurisdiction</div><select id="f-jurisdiction" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>General</option></select></div>
-          <div><div class="field-label">Entity Type</div><select id="f-entityType" class="sel-field"><option value="startup">Startup</option><option value="freelancer">Freelancer</option><option value="enterprise">Enterprise</option></select></div>
-        </div>`;
-    } else {
-      const labels = {contract:"Paste your contract or agreement text",tnc:"Paste the Terms & Conditions text",privacy:"Paste the Privacy Policy text"};
-      const ph     = {contract:"Paste the full contract text here…",tnc:"Paste the full Terms of Service / EULA text here…",privacy:"Paste the full Privacy Policy text here…"};
-      body.innerHTML = `
-        <div><div class="field-label">Context / specific concern <span>(optional)</span></div>
-        <textarea id="f-query" class="ta-field ta-sm" placeholder="e.g. I'm a freelancer about to sign this client contract. Focus on payment terms and IP clauses…"></textarea></div>
-        <div><div class="field-label">${labels[m]}</div>
+// ── Input panels ──────────────────────────
+function buildPanel(m,cfg){
+  document.getElementById("panelTitle").textContent=cfg.label;
+  const body=document.getElementById("panelBody");body.innerHTML="";
+  if(agent==="strategy"){
+    if(m==="business_model")body.innerHTML=`
+      <div><div class="field-label">Describe your business idea <span>(be specific — more detail = better output)</span></div>
+      <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. A SaaS platform that helps Indian freelancers manage contracts, invoices, and client payments in one place — targeting designers and developers earning ₹3-20L/year…"></textarea></div>
+      <div class="input-row-3">
+        <div><div class="field-label">Industry</div><select id="f-industry" class="sel-field"><option>SaaS</option><option>Marketplace</option><option>D2C</option><option>Fintech</option><option>Edtech</option><option>Healthtech</option><option>Services</option><option>E-commerce</option><option>AI/ML</option><option>Other</option></select></div>
+        <div><div class="field-label">Stage</div><select id="f-stage" class="sel-field"><option>Idea</option><option>MVP</option><option>Pre-revenue</option><option>Revenue</option><option>Growth</option></select></div>
+        <div><div class="field-label">Market</div><select id="f-location" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>Global</option></select></div>
+      </div>`;
+    else if(m==="revenue")body.innerHTML=`
+      <div><div class="field-label">Business description & pricing</div>
+      <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. SaaS for freelancers, ₹499/mo basic, ₹1499/mo pro, starting with 10 beta users in India…"></textarea></div>
+      <div class="input-row-2">
+        <div><div class="field-label">Market</div><select id="f-location" class="sel-field"><option>India (₹)</option><option>UAE (AED)</option><option>US ($)</option><option>Global ($)</option></select></div>
+        <div><div class="field-label">Stage</div><select id="f-stage" class="sel-field"><option>Pre-revenue</option><option>Early revenue</option><option>Growing</option></select></div>
+      </div>`;
+    else if(m==="market")body.innerHTML=`
+      <div><div class="field-label">Business / product to size</div>
+      <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. AI-powered legal document tool for freelancers and small businesses in India…"></textarea></div>
+      <div class="input-row-2">
+        <div><div class="field-label">Geography</div><select id="f-location" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>Global</option></select></div>
+        <div><div class="field-label">Industry</div><select id="f-industry" class="sel-field"><option>SaaS</option><option>Marketplace</option><option>Fintech</option><option>Edtech</option><option>Healthtech</option><option>D2C</option><option>Services</option><option>Other</option></select></div>
+      </div>`;
+    else if(m==="pitch")body.innerHTML=`
+      <div><div class="field-label">Describe your startup <span>(the more detail, the better the deck)</span></div>
+      <textarea id="f-query" class="ta-field ta-lg" placeholder="e.g. AI contracts platform for Indian freelancers. 200 beta users, ₹45K MRR, 30% MoM growth. Raising ₹2 crore pre-seed…"></textarea></div>
+      <div class="input-row-3">
+        <div><div class="field-label">Raise Amount</div><textarea id="f-targetMarket" class="ta-field ta-sm" placeholder="e.g. ₹2 crore"></textarea></div>
+        <div><div class="field-label">Stage</div><select id="f-stage" class="sel-field"><option>Pre-seed</option><option>Seed</option><option>Series A</option></select></div>
+        <div><div class="field-label">Market</div><select id="f-location" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>Global</option></select></div>
+      </div>`;
+    else if(m==="swot")body.innerHTML=`
+      <div><div class="field-label">Describe your business</div>
+      <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. 6-month EdTech startup, live coding bootcamps, Tier 2 Indian cities, ₹15K/cohort, 3 cohorts of 30 students…"></textarea></div>
+      <div class="input-row-2">
+        <div><div class="field-label">Industry</div><select id="f-industry" class="sel-field"><option>SaaS</option><option>Edtech</option><option>Fintech</option><option>D2C</option><option>Marketplace</option><option>Healthtech</option><option>Services</option><option>Other</option></select></div>
+        <div><div class="field-label">Market</div><select id="f-location" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>Global</option></select></div>
+      </div>`;
+  }else{
+    if(m==="compliance")body.innerHTML=`
+      <div><div class="field-label">Describe your business</div>
+      <textarea id="f-query" class="ta-field ta-md" placeholder="e.g. SaaS payment tool startup, Pvt Ltd, 3 founders, Bangalore, users across India and UAE…"></textarea></div>
+      <div class="input-row-2">
+        <div><div class="field-label">Jurisdiction</div><select id="f-jurisdiction" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>General</option></select></div>
+        <div><div class="field-label">Entity Type</div><select id="f-entityType" class="sel-field"><option value="startup">Startup</option><option value="freelancer">Freelancer</option><option value="enterprise">Enterprise</option></select></div>
+      </div>`;
+    else{
+      const lbl={contract:"Paste contract / agreement text",tnc:"Paste Terms & Conditions text",privacy:"Paste Privacy Policy text"};
+      const ph={contract:"Paste the full contract text here…",tnc:"Paste the full Terms of Service text here…",privacy:"Paste the full Privacy Policy text here…"};
+      body.innerHTML=`
+        <div><div class="field-label">Context / concern <span>(optional)</span></div>
+        <textarea id="f-query" class="ta-field ta-sm" placeholder="e.g. I'm a freelancer about to sign this. Focus on payment terms and IP clauses…"></textarea></div>
+        <div><div class="field-label">${lbl[m]}</div>
         <textarea id="f-document" class="ta-field ta-lg" placeholder="${ph[m]}"></textarea></div>
         <div class="input-row-2">
           <div><div class="field-label">Jurisdiction</div><select id="f-jurisdiction" class="sel-field"><option>India</option><option>UAE</option><option>US</option><option>General</option></select></div>
@@ -450,410 +509,494 @@ function buildPanel(m, cfg) {
         </div>`;
     }
   }
-
-  const runRow = document.createElement("div");
-  runRow.className = "run-row";
-  runRow.innerHTML = `
-    <button class="run-btn" id="runBtn" onclick="handleRun()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      ${cfg.runLabel}
-    </button>
-    <span class="run-hint">${cfg.runHint}</span>`;
+  const runRow=document.createElement("div");runRow.className="run-row";
+  runRow.innerHTML=`<button class="run-btn" id="runBtn" onclick="handleRun()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>${cfg.runLabel}</button><span class="run-hint">${cfg.runHint}</span>`;
   body.appendChild(runRow);
 }
 
-// ─────────────────────────────────────────
-// Hints
-// ─────────────────────────────────────────
-function renderHints() {
-  const hints = [
-    {m:"business_model",ag:"strategy",em:"🏗️",title:"Business Model",sub:"Canvas, revenue model & GTM",cls:"h-amber",q:"A B2B SaaS tool that helps Indian SMEs manage their vendor payments and reconciliation automatically"},
-    {m:"revenue",ag:"strategy",em:"📈",title:"Revenue Projection",sub:"3-year MRR & unit economics",cls:"h-green",q:"SaaS for freelancers, ₹499/mo basic, ₹1499/mo pro, Indian market, starting with beta users"},
-    {m:"market",ag:"strategy",em:"🌏",title:"Market Sizing",sub:"TAM/SAM/SOM analysis",cls:"h-blue",q:"AI-powered legal document tool for freelancers and small businesses in India"},
-    {m:"pitch",ag:"strategy",em:"🎤",title:"Pitch Deck",sub:"12-slide investor narrative",cls:"h-violet",q:"EdTech platform for coding bootcamps targeting Tier 2 Indian cities, ₹15K per cohort, 3 cohorts running"},
-    {m:"swot",ag:"strategy",em:"🔲",title:"SWOT Analysis",sub:"Strategic + TOWS matrix",cls:"h-teal",q:"A freelance marketplace specifically for Indian UI/UX designers competing with Toptal and Upwork"},
-    {m:"contract",ag:"legal",em:"📄",title:"Contract Review",sub:"Red flags & risk analysis",cls:"h-amber",q:"I'm a freelancer about to sign this client contract, please review the payment and IP clauses"},
+// ── Hints ─────────────────────────────────
+function renderHints(){
+  const hints=[
+    {m:"business_model",ag:"strategy",em:"🏗️",t:"Business Model",s:"Canvas, revenue & GTM",cls:"h-amber",q:"A B2B SaaS tool that helps Indian SMEs manage vendor payments and reconciliation automatically"},
+    {m:"revenue",ag:"strategy",em:"📈",t:"Revenue Projection",s:"3-year MRR & unit economics",cls:"h-green",q:"SaaS for freelancers, ₹499/mo basic, ₹1499/mo pro, Indian market"},
+    {m:"market",ag:"strategy",em:"🌏",t:"Market Sizing",s:"TAM/SAM/SOM analysis",cls:"h-blue",q:"AI-powered legal document tool for freelancers and small businesses in India"},
+    {m:"pitch",ag:"strategy",em:"🎤",t:"Pitch Deck",s:"12-slide investor narrative",cls:"h-violet",q:"EdTech platform for coding bootcamps in Tier 2 Indian cities, ₹15K per cohort"},
+    {m:"swot",ag:"strategy",em:"🔲",t:"SWOT Analysis",s:"Strategic + TOWS matrix",cls:"h-teal",q:"A freelance marketplace for Indian UI/UX designers competing with Toptal and Upwork"},
+    {m:"contract",ag:"legal",em:"📄",t:"Contract Review",s:"Red flags & risk analysis",cls:"h-amber",q:"I'm a freelancer about to sign this client contract, focus on payment terms and IP clauses"},
   ];
-  document.getElementById("hintGrid").innerHTML = hints.map(h =>
+  document.getElementById("hintGrid").innerHTML=hints.map(h=>
     `<div class="hint ${h.cls}" onclick="loadHint('${h.ag}','${h.m}',\`${h.q}\`)">
-      <div class="hint-em">${h.em}</div>
-      <div><strong>${h.title}</strong><small>${h.sub}</small></div>
+      <div class="hint-em">${h.em}</div><div><strong>${h.t}</strong><small>${h.s}</small></div>
     </div>`).join("");
 }
+function loadHint(a,m,q){if(a!==agent)switchAgent(a);setMode(m);setTimeout(()=>{const el=document.getElementById("f-query");if(el)el.value=q;},60);}
 
-function loadHint(a, m, q) {
-  if (a !== agent) switchAgent(a);
-  setMode(m);
-  setTimeout(() => { const el = document.getElementById("f-query"); if (el) el.value = q; }, 60);
+// ═══════════════════════════════════════════════
+// STRATEGY RENDERERS — each mode has a custom renderer
+// because backend returns { data: <parsed JSON object> }
+// ═══════════════════════════════════════════════
+
+function makeAccordion(title, badgeCls, badgeText, bodyHtml, pid, idx){
+  const id=`${pid}-${idx}`;
+  const badge=badgeCls?`<span class="acc-badge ${badgeCls}">${badgeText}</span>`:"";
+  return `<div class="acc-sec">
+    <div class="acc-head" data-target="${id}">
+      <div class="acc-title">${esc(title)}${badge}</div>
+      <svg class="chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="acc-body" id="${id}">${bodyHtml}</div>
+  </div>`;
 }
 
-function showPanel() {
-  document.getElementById("welcome").style.display = "none";
-  document.getElementById("inputPanel").style.display = "block";
+function renderBusinessModel(d,pid){
+  const v=d.venture_overview||{};const vp=d.value_proposition||{};const cs=d.customer_segments||{};
+  const rm=d.revenue_model||{};const gtm=d.go_to_market||{};const cost=d.cost_structure||{};
+  const verdict=d.verdict||{};
+
+  const sections=[
+    {t:"Venture Overview",html:`
+      <div class="card-grid">
+        <div class="mini-card"><div class="mini-card-label">Company</div><div class="mini-card-value">${esc(v.name||"—")}</div><div class="mini-card-sub">${esc(v.category||"")} · ${esc(v.stage||"")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">One-Liner</div><div class="mini-card-value" style="font-size:12px">${esc(v.one_liner||"—")}</div></div>
+      </div>`},
+    {t:"Value Proposition",html:`
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">Problem</div><div class="kv-val">${esc(vp.core_problem||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">Solution</div><div class="kv-val">${esc(vp.solution||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">Unique Insight</div><div class="kv-val">${esc(vp.unique_insight||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">Unfair Advantage</div><div class="kv-val">${esc(vp.unfair_advantage||"—")}</div></div>
+      </div>`},
+    {t:"Customer Segments",html:`
+      <div class="card-grid" style="margin-bottom:10px">
+        <div class="mini-card"><div class="mini-card-label">Primary Segment</div><div class="mini-card-value">${esc((cs.primary||{}).profile||"—")}</div><div class="mini-card-sub">Pain: ${esc((cs.primary||{}).pain_intensity||"")} · WTP: ${esc((cs.primary||{}).willingness_to_pay||"")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Secondary Segment</div><div class="mini-card-value">${esc((cs.secondary||{}).profile||"—")}</div><div class="mini-card-sub">${esc((cs.secondary||{}).why_secondary||"")}</div></div>
+      </div>
+      ${cs.persona?`<div class="mini-card"><div class="mini-card-label">Persona — ${esc(cs.persona.name||"")} (${esc(cs.persona.role||"")})</div><div class="kv-list" style="margin-top:6px">
+        <div class="kv-row"><div class="kv-key">Goal</div><div class="kv-val">${esc(cs.persona.goal||"")}</div></div>
+        <div class="kv-row"><div class="kv-key">Frustration</div><div class="kv-val">${esc(cs.persona.frustration||"")}</div></div>
+        <div class="kv-row"><div class="kv-key">Trigger</div><div class="kv-val">${esc(cs.persona.trigger||"")}</div></div>
+      </div></div>`:""}` },
+    {t:"Revenue Model",html:`
+      <div class="mini-card" style="margin-bottom:8px">
+        <div class="mini-card-label">Primary Stream</div>
+        <div class="kv-list" style="margin-top:4px">
+          <div class="kv-row"><div class="kv-key">Model</div><div class="kv-val">${esc((rm.primary_stream||{}).model||"—")}</div></div>
+          <div class="kv-row"><div class="kv-key">Pricing</div><div class="kv-val">${esc((rm.primary_stream||{}).pricing||"—")}</div></div>
+          <div class="kv-row"><div class="kv-key">Billing</div><div class="kv-val">${esc((rm.primary_stream||{}).billing||"—")}</div></div>
+          <div class="kv-row"><div class="kv-key">Rationale</div><div class="kv-val">${esc((rm.primary_stream||{}).rationale||"—")}</div></div>
+        </div>
+      </div>
+      <div class="card-grid-3">
+        <div class="mini-card"><div class="mini-card-label">ARPU</div><div class="mini-card-value">${esc((rm.unit_economics||{}).arpu||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">CAC</div><div class="mini-card-value">${esc((rm.unit_economics||{}).cac||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">LTV</div><div class="mini-card-value">${esc((rm.unit_economics||{}).ltv||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">LTV:CAC</div><div class="mini-card-value">${esc((rm.unit_economics||{}).ltv_cac_ratio||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Gross Margin</div><div class="mini-card-value">${esc((rm.unit_economics||{}).gross_margin||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Secondary Streams</div><div class="mini-card-value" style="font-size:11px">${(rm.secondary_streams||[]).map(s=>esc(s)).join(", ")||"—"}</div></div>
+      </div>`},
+    {t:"Go-to-Market",html:`
+      <div class="kv-list" style="margin-bottom:10px">
+        <div class="kv-row"><div class="kv-key">Launch Market</div><div class="kv-val">${esc(gtm.launch_market||"—")}</div></div>
+      </div>
+      <div class="mini-card-label" style="margin-bottom:6px">Acquisition Playbook</div>
+      <div class="phase-steps">
+        ${["first_10","first_100","first_1000"].map((k,i)=>`<div class="phase-step"><div class="phase-num">${["10","100","1K"][i]}</div><div class="phase-text">${esc((gtm.acquisition_playbook||{})[k]||"—")}</div></div>`).join("")}
+      </div>
+      ${(gtm.key_partnerships||[]).length?`<div class="mini-card-label" style="margin:10px 0 5px">Key Partnerships</div><div class="tag-row">${(gtm.key_partnerships||[]).map(p=>`<span class="tag">${esc(p)}</span>`).join("")}</div>`:""}`},
+    {t:"Cost Structure",html:`
+      <div class="card-grid" style="margin-bottom:8px">
+        <div class="mini-card"><div class="mini-card-label">Monthly Burn</div><div class="mini-card-value">${esc(cost.monthly_burn||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Months to Breakeven</div><div class="mini-card-value">${esc(cost.runway_to_breakeven_months||"—")}</div></div>
+      </div>
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">Infrastructure</div><div class="kv-val">${esc((cost.fixed_costs||{}).infrastructure||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">Team</div><div class="kv-val">${esc((cost.fixed_costs||{}).team||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">COGS</div><div class="kv-val">${esc((cost.variable_costs||{}).cogs||"—")}</div></div>
+      </div>`},
+    {t:"Risks",badge:"badge-warn",badgeTxt:"Review",html:(d.risks||[]).map((r,i)=>`
+      <div class="risk-item ${i%2===0?"r-amber":"r-red"}">
+        <div><div class="risk-name">${esc(r.name||"Risk "+i)}</div>
+        <div class="risk-desc">${esc(r.description||"")}</div>
+        ${r.mitigation?`<div class="risk-mit">→ ${esc(r.mitigation)}</div>`:""}</div>
+      </div>`).join("")||"<p style='color:var(--muted)'>No risks listed.</p>"},
+    {t:"Verdict",html:`
+      <div class="verdict-box">
+        <div class="score-pill" style="margin-bottom:10px">Viability: ${esc(verdict.viability_score||"—")}</div>
+        <div class="highlight-box"><div class="highlight-label">First Milestone</div><div class="highlight-text">${esc(verdict.first_milestone||"—")}</div></div>
+        <div class="highlight-box" style="background:var(--orange-bg);border-color:#fed7aa"><div class="highlight-label">Biggest Bet</div><div class="highlight-text">${esc(verdict.biggest_bet||"—")}</div></div>
+        <div class="highlight-box" style="background:var(--surface2);border-color:var(--border)"><div class="highlight-label">Honest Assessment</div><div class="highlight-text">${esc(verdict.honest_assessment||"—")}</div></div>
+      </div>`},
+  ];
+  return sections.map((s,i)=>makeAccordion(s.t,s.badge||"",s.badgeTxt||"",s.html,pid,i)).join("");
 }
 
-// ─────────────────────────────────────────
-// Status & stats
-// ─────────────────────────────────────────
-function setStatus(type, label) {
-  const cls = {idle:"badge-idle",run:"badge-run",done:"badge-done",err:"badge-err"};
-  const el = document.getElementById("statusBadge");
-  el.className = "badge " + (cls[type] || "badge-idle");
-  el.innerHTML = `<span class="dot"></span>${label}`;
+function renderRevenue(d,pid){
+  const a=d.assumptions||{};const ue=d.unit_economics||{};const fr=d.funding_requirements||{};const sa=d.sensitivity_analysis||{};
+  const months=d.monthly_projections||[];const ann=d.annual_summary||{};
+  const sections=[
+    {t:"Assumptions",html:`
+      <div class="card-grid-3">
+        <div class="mini-card"><div class="mini-card-label">Business Type</div><div class="mini-card-value" style="font-size:12px">${esc(a.business_type||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Starting Customers</div><div class="mini-card-value">${esc(a.starting_customers||0)}</div></div>
+        <div class="mini-card"><div class="mini-card-label">ARPU</div><div class="mini-card-value">${esc(a.arpu||0)} ${esc(a.currency||"")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Churn (Monthly)</div><div class="mini-card-value">${((a.churn_rate_monthly||0)*100).toFixed(1)}%</div></div>
+        <div class="mini-card"><div class="mini-card-label">Base Growth/Mo</div><div class="mini-card-value">${((a.monthly_growth_rate_base||0)*100).toFixed(1)}%</div></div>
+        <div class="mini-card"><div class="mini-card-label">Gross Margin</div><div class="mini-card-value">${((a.gross_margin||0)*100).toFixed(0)}%</div></div>
+      </div>`},
+    {t:"Monthly Projections (Year 1)",html:months.length?`
+      <div style="overflow-x:auto"><table class="month-table">
+        <thead><tr><th>Mo</th><th>Customers</th><th>MRR</th><th>Churn</th><th>Net New</th><th>Cum. Revenue</th></tr></thead>
+        <tbody>${months.map(m=>`<tr><td>${m.month}</td><td>${m.customers?.toLocaleString()||0}</td><td>${fmt(m.mrr)}</td><td>${m.churn||0}</td><td>${m.net_new||0}</td><td>${fmt(m.cumulative_revenue)}</td></tr>`).join("")}</tbody>
+      </table></div>`:"<p style='color:var(--muted)'>No monthly data.</p>"},
+    {t:"3-Year Scenarios",html:`
+      <div class="scenario-grid">
+        <div class="scenario-card cons"><div class="scenario-label">Conservative</div><div class="scenario-val">${fmt(ann.conservative?.year3_arr)}</div><div class="scenario-sub">Y3 ARR · ${(ann.conservative?.customers_y3||0).toLocaleString()} customers</div></div>
+        <div class="scenario-card base"><div class="scenario-label">Base Case</div><div class="scenario-val">${fmt(ann.base_case?.year3_arr)}</div><div class="scenario-sub">Y3 ARR · ${(ann.base_case?.customers_y3||0).toLocaleString()} customers</div></div>
+        <div class="scenario-card opt"><div class="scenario-label">Optimistic</div><div class="scenario-val">${fmt(ann.optimistic?.year3_arr)}</div><div class="scenario-sub">Y3 ARR · ${(ann.optimistic?.customers_y3||0).toLocaleString()} customers</div></div>
+      </div>`},
+    {t:"Unit Economics",html:`
+      <div class="card-grid-3">
+        <div class="mini-card"><div class="mini-card-label">CAC</div><div class="mini-card-value">${fmt(ue.cac)}</div></div>
+        <div class="mini-card"><div class="mini-card-label">LTV</div><div class="mini-card-value">${fmt(ue.ltv)}</div></div>
+        <div class="mini-card"><div class="mini-card-label">LTV:CAC</div><div class="mini-card-value">${esc(ue.ltv_cac_ratio||"—")}x</div></div>
+        <div class="mini-card"><div class="mini-card-label">Payback</div><div class="mini-card-value">${esc(ue.payback_period_months||"—")} months</div></div>
+        <div class="mini-card"><div class="mini-card-label">Breakeven MRR</div><div class="mini-card-value">${fmt(ue.breakeven_mrr)}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Breakeven Month</div><div class="mini-card-value">Month ${esc(ue.breakeven_month||"—")}</div></div>
+      </div>`},
+    {t:"Funding Requirements",html:fr.total_needed?`
+      <div class="mini-card" style="margin-bottom:8px"><div class="mini-card-label">Total Needed</div><div class="mini-card-value">${fmt(fr.total_needed)}</div></div>
+      <div class="card-grid">
+        ${["product","marketing","team","operations"].map(k=>`<div class="mini-card"><div class="mini-card-label">${k.charAt(0).toUpperCase()+k.slice(1)}</div><div class="mini-card-value">${fmt((fr.allocation||{})[k+"_amount"])} <span style="font-size:11px;color:var(--muted)">(${(fr.allocation||{})[k+"_pct"]||0}%)</span></div></div>`).join("")}
+      </div>`:"<p style='color:var(--muted)'>No funding data.</p>"},
+    {t:"Sensitivity & Assessment",html:`
+      <div class="kv-list" style="margin-bottom:10px">
+        <div class="kv-row"><div class="kv-key">If churn +2%</div><div class="kv-val">${esc(sa.if_churn_up_2pct||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">If ARPU -20%</div><div class="kv-val">${esc(sa.if_arpu_down_20pct||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">If growth halved</div><div class="kv-val">${esc(sa.if_growth_halved||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">Key Lever</div><div class="kv-val">${esc(sa.key_lever||"—")}</div></div>
+      </div>
+      <div class="highlight-box" style="background:var(--surface2);border-color:var(--border)"><div class="highlight-label">Honest Assessment</div><div class="highlight-text">${esc(d.honest_assessment||"—")}</div></div>`},
+  ];
+  return sections.map((s,i)=>makeAccordion(s.t,"","",s.html,pid,i)).join("");
 }
 
-function updateStats() {
-  document.getElementById("sDocs").textContent  = stats.docs;
-  document.getElementById("sPlans").textContent = stats.plans;
-  document.getElementById("sFlags").textContent = stats.flags;
+function renderMarket(d,pid){
+  const md=d.market_definition||{};const td=d.top_down||{};const bu=d.bottom_up||{};
+  const dyn=d.market_dynamics||{};const cl=d.competitive_landscape||{};const sv=d.sizing_verdict||{};
+  const sections=[
+    {t:"Market Definition",html:`
+      <div class="card-grid-3">
+        <div class="mini-card"><div class="mini-card-label">Industry</div><div class="mini-card-value">${esc(md.industry||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Geography</div><div class="mini-card-value">${esc(md.geography||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Time Horizon</div><div class="mini-card-value">${esc(md.time_horizon||"—")}</div></div>
+      </div>`},
+    {t:"TAM / SAM / SOM",html:`
+      <div class="card-grid-3" style="margin-bottom:10px">
+        <div class="mini-card"><div class="mini-card-label">TAM (India)</div><div class="mini-card-value">${esc((td.tam||{}).india||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">SAM</div><div class="mini-card-value">${esc((td.sam||{}).value||"—")}</div><div class="mini-card-sub">${esc((td.sam||{}).why_this_subset||"")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">SOM (Year 3)</div><div class="mini-card-value">${esc((td.som||{}).year3||"—")}</div></div>
+      </div>
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">TAM Global</div><div class="kv-val">${esc((td.tam||{}).global||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">Basis</div><div class="kv-val">${esc((td.tam||{}).source_basis||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">Market Share Assumption</div><div class="kv-val">${esc((td.som||{}).market_share_assumption||"—")}</div></div>
+      </div>`},
+    {t:"Bottom-Up Sizing",html:`
+      <div class="card-grid-3">
+        <div class="mini-card"><div class="mini-card-label">Target Universe</div><div class="mini-card-value">${(bu.target_universe||0).toLocaleString()}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Reachable</div><div class="mini-card-value">${(bu.reachable_via_channels||0).toLocaleString()} <span style="font-size:11px;color:var(--muted)">(${((bu.reachable_pct||0)*100).toFixed(0)}%)</span></div></div>
+        <div class="mini-card"><div class="mini-card-label">Convert Y1</div><div class="mini-card-value">${(bu.convert_year1||0).toLocaleString()}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Revenue Y1</div><div class="mini-card-value">${esc(bu.revenue_year1||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Revenue Y3</div><div class="mini-card-value">${esc(bu.revenue_year3||"—")}</div></div>
+        <div class="mini-card"><div class="mini-card-label">Revenue Y5</div><div class="mini-card-value">${esc(bu.revenue_year5||"—")}</div></div>
+      </div>`},
+    {t:"Market Dynamics",html:`
+      <div class="card-grid" style="margin-bottom:8px">
+        <div class="mini-card"><div class="mini-card-label">CAGR</div><div class="mini-card-value">${esc(dyn.cagr_pct||0)}%</div></div>
+        <div class="mini-card"><div class="mini-card-label">Growth Driver</div><div class="mini-card-value" style="font-size:12px">${esc(dyn.growth_driver||"—")}</div></div>
+      </div>
+      <div class="card-grid">
+        <div class="mini-card"><div class="mini-card-label" style="color:var(--green)">Tailwinds</div><ul class="ul-clean">${(dyn.tailwinds||[]).map(t=>`<li>${esc(t)}</li>`).join("")||"<li>—</li>"}</ul></div>
+        <div class="mini-card"><div class="mini-card-label" style="color:var(--red)">Headwinds</div><ul class="ul-clean">${(dyn.headwinds||[]).map(t=>`<li>${esc(t)}</li>`).join("")||"<li>—</li>"}</ul></div>
+      </div>`},
+    {t:"Competitive Landscape",html:`
+      <div class="mini-card-label" style="margin-bottom:6px">Direct Competitors</div>
+      ${(cl.direct_competitors||[]).map(c=>`<div class="comp-row"><div class="comp-name">${esc(c.name||"")}</div><div class="comp-detail">${esc(c.description||"")} · Est. Revenue: ${esc(c.est_revenue||"?")} · Weakness: ${esc(c.weakness||"")}</div></div>`).join("")||"<p style='color:var(--muted)'>None listed.</p>"}
+      <div class="mini-card-label" style="margin:10px 0 6px">Your Position</div>
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">Where you win</div><div class="kv-val">${esc((cl.your_position||{}).where_you_win||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">Where weaker</div><div class="kv-val">${esc((cl.your_position||{}).where_youre_weaker||"—")}</div></div>
+        <div class="kv-row"><div class="kv-key">Defensibility</div><div class="kv-val">${esc((cl.your_position||{}).defensibility||"—")} — ${esc((cl.your_position||{}).defensibility_reason||"")}</div></div>
+      </div>`},
+    {t:"Sizing Verdict",html:`
+      <div class="verdict-box">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div class="score-pill">VC-Backable: ${esc(sv.vc_backable||"—")}</div>
+          <div style="font-size:11.5px;color:var(--txt2)">Time to position: ${esc(sv.time_to_market_position_years||"—")} years</div>
+        </div>
+        <div class="highlight-box"><div class="highlight-label">Explanation</div><div class="highlight-text">${esc(sv.explanation||"—")}</div></div>
+        <div class="highlight-box green"><div class="highlight-label">Ideal Beachhead</div><div class="highlight-text">${esc(sv.ideal_beachhead||"—")}</div></div>
+      </div>`},
+  ];
+  return sections.map((s,i)=>makeAccordion(s.t,"","",s.html,pid,i)).join("");
 }
 
-function addRecent(text, a, m) {
-  const list = document.getElementById("recentList");
-  const empty = list.querySelector(".muted-note");
-  if (empty) empty.remove();
-  const item = document.createElement("div");
-  item.className = "recent-item";
-  item.innerHTML = `<div class="ri-dot"></div>${esc(text.slice(0,52))}${text.length>52?"…":""}`;
-  item.onclick = () => loadHint(a, m, text);
-  list.prepend(item);
-  while (list.children.length > 6) list.lastChild.remove();
+function renderPitch(d,pid){
+  const slides=[
+    {num:"Slide 1",title:"Cover",body:`<div class="kv-list"><div class="kv-row"><div class="kv-key">Company</div><div class="kv-val">${esc((d.cover||{}).company_name||"—")}</div></div><div class="kv-row"><div class="kv-key">One-Liner</div><div class="kv-val">${esc((d.cover||{}).one_liner||"—")}</div></div><div class="kv-row"><div class="kv-key">Tagline</div><div class="kv-val">${esc((d.cover||{}).tagline||"—")}</div></div></div>`},
+    {num:"Slide 2",title:"Problem",body:`<p style="margin-bottom:8px">${esc((d.problem||{}).narrative||"—")}</p><div class="tag-row">${((d.problem||{}).key_stats||[]).map(s=>`<span class="tag">${esc(s)}</span>`).join("")}</div>`},
+    {num:"Slide 3",title:"Solution",body:`<p style="margin-bottom:8px">${esc((d.solution||{}).narrative||"—")}</p>${((d.solution||{}).core_features||[]).map(f=>`<div class="kv-row"><div class="kv-key">${esc(f.feature||"")}</div><div class="kv-val">${esc(f.benefit||"")}</div></div>`).join("")}`},
+    {num:"Slide 4",title:"Why Now",body:`<p style="margin-bottom:8px">${esc((d.why_now||{}).narrative||"—")}</p><ul class="ul-clean">${((d.why_now||{}).timing_factors||[]).map(t=>`<li>${esc(t)}</li>`).join("")}</ul>`},
+    {num:"Slide 5",title:"Market Size",body:`<div class="card-grid-3"><div class="mini-card"><div class="mini-card-label">TAM</div><div class="mini-card-value">${esc((d.market_size||{}).tam||"—")}</div></div><div class="mini-card"><div class="mini-card-label">SAM</div><div class="mini-card-value">${esc((d.market_size||{}).sam||"—")}</div></div><div class="mini-card"><div class="mini-card-label">SOM</div><div class="mini-card-value">${esc((d.market_size||{}).som||"—")}</div></div></div><p style="margin-top:8px;font-size:12px;color:var(--txt2)">${esc((d.market_size||{}).narrative||"")}</p>`},
+    {num:"Slide 6",title:"Business Model",body:`<p style="margin-bottom:8px">${esc((d.business_model||{}).how_we_make_money||"—")}</p>${((d.business_model||{}).tiers||[]).map(t=>`<div class="comp-row"><div class="comp-name">${esc(t.plan||"")} · ${esc(t.price||"")}</div><div class="comp-detail">${esc(t.features||"")}</div></div>`).join("")}`},
+    {num:"Slide 7",title:"Traction",body:`<ul class="ul-clean">${((d.traction||{}).highlights||[]).map(h=>`<li>${esc(h)}</li>`).join("")||"<li>Pre-revenue / building</li>"}</ul>`},
+    {num:"Slide 8",title:"Go-to-Market",body:`<div class="phase-steps">${["phase1","phase2","phase3"].map((k,i)=>`<div class="phase-step"><div class="phase-num">P${i+1}</div><div class="phase-text">${esc((d.go_to_market||{})[k]||"—")}</div></div>`).join("")}</div><div class="kv-list" style="margin-top:8px"><div class="kv-row"><div class="kv-key">CAC</div><div class="kv-val">${esc((d.go_to_market||{}).cac||"—")}</div></div><div class="kv-row"><div class="kv-key">LTV</div><div class="kv-val">${esc((d.go_to_market||{}).ltv||"—")}</div></div><div class="kv-row"><div class="kv-key">Payback</div><div class="kv-val">${esc((d.go_to_market||{}).payback_months||"—")} months</div></div></div>`},
+    {num:"Slide 9",title:"Competition",body:`${((d.competition||{}).competitors||[]).map(c=>`<div class="comp-row"><div class="comp-name">${esc(c.name||"")}</div><div class="comp-detail">${esc(c.position||"")} · Weakness: ${esc(c.weakness||"")}</div></div>`).join("")}<div class="highlight-box green" style="margin-top:8px"><div class="highlight-label">Why We Win</div><div class="highlight-text">${esc((d.competition||{}).why_we_win||"—")}</div></div>`},
+    {num:"Slide 10",title:"Team",body:`${((d.team||{}).members||[]).map(m=>`<div class="comp-row"><div class="comp-name">${esc(m.name||"")} · ${esc(m.role||"")}</div><div class="comp-detail">${esc(m.bio||"")}</div></div>`).join("")}<div class="kv-list" style="margin-top:6px"><div class="kv-row"><div class="kv-key">Why This Team</div><div class="kv-val">${esc((d.team||{}).why_this_team||"—")}</div></div></div>`},
+    {num:"Slide 11",title:"Financials",body:`<div class="card-grid-3">${["year1","year2","year3"].map(y=>`<div class="mini-card"><div class="mini-card-label">${y.replace("year","Year ")}</div><div class="mini-card-value">${esc((d.financials||{})[y]?.revenue||"—")}</div><div class="mini-card-sub">Burn: ${esc((d.financials||{})[y]?.burn_per_month||"—")}/mo · ${(d.financials||{})[y]?.headcount||0} hires</div></div>`).join("")}</div>`},
+    {num:"Slide 12",title:"The Ask",body:`<div class="verdict-box"><div class="score-pill" style="margin-bottom:10px">${esc((d.ask||{}).amount||"—")} · ${esc((d.ask||{}).round_type||"")}</div>${((d.ask||{}).use_of_funds||[]).map(f=>`<div class="kv-row"><div class="kv-key">${esc(f.category||"")} (${f.pct||0}%)</div><div class="kv-val">${esc(f.amount||"")} — ${esc(f.purpose||"")}</div></div>`).join("")}<div class="highlight-box" style="margin-top:8px"><div class="highlight-label">Milestones</div><div class="kv-list"><div class="kv-row"><div class="kv-key">6 months</div><div class="kv-val">${esc((d.ask||{}).milestones?.m6||"—")}</div></div><div class="kv-row"><div class="kv-key">12 months</div><div class="kv-val">${esc((d.ask||{}).milestones?.m12||"—")}</div></div><div class="kv-row"><div class="kv-key">18 months</div><div class="kv-val">${esc((d.ask||{}).milestones?.m18||"—")}</div></div></div></div></div>`},
+    {num:"Coaching",title:"Pitch Coaching",body:`<div class="highlight-box blue"><div class="highlight-label">Opening Hook</div><div class="highlight-text">${esc((d.pitch_coaching||{}).opening_hook||"—")}</div></div><div class="kv-list" style="margin-top:8px"><div class="kv-row"><div class="kv-key">Hardest Q</div><div class="kv-val"><strong>${esc((d.pitch_coaching||{}).hardest_question?.question||"")}</strong><br>${esc((d.pitch_coaching||{}).hardest_question?.answer||"")}</div></div><div class="kv-row"><div class="kv-key">2nd Hardest Q</div><div class="kv-val"><strong>${esc((d.pitch_coaching||{}).second_hardest_question?.question||"")}</strong><br>${esc((d.pitch_coaching||{}).second_hardest_question?.answer||"")}</div></div></div><div class="highlight-box" style="margin-top:8px"><div class="highlight-label">Closing Line</div><div class="highlight-text">"${esc((d.pitch_coaching||{}).closing_line||"—")}"</div></div>`},
+  ];
+  return slides.map((s,i)=>makeAccordion(`${s.num}: ${s.title}`,"","",s.body,pid,i)).join("");
 }
 
-// ─────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────
-function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ""; }
-function scrollBottom() { const ws = document.getElementById("workspace"); ws.scrollTop = ws.scrollHeight; }
+function renderSwot(d,pid){
+  const sections=[
+    {t:"SWOT Overview",html:`
+      <p style="margin-bottom:12px;font-size:12.5px;color:var(--txt2)">${esc(d.business_context||"")}</p>
+      <div class="swot-grid">
+        <div class="swot-quad s"><div class="swot-quad-title">Strengths</div>${(d.strengths||[]).map(s=>`<div class="swot-item"><span class="swot-id">${esc(s.id)}</span><span><strong>${esc(s.name)}</strong> — ${esc(s.description)}</span></div>`).join("")}</div>
+        <div class="swot-quad w"><div class="swot-quad-title">Weaknesses</div>${(d.weaknesses||[]).map(s=>`<div class="swot-item"><span class="swot-id">${esc(s.id)}</span><span><strong>${esc(s.name)}</strong> — ${esc(s.description)}</span></div>`).join("")}</div>
+        <div class="swot-quad o"><div class="swot-quad-title">Opportunities</div>${(d.opportunities||[]).map(s=>`<div class="swot-item"><span class="swot-id">${esc(s.id)}</span><span><strong>${esc(s.name)}</strong> — ${esc(s.description)}</span></div>`).join("")}</div>
+        <div class="swot-quad t"><div class="swot-quad-title">Threats</div>${(d.threats||[]).map(s=>`<div class="swot-item"><span class="swot-id">${esc(s.id)}</span><span><strong>${esc(s.name)}</strong> — ${esc(s.description)}</span></div>`).join("")}</div>
+      </div>`},
+    {t:"TOWS Strategic Actions",html:`
+      ${[{k:"so_strategies",l:"SO — Use Strengths to seize Opportunities",cls:"badge-good"},{k:"wo_strategies",l:"WO — Fix Weaknesses using Opportunities",cls:"badge-info"},{k:"st_strategies",l:"ST — Use Strengths to counter Threats",cls:"badge-warn"},{k:"wt_strategies",l:"WT — Minimise Weaknesses, avoid Threats",cls:"badge-critical"}].map(({k,l,cls})=>`
+        <div style="margin-bottom:12px"><div class="acc-badge ${cls}" style="margin-bottom:6px;display:inline-block">${l}</div>
+        ${((d.tows_matrix||{})[k]||[]).map(item=>`<div class="tows-item"><div class="tows-refs">${(item.references||[]).map(r=>`<span class="tows-ref">${esc(r)}</span>`).join("")}</div><div style="font-size:12px;line-height:1.5">${esc(item.action||"")}</div></div>`).join("")}</div>`).join("")}`},
+    {t:"Priority Action Matrix",html:(d.priority_matrix||[]).map((p,i)=>`
+      <div class="priority-item"><div class="priority-num p${Math.min(p.priority||i+1,4)}">${p.priority||i+1}</div>
+      <div class="priority-content"><div class="priority-action">${esc(p.action||"")}</div>
+      <div class="priority-meta">${esc(p.timeline||"")} · Impact: ${esc(p.impact||"")}</div></div></div>`).join("")},
+    {t:"Strategic Verdict",html:`
+      <div class="verdict-box">
+        <div class="score-pill" style="margin-bottom:10px">Position: ${esc((d.verdict||{}).overall_position||"—")}</div>
+        <div class="highlight-box"><div class="highlight-label">Position Reason</div><div class="highlight-text">${esc((d.verdict||{}).position_reason||"—")}</div></div>
+        <div class="highlight-box green"><div class="highlight-label">One Thing That Changes Everything</div><div class="highlight-text">${esc((d.verdict||{}).one_thing_that_changes_everything||"—")}</div></div>
+        <div class="highlight-box red"><div class="highlight-label">Biggest Existential Risk</div><div class="highlight-text">${esc((d.verdict||{}).biggest_existential_risk||"—")}</div></div>
+        <div class="highlight-box" style="background:var(--surface2);border-color:var(--border)"><div class="highlight-label">12-Month Strategic Focus</div><div class="highlight-text">${esc((d.verdict||{})["12_month_strategic_focus"]||"—")}</div></div>
+      </div>`},
+  ];
+  return sections.map((s,i)=>makeAccordion(s.t,"","",s.html,pid,i)).join("");
+}
 
-// ─────────────────────────────────────────
-// FIX 2: Proper markdown → sections parser
-// Handles ## headings, **bold headings**, numbered sections
-// ─────────────────────────────────────────
-function parseMarkdownSections(content) {
-  const text = String(content || "");
-  const lines = text.split(/\r?\n/);
-  const sections = [];
-  let currentTitle = null;
-  let buf = [];
+// ═══════════════════════════════════════════════
+// LEGAL RENDERER — backend returns { content: string }
+// Parses the ━━━ delimited text into sections
+// ═══════════════════════════════════════════════
+function parseLegalSections(raw){
+  const text=String(raw||"").trim();
+  const parts=text.split(/\n[━─═\-]{10,}\n/);
+  const sections=[];
+  parts.forEach((part,idx)=>{
+    const trimmed=part.trim();if(!trimmed)return;
+    const lines=trimmed.split("\n");
+    const first=lines[0].trim();
+    const isTitle=first.length<90&&(/^[A-Z][A-Z\s\/&:—–\-✓⚠🔴□📋📌]{4,}$/.test(first)||/^[🔴⚠✓📋📌]/.test(first)||/^(DOCUMENT|KEY|MISSING|RISK|BEFORE|INDIA|UAE|US|ANNUAL|ESTIMATED|HELPFUL|RECOMMENDED|IMMEDIATE|FOUNDER|OVERALL|COMPLIANCE|PHASE|PRIVACY|DATA|YOUR|SECTION|HIGH|MEDIUM|USER|VERDICT|CONTRACT|STARTUP|BUSINESS)/i.test(first));
+    const title=isTitle?first.replace(/^[⚠🔴✓□📋📌\s]+/,"").trim():`Section ${idx+1}`;
+    const body=isTitle?lines.slice(1).join("\n").trim():trimmed;
+    if(body||title)sections.push({title,body});
+  });
+  return sections.length>1?sections.filter(s=>s.body&&s.body.trim().length>3):[{title:"Full Report",body:text}];
+}
 
-  function flush() {
-    if (currentTitle !== null) {
-      sections.push({ title: currentTitle, body: buf.join("\n").trim() });
+function renderLegalBody(body){
+  if(!body||!body.trim())return`<p style="color:var(--muted);font-style:italic">—</p>`;
+  const lines=body.split("\n");
+  let html="",inList=false;
+  const inline=s=>esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\*(.+?)\*/g,"<em>$1</em>");
+
+  lines.forEach(raw=>{
+    const line=raw.trim();
+    if(!line){if(inList){html+=`</ul>`;inList=false;}return;}
+    if(/^[━─═]{5,}/.test(line)){if(inList){html+=`</ul>`;inList=false;}html+=`<hr style="border:none;border-top:1px solid var(--border2);margin:8px 0"/>`;return;}
+    // Pipe table
+    if(line.includes("|")&&(line.match(/\|/g)||[]).length>=2){
+      if(inList){html+=`</ul>`;inList=false;}
+      // Handled in batch below, skip for now
     }
-    buf = [];
+    // Checkbox
+    if(/^[□☐]/.test(line)){if(inList){html+=`</ul>`;inList=false;}html+=`<div class="checklist-item"><div class="check-sq"></div><span>${inline(line.replace(/^[□☐]\s*/,""))}</span></div>`;return;}
+    // Risk flags
+    const flagCls=/🔴|RED FLAG|CRITICAL|HIGH RISK|Do not sign/i.test(line)?"f-red":/⚠|MEDIUM|REVIEW|CAUTION/i.test(line)?"f-amber":/✓|Standard|LOW|Acceptable|Safe/i.test(line)&&line.length<100?"f-green":null;
+    if(flagCls&&line.length<150){if(inList){html+=`</ul>`;inList=false;}html+=`<div class="flag-box ${flagCls}"><span class="flag-icon">${flagCls==="f-red"?"🔴":flagCls==="f-amber"?"⚠":"✓"}</span><div class="flag-text">${inline(line)}</div></div>`;return;}
+    // Bullet
+    if(/^[-*•]\s+/.test(line)||/^\d+[\).]\s+/.test(line)){if(!inList){html+=`<ul class="legal-body">`;inList=true;}html+=`<li>${inline(line.replace(/^[-*•]\s+|^\d+[\).]\s+/,""))}</li>`;return;}
+    // KV
+    const kv=line.match(/^([A-Za-z][A-Za-z\s\/&]{1,35}):\s+(.+)$/);
+    if(kv&&kv[2]&&!line.startsWith("http")){if(inList){html+=`</ul>`;inList=false;}html+=`<div class="legal-kv"><div class="legal-kv-key">${esc(kv[1])}</div><div class="legal-kv-val">${inline(kv[2])}</div></div>`;return;}
+    // Quote
+    if(/^[""]/.test(line)||line.startsWith('"')){if(inList){html+=`</ul>`;inList=false;}html+=`<div class="legal-quote">${esc(line)}</div>`;return;}
+    // Plain
+    if(inList){html+=`</ul>`;inList=false;}
+    html+=`<p style="margin:0 0 5px;font-size:12.5px;line-height:1.7">${inline(line)}</p>`;
+  });
+  if(inList)html+=`</ul>`;
+  return html||`<p style="color:var(--muted)">—</p>`;
+}
+
+// ═══════════════════════════════════════════════
+// Main renderResult — routes to correct renderer
+// ═══════════════════════════════════════════════
+function renderResult(responseData, mode, cfg){
+  const pid="r"+Date.now();
+  const colorMap={amber:"color:var(--amber)",green:"color:var(--green)",blue:"color:var(--blue)",violet:"color:var(--violet)",red:"color:var(--red)",teal:"color:var(--teal)"};
+  const colStyle=colorMap[cfg.color]||"color:var(--amber)";
+
+  // Determine what we got from backend
+  // Strategy: { status, mode, data: <object> }  or fallback { status, mode, content: <string> }
+  // Legal:    { status, mode, content: <string> }
+  const jsonData=responseData.data;       // strategy JSON object
+  const textContent=responseData.content; // legal text OR strategy fallback
+
+  let sectionsHtml="";
+  if(jsonData&&typeof jsonData==="object"){
+    // Strategy modes — render from structured JSON
+    if(mode==="business_model")sectionsHtml=renderBusinessModel(jsonData,pid);
+    else if(mode==="revenue")sectionsHtml=renderRevenue(jsonData,pid);
+    else if(mode==="market")sectionsHtml=renderMarket(jsonData,pid);
+    else if(mode==="pitch")sectionsHtml=renderPitch(jsonData,pid);
+    else if(mode==="swot")sectionsHtml=renderSwot(jsonData,pid);
+    else sectionsHtml=`<div class="acc-body"><pre style="font-size:11px;white-space:pre-wrap">${esc(JSON.stringify(jsonData,null,2))}</pre></div>`;
+  } else if(textContent){
+    // Legal modes — parse text into sections
+    const sections=parseLegalSections(textContent);
+    sectionsHtml=sections.map((sec,i)=>{
+      const badge=/RED FLAG|CRITICAL|HIGH RISK|URGENT/i.test(sec.title)?"badge-critical":
+                  /REVIEW|NEGOTIATE|MISSING|MEDIUM/i.test(sec.title)?"badge-warn":
+                  /CHECKLIST|IMMEDIATE|PRIORITY|RIGHTS/i.test(sec.title)?"badge-good":"";
+      const badgeTxt=badge==="badge-critical"?"⚠ Critical":badge==="badge-warn"?"Review":badge==="badge-good"?"Action":"";
+      return makeAccordion(sec.title,badge,badgeTxt,`<div class="acc-body" style="padding:0">${renderLegalBody(sec.body)}</div>`,pid,i);
+    }).join("");
+  } else {
+    sectionsHtml=`<div class="acc-body"><p style="color:var(--muted)">No renderable content.</p></div>`;
   }
 
-  lines.forEach(line => {
-    // Match ## Heading or # Heading
-    const mdH = line.match(/^#{1,3}\s+(.+)/);
-    if (mdH) {
-      flush();
-      currentTitle = mdH[1].replace(/[*_`#]/g,"").trim();
-      return;
-    }
-    // Match **Heading** on its own line
-    const boldH = line.match(/^\*\*([^*]+)\*\*\s*:?\s*$/);
-    if (boldH && line.trim().length < 80) {
-      flush();
-      currentTitle = boldH[1].trim();
-      return;
-    }
-    // Match "1. Title:" or "1) Title:" patterns
-    const numH = line.match(/^\d+[\).]\s+([A-Z][^\n]{2,50}):?\s*$/);
-    if (numH && line.trim().length < 80) {
-      flush();
-      currentTitle = numH[1].trim();
-      return;
-    }
-    buf.push(line);
-  });
-  flush();
-
-  // Fallback: no headings found, return as single section
-  if (sections.length === 0 || (sections.length === 1 && !sections[0].title)) {
-    return [{ title: "Full Report", body: text.trim() }];
-  }
-  return sections.filter(s => s.title || s.body);
-}
-
-function renderSectionBody(text) {
-  if (!text || !text.trim()) return `<p style="color:var(--muted);font-style:italic">—</p>`;
-
-  const lines = text.split(/\r?\n/);
-  let html = "";
-  let inList = false;
-
-  const processInline = (s) => s
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-    .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
-    .replace(/\*(.+?)\*/g,"<em>$1</em>")
-    .replace(/`(.+?)`/g,`<code style="background:#f0ede8;padding:1px 5px;border-radius:3px;font-size:12px;font-family:'DM Mono',monospace">$1</code>`);
-
-  lines.forEach(rawLine => {
-    const line = rawLine.trim();
-    if (!line) {
-      if (inList) { html += "</ul>"; inList = false; }
-      return;
-    }
-    const isBullet = /^[-*•]\s+/.test(line) || /^\d+[\).]\s+/.test(line);
-    const content = processInline(line.replace(/^[-*•]\s+|^\d+[\).]\s+/,""));
-    if (isBullet) {
-      if (!inList) { html += `<ul>`; inList = true; }
-      html += `<li>${content}</li>`;
-    } else {
-      if (inList) { html += `</ul>`; inList = false; }
-      html += `<p>${content}</p>`;
-    }
-  });
-
-  if (inList) html += `</ul>`;
-  return html || `<p>—</p>`;
-}
-
-// ─────────────────────────────────────────
-// Render structured result
-// ─────────────────────────────────────────
-function renderResult(content, cfg) {
-  const pid = "r" + Date.now();
-  const colorMap = {amber:"",green:"green",blue:"blue",violet:"violet",red:"red",teal:"teal"};
-  const rdClass = colorMap[cfg.color] || "";
-  const sections = parseMarkdownSections(content);
-
-  const outer = document.createElement("div");
-
-  const block = document.createElement("div");
-  block.className = "result-block";
-  block.innerHTML = `
+  const outer=document.createElement("div");
+  const block=document.createElement("div");
+  block.className="result-block";
+  block.innerHTML=`
     <div class="result-hd">
-      <div class="result-hd-left ${rdClass}">
+      <div class="result-hd-title" style="${colStyle}">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${cfg.svg}</svg>
         ${cfg.label}
       </div>
       <button class="copy-btn" id="cpbtn-${pid}">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        Copy all
+        Copy
       </button>
     </div>
-    <div class="result-body" id="${pid}">
-      ${sections.map((sec, i) => `
-        <div class="result-sec">
-          <div class="result-sec-head" data-target="${pid}-sec-${i}">
-            <div class="result-sec-title">${esc(sec.title || "Section " + (i+1))}</div>
-            <svg class="result-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </div>
-          <div class="result-sec-content" id="${pid}-sec-${i}">${renderSectionBody(sec.body)}</div>
-        </div>`).join("")}
-    </div>`;
-
+    <div class="result-body">${sectionsHtml}</div>`;
   outer.appendChild(block);
 
-  // Download button
-  const dlRow = document.createElement("div");
-  dlRow.className = "dl-row";
-  const dlBtn = document.createElement("button");
-  dlBtn.className = "dl-btn dl-txt";
-  dlBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download .txt`;
-  dlBtn.onclick = () => {
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([content],{type:"text/plain"}));
-    a.download = `stremini-${cfg.label.toLowerCase().replace(/\s+/g,"-")}-${Date.now()}.txt`;
-    a.click();
-  };
-  dlRow.appendChild(dlBtn);
-  outer.appendChild(dlRow);
+  // Download
+  const dlRow=document.createElement("div");dlRow.className="dl-row";
+  const dlBtn=document.createElement("button");dlBtn.className="dl-btn";
+  const exportStr=jsonData?JSON.stringify(jsonData,null,2):(textContent||"");
+  const ext=jsonData?".json":".txt";
+  dlBtn.innerHTML=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download ${ext}`;
+  dlBtn.onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([exportStr],{type:"text/plain"}));a.download=`stremini-${mode}-${Date.now()}${ext}`;a.click();};
+  dlRow.appendChild(dlBtn);outer.appendChild(dlRow);
 
-  // Wire accordion + copy after paint
-  requestAnimationFrame(() => {
-    block.querySelectorAll(".result-sec-head").forEach(head => {
-      head.addEventListener("click", () => {
-        const id = head.getAttribute("data-target");
-        const contentEl = document.getElementById(id);
-        const chev = head.querySelector(".result-chevron");
-        if (!contentEl) return;
-        const isClosed = contentEl.classList.toggle("closed");
-        chev.classList.toggle("open", !isClosed);
+  // Wire accordion + copy
+  requestAnimationFrame(()=>{
+    block.querySelectorAll(".acc-head").forEach(h=>{
+      h.addEventListener("click",()=>{
+        const el=document.getElementById(h.getAttribute("data-target"));
+        const chev=h.querySelector(".chevron");if(!el)return;
+        const closed=el.classList.toggle("closed");chev.classList.toggle("open",!closed);
       });
     });
-    const cpBtn = document.getElementById("cpbtn-" + pid);
-    if (cpBtn) cpBtn.onclick = () => {
-      navigator.clipboard.writeText(content).then(() => {
-        cpBtn.textContent = "✓ Copied!";
-        setTimeout(() => { cpBtn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy all`; }, 2000);
-      }).catch(()=>{});
+    const cp=document.getElementById("cpbtn-"+pid);
+    if(cp)cp.onclick=()=>{
+      navigator.clipboard.writeText(exportStr).then(()=>{cp.textContent="✓ Copied";setTimeout(()=>{cp.innerHTML=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`;},2000);}).catch(()=>{});
     };
   });
-
   return outer;
 }
 
-// ─────────────────────────────────────────
-// FIX 3: handleRun — robust fetch + response parsing
-// No more whitelist status check, handles all response shapes,
-// shows real error messages when something goes wrong
-// ─────────────────────────────────────────
-async function handleRun() {
-  if (running) return;
+// ── Main run handler ──────────────────────
+async function handleRun(){
+  if(running)return;
+  const query=val("f-query");const document_=val("f-document");
+  const industry=val("f-industry");const stage=val("f-stage");const location=val("f-location");
+  const targetMarket=val("f-targetMarket");const jurisdiction=val("f-jurisdiction")||"India";const entityType=val("f-entityType")||"startup";
+  if(!query&&!document_){alert("Please fill in the description.");return;}
+  if(["contract","tnc","privacy"].includes(mode)&&!document_){alert("Please paste the document text.");return;}
+  running=true;const runBtn=document.getElementById("runBtn");if(runBtn)runBtn.disabled=true;
+  const labels={business_model:"Generating business model…",revenue:"Building projections…",market:"Sizing market…",pitch:"Writing pitch deck…",swot:"Running SWOT…",contract:"Reviewing contract…",tnc:"Flagging risks…",privacy:"Analysing privacy policy…",compliance:"Generating checklist…"};
+  setStatus("run",labels[mode]||"Processing…");
+  const rz=document.getElementById("resultZone");
+  rz.innerHTML=`<div class="thinking-card"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--muted)"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span style="font-size:12.5px;color:var(--txt2)">Stremini is working…</span><div class="dots" style="margin-left:auto"><span></span><span></span><span></span></div></div>`;
+  scrollBottom();addRecent(query||document_.slice(0,60),agent,mode);
 
-  const query      = val("f-query");
-  const document_  = val("f-document");
-  const industry   = val("f-industry");
-  const stage      = val("f-stage");
-  const location   = val("f-location");
-  const targetMarket = val("f-targetMarket");
-  const jurisdiction = val("f-jurisdiction") || "India";
-  const entityType   = val("f-entityType")   || "startup";
-
-  if (!query && !document_) { alert("Please fill in the description."); return; }
-  if (["contract","tnc","privacy"].includes(mode) && !document_) { alert("Please paste the document text to analyse."); return; }
-
-  running = true;
-  const runBtn = document.getElementById("runBtn");
-  if (runBtn) runBtn.disabled = true;
-
-  const statusLabels = {
-    business_model:"Generating business model…", revenue:"Building projections…",
-    market:"Sizing market…", pitch:"Writing pitch deck…", swot:"Running SWOT analysis…",
-    contract:"Reviewing contract…", tnc:"Flagging risks…",
-    privacy:"Analysing privacy policy…", compliance:"Generating checklist…",
-  };
-  setStatus("run", statusLabels[mode] || "Processing…");
-
-  const rz = document.getElementById("resultZone");
-  rz.innerHTML = `
-    <div class="thinking-card">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--muted)">
-        <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
-      </svg>
-      <span style="font-size:13px;color:var(--txt2)">Stremini is working…</span>
-      <div class="dots" style="margin-left:auto"><span></span><span></span><span></span></div>
-    </div>`;
-  scrollBottom();
-
-  addRecent(query || document_.slice(0, 60), agent, mode);
-
-  // Build request
-  let backend, reqBody;
-  if (agent === "strategy") {
-    backend = STRATEGY_BACKEND;
-    reqBody = JSON.stringify({
-      mode,
-      query,
-      context: { industry, stage, location, targetMarket },
-      responseFormat: "structured_actionable"
-    });
-  } else {
-    backend = LEGAL_BACKEND;
-    reqBody = JSON.stringify({
-      mode,
-      query,
-      documentText: document_,
-      jurisdiction,
-      entityType,
-      responseFormat: "structured_actionable"
-    });
+  let backend,reqBody;
+  if(agent==="strategy"){
+    backend=STRATEGY_BACKEND;
+    reqBody=JSON.stringify({mode,query,context:{industry,stage,location,targetMarket}});
+  }else{
+    backend=LEGAL_BACKEND;
+    reqBody=JSON.stringify({mode,query,documentText:document_,jurisdiction,entityType});
   }
 
-  let data;
-  try {
-    const res = await fetch(backend, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: reqBody
-    });
-
-    // Read as text first — avoids crash if response isn't valid JSON
-    const rawText = await res.text();
-
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status} — ${rawText.slice(0, 300)}`);
-    }
-
-    try {
-      data = JSON.parse(rawText);
-    } catch (_) {
-      // Worker returned plain text (not JSON) — wrap it directly
-      data = { status: "COMPLETED", content: rawText };
-    }
-  } catch (err) {
-    rz.innerHTML = "";
-    rz.appendChild(card("err", `Request failed: ${err.message}`));
-    setStatus("err", "Error");
-    running = false;
-    if (runBtn) runBtn.disabled = false;
-    return;
+  let responseData;
+  try{
+    const res=await fetch(backend,{method:"POST",headers:{"Content-Type":"application/json"},body:reqBody});
+    const raw=await res.text();
+    if(!res.ok)throw new Error(`HTTP ${res.status}: ${raw.slice(0,200)}`);
+    try{responseData=JSON.parse(raw);}catch(_){responseData={status:"COMPLETED",content:raw};}
+  }catch(err){
+    rz.innerHTML="";rz.appendChild(infoCard("err",`Request failed: ${err.message}`));
+    setStatus("err","Error");running=false;if(runBtn)runBtn.disabled=false;return;
   }
 
-  const modes = agent === "strategy" ? STRATEGY_MODES : LEGAL_MODES;
-  const cfg = modes[mode];
+  if(responseData.status==="ERROR"||responseData.error){
+    rz.innerHTML="";rz.appendChild(infoCard("err",responseData.message||responseData.error||"Agent returned an error."));
+    setStatus("err","Error");running=false;if(runBtn)runBtn.disabled=false;return;
+  }
 
-  // FIX: extract content from any field the worker might use
-  const rawContent =
-    data.content  ||
-    data.result   ||
-    data.data     ||
-    data.response ||
-    data.output   ||
-    data.text     ||
-    (typeof data.message === "string" && data.status !== "ERROR" ? data.message : "") ||
-    "";
+  const modes=agent==="strategy"?STRATEGY_MODES:LEGAL_MODES;
+  const cfg=modes[mode];
+  const hasData=responseData.data&&typeof responseData.data==="object";
+  const hasContent=responseData.content&&String(responseData.content).trim().length>20;
 
-  // FIX: accept any non-error status — no hardcoded whitelist
-  const isError = (data.status === "ERROR" || data.status === "error" || !!data.error) && !rawContent;
-
-  rz.innerHTML = "";
-
-  if (isError) {
-    const msg = data.message || data.error || "The agent returned an error. Please try again.";
-    rz.appendChild(card("err", msg));
-    setStatus("err", "Error");
-  } else if (rawContent) {
-    const sections = parseMarkdownSections(rawContent);
-    rz.appendChild(card("ok", `Report ready — ${sections.length} section${sections.length !== 1 ? "s" : ""}`));
-    rz.appendChild(renderResult(rawContent, cfg));
+  rz.innerHTML="";
+  if(hasData||hasContent){
+    rz.appendChild(infoCard("ok","Analysis complete"));
+    rz.appendChild(renderResult(responseData,mode,cfg));
     scrollBottom();
-
-    if (agent === "strategy") { stats.plans++; }
-    else if (["contract","tnc","privacy"].includes(mode)) { stats.flags++; stats.docs++; }
-    else { stats.docs++; }
-    updateStats();
-    setStatus("done", "Complete");
-  } else {
-    // Show raw response to help debug
-    const raw = JSON.stringify(data).slice(0, 400);
-    rz.appendChild(card("err", `No content found in response. Raw: ${raw}`));
-    setStatus("err", "Empty response");
+    if(agent==="strategy")stats.plans++;
+    else if(["contract","tnc","privacy"].includes(mode)){stats.flags++;stats.docs++;}
+    else stats.docs++;
+    updateStats();setStatus("done","Complete");
+  }else{
+    rz.appendChild(infoCard("err",`Empty response. Raw: ${JSON.stringify(responseData).slice(0,300)}`));
+    setStatus("err","Empty response");
   }
-
-  running = false;
-  if (runBtn) runBtn.disabled = false;
+  running=false;if(runBtn)runBtn.disabled=false;
 }
 
-// ─────────────────────────────────────────
-// Clear
-// ─────────────────────────────────────────
-function clearAll(keepPanel) {
-  document.getElementById("resultZone").innerHTML = "";
-  if (!keepPanel) {
-    document.getElementById("welcome").style.display = "";
-    document.getElementById("inputPanel").style.display = "none";
-  }
-  stats = {docs:0,plans:0,flags:0};
-  updateStats();
-  document.getElementById("recentList").innerHTML = `<div class="muted-note">No queries yet</div>`;
-  setStatus("idle","Ready");
-  running = false;
-  const rb = document.getElementById("runBtn");
-  if (rb) rb.disabled = false;
+// ── Clear ─────────────────────────────────
+function clearAll(keepPanel){
+  document.getElementById("resultZone").innerHTML="";
+  if(!keepPanel){document.getElementById("welcome").style.display="";document.getElementById("inputPanel").style.display="none";}
+  stats={docs:0,plans:0,flags:0};updateStats();
+  document.getElementById("recentList").innerHTML=`<div class="muted-note">No queries yet</div>`;
+  setStatus("idle","Ready");running=false;const rb=document.getElementById("runBtn");if(rb)rb.disabled=false;
 }
 
-// ─────────────────────────────────────────
-// Init
-// ─────────────────────────────────────────
-renderModeButtons(STRATEGY_MODES);
-renderHints();
-setMode("business_model");
+// ── Init ──────────────────────────────────
+renderModeButtons(STRATEGY_MODES);renderHints();setMode("business_model");
 </script>
 </body>
 </html>
