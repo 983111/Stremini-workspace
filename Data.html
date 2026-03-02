@@ -697,6 +697,10 @@ function renderReport(data, reportMode) {
     </div>
     <div class="report-hd-actions">
       ${healthBadgeHtml(data.health_score, data.health_label)}
+      <button class="copy-btn" onclick="downloadReportPdf(this)">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </button>
       <button class="copy-btn" onclick="copyReport(this)">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy
@@ -993,6 +997,67 @@ function copyReport(btn) {
   });
 }
 
+function reportToText(data) {
+  let text = (data.title || "Analysis Report") + " (Health: " + (data.health_score || "-") + "/100 — " + (data.health_label || "") + ")\n\n";
+  if (data.summary) text += "SUMMARY\n" + data.summary + "\n\n";
+  (data.sections || []).forEach(sec => {
+    const label = sec.label || "Section";
+    text += label.toUpperCase() + "\n" + "─".repeat(label.length) + "\n";
+    if (sec.content) text += sec.content + "\n\n";
+    const arr = sec.insights || sec.flags || sec.benchmarks || sec.experiments || sec.scenarios || sec.anomalies || sec.causes || sec.funnel_steps || sec.milestones || sec.items || [];
+    arr.forEach(item => {
+      const name = item.title || item.metric || item.name || item.cause || item.step || item.target || item.label || "";
+      const detail = item.detail || item.consequence || item.body || item.diagnosis || item.key_assumption || item.value || "";
+      if (name) text += "  • " + name + (detail ? ": " + detail : "") + "\n";
+    });
+    text += "\n";
+  });
+  return text;
+}
+
+function downloadReportPdf(btn) {
+  const block = btn.closest(".report-block");
+  if (!block || !block.reportData) return;
+
+  const reportText = reportToText(block.reportData);
+  const rawTitle = block.reportData?.title || "Data Analysis Report";
+  const safeTitle = esc(rawTitle);
+  const safeBody = esc(reportText);
+
+  const printWin = window.open("", "_blank", "width=960,height=760");
+  if (!printWin) return;
+
+  printWin.document.open();
+  printWin.document.write(`<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>${safeTitle}</title>
+  <style>
+    body{font-family:Arial,sans-serif;padding:32px;color:#1a1814;line-height:1.6;background:#fff}
+    h1{font-size:24px;margin-bottom:18px}
+    pre{white-space:pre-wrap;word-break:break-word;font-family:Arial,sans-serif;font-size:13px}
+    @media print { body{padding:18px} }
+  </style>
+</head>
+<body>
+  <h1>${safeTitle}</h1>
+  <pre>${safeBody}</pre>
+</body>
+</html>`);
+  printWin.document.close();
+
+  printWin.onload = () => {
+    printWin.focus();
+    setTimeout(() => printWin.print(), 120);
+  };
+}
+
+function shouldIgnoreRenderError(message) {
+  const msg = (message || "").toLowerCase();
+  return msg.includes("diagram") || msg.includes("digram");
+}
+
 // ─────────────────────────────────────────
 // Main send handler
 // ─────────────────────────────────────────
@@ -1070,8 +1135,12 @@ async function handleSend() {
     setStatus("done", "Done");
 
   } else if (data.status === "ERROR") {
-    addMsg("agent", cardHtml("err", esc(data.message || "Unknown error")));
-    setStatus("err", "Error");
+    if (!shouldIgnoreRenderError(data.message)) {
+      addMsg("agent", cardHtml("err", esc(data.message || "Unknown error")));
+      setStatus("err", "Error");
+    } else {
+      setStatus("done", "Done");
+    }
 
   } else {
     addMsg("agent", cardHtml("err", "Unexpected response from agent."));
