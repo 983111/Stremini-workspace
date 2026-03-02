@@ -33,7 +33,6 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .logo-icon svg{width:17px;height:17px}
 .logo-name{font-family:'Lora',serif;font-size:17px;font-weight:600;letter-spacing:-.3px}
 .logo-sub{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-
 .sb-label{font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:0}
 .mode-btn{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 8px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none;text-align:center}
@@ -44,10 +43,8 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .mode-btn.on-hallucination{border-color:var(--red);color:var(--red);background:var(--red-bg)}
 .mode-btn.on-benchmark  {border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
 .mode-btn.on-score      {border-color:var(--green);color:var(--green);background:var(--green-bg)}
-
 .sb-sec{padding:16px 20px;border-bottom:1px solid var(--border2)}
 .sb-sec:last-child{border-bottom:none}
-
 .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500}
 .badge-idle{background:var(--surface2);color:var(--muted)}
 .badge-run{background:#fef3c7;color:#92400e}
@@ -56,19 +53,15 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
 .badge-run .dot{animation:pulse 1.2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
 .stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:2px}
 .stat-box{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r2);padding:9px 6px;text-align:center}
 .stat-n{font-family:'Lora',serif;font-size:19px;font-weight:500;line-height:1}
 .stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-top:3px}
-
 .recent-list{display:flex;flex-direction:column;gap:4px;max-height:160px;overflow-y:auto}
 .recent-item{display:flex;align-items:flex-start;gap:7px;padding:7px 9px;background:var(--surface2);border-radius:var(--r2);font-size:12px;color:var(--txt2);cursor:pointer;transition:all .12s;line-height:1.4}
 .recent-item:hover{background:var(--amber-bg);color:var(--amber)}
 .ri-dot{width:5px;height:5px;border-radius:50%;background:var(--muted);flex-shrink:0;margin-top:5px}
-
 .muted-note{font-size:12px;color:var(--muted);font-style:italic}
-
 .new-btn{display:flex;align-items:center;gap:7px;width:100%;padding:9px 11px;background:transparent;border:1.5px dashed var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--txt2);cursor:pointer;transition:all .15s}
 .new-btn:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
 
@@ -82,7 +75,6 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .mode-pill.hallucination{color:var(--red);border-color:#fecaca;background:var(--red-bg)}
 .mode-pill.benchmark   {color:var(--blue);border-color:#bfdbfe;background:var(--blue-bg)}
 .mode-pill.score       {color:var(--green);border-color:#a7f3d0;background:var(--green-bg)}
-
 .ghost-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:transparent;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s;outline:none}
 .ghost-btn:hover{background:var(--surface);border-color:var(--muted)}
 
@@ -120,62 +112,13 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .ta-field::placeholder{color:var(--muted)}
 .ta-prompt{min-height:80px}
 .ta-response{min-height:120px}
-.input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.model-label-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.model-label-input{flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--txt);background:var(--surface);outline:none}
+.model-label-input{flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--txt);background:var(--surface);outline:none;width:100%}
 .model-label-input:focus{border-color:var(--amber)}
-
 .run-row{display:flex;align-items:center;gap:10px;margin-top:6px;padding-top:14px;border-top:1px solid var(--border2)}
 .run-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:var(--txt);border:none;border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#fff;cursor:pointer;transition:all .15s}
 .run-btn:hover{background:#2d2a26;transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .run-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .run-hint{font-size:12px;color:var(--muted)}
-
-/* Result block */
-.result-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);animation:fadein .35s ease}
-@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.result-hd{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:var(--surface2)}
-.result-hd-left{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600}
-.result-hd-left.evaluate    {color:var(--amber)}
-.result-hd-left.compare     {color:var(--violet)}
-.result-hd-left.hallucination{color:var(--red)}
-.result-hd-left.benchmark   {color:var(--blue)}
-.result-hd-left.score       {color:var(--green)}
-.result-hd-left.completed   {color:var(--txt2)}
-.copy-btn{background:none;border:1px solid var(--border);cursor:pointer;font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:4px;transition:all .15s}
-.copy-btn:hover{background:var(--border);color:var(--txt)}
-
-.result-bd{
-  padding:24px 28px;
-  font-family:'DM Mono','Courier New',monospace;
-  font-size:12.5px;
-  line-height:1.9;
-  color:#1a1814;
-  max-height:620px;
-  overflow-y:auto;
-  white-space:pre-wrap;
-  word-break:break-word;
-  background:#fafaf9;
-}
-
-/* Score badges inline */
-.score-highlight{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif}
-.sh-a{background:var(--green-bg);color:#065f46}
-.sh-b{background:var(--amber-bg);color:var(--amber2)}
-.sh-c{background:#fef3c7;color:#92400e}
-.sh-d{background:var(--red-bg);color:var(--red)}
-
-/* Cards */
-.card{display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:var(--r);margin:4px 0;font-size:13px;font-weight:500}
-.card-ok  {background:var(--green-bg);color:#065f46;border:1px solid #a7f3d0}
-.card-work{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
-.card-err {background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
-
-/* Download row */
-.dl-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.dl-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border:none;border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .15s}
-.dl-txt{background:var(--txt);color:#fff}
-.dl-txt:hover{background:#2d2a26;transform:translateY(-1px);box-shadow:var(--shadow-md)}
 
 /* Thinking inline */
 .thinking-card{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow)}
@@ -190,7 +133,178 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-@media(max-width:720px){.layout{grid-template-columns:1fr}.sidebar{display:none}.input-row{grid-template-columns:1fr}.hint-grid{grid-template-columns:1fr}}
+/* ═══════════════════════════════════════════
+   BEAUTIFUL RESULT RENDERER
+════════════════════════════════════════════ */
+
+.result-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+  box-shadow:var(--shadow-md);
+  animation:fadein .35s ease;
+}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.result-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;border-bottom:1px solid var(--border);
+}
+.result-hd.evaluate    {background:linear-gradient(135deg,#fffbf0 0%,#fef3c7 100%)}
+.result-hd.comparison  {background:linear-gradient(135deg,#f5f3ff 0%,#ede9fe 100%)}
+.result-hd.hallucination{background:linear-gradient(135deg,#fff5f5 0%,#fee2e2 100%)}
+.result-hd.benchmark   {background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%)}
+.result-hd.score       {background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%)}
+
+.result-hd-label{display:flex;align-items:center;gap:9px}
+.result-hd-label .rh-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rh-icon.evaluate    {background:rgba(217,119,6,.15);color:var(--amber)}
+.rh-icon.comparison  {background:rgba(124,58,237,.12);color:var(--violet)}
+.rh-icon.hallucination{background:rgba(153,27,27,.12);color:var(--red)}
+.rh-icon.benchmark   {background:rgba(29,78,216,.12);color:var(--blue)}
+.rh-icon.score       {background:rgba(5,150,105,.12);color:var(--green)}
+.rh-title{font-family:'Lora',serif;font-size:15px;font-weight:600;letter-spacing:-.2px}
+.rh-title.evaluate    {color:#92400e}
+.rh-title.comparison  {color:#4c1d95}
+.rh-title.hallucination{color:#7f1d1d}
+.rh-title.benchmark   {color:#1e3a8a}
+.rh-title.score       {color:#064e3b}
+.rh-sub{font-size:11px;color:var(--muted);margin-top:1px}
+
+.copy-btn{background:none;border:1px solid var(--border);cursor:pointer;font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:4px;transition:all .15s}
+.copy-btn:hover{background:var(--border);color:var(--txt)}
+
+/* Result body: structured */
+.result-body{padding:0}
+
+/* Score Hero */
+.score-hero{
+  display:flex;align-items:center;gap:28px;
+  padding:24px 28px;
+  border-bottom:1px solid var(--border2);
+  background:linear-gradient(to right,var(--surface),var(--surface2));
+}
+.score-ring-wrap{position:relative;flex-shrink:0}
+.score-ring-wrap svg{width:90px;height:90px;transform:rotate(-90deg)}
+.score-ring-bg{fill:none;stroke:var(--border2);stroke-width:7}
+.score-ring-fill{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1)}
+.score-ring-wrap .score-num{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Lora',serif;font-size:22px;font-weight:600;
+  line-height:1;
+}
+.score-ring-wrap .score-unit{
+  position:absolute;bottom:18px;left:50%;
+  transform:translateX(-50%);
+  font-size:10px;color:var(--muted);font-weight:500;
+}
+.score-hero-right{flex:1}
+.score-verdict{font-family:'Lora',serif;font-size:18px;font-weight:600;letter-spacing:-.3px;margin-bottom:6px;line-height:1.3}
+.score-tagline{font-size:13.5px;color:var(--txt2);line-height:1.6}
+
+/* Metric bars */
+.metrics-section{padding:20px 28px;border-bottom:1px solid var(--border2)}
+.metrics-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
+.metric-row{display:flex;align-items:center;gap:12px;margin-bottom:11px}
+.metric-row:last-child{margin-bottom:0}
+.metric-label{font-size:12.5px;font-weight:500;color:var(--txt2);width:120px;flex-shrink:0}
+.metric-bar-wrap{flex:1;height:7px;background:var(--border2);border-radius:4px;overflow:hidden}
+.metric-bar-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1);width:0}
+.metric-score{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;width:36px;text-align:right;flex-shrink:0}
+.metric-grade{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;font-size:11px;font-weight:700;flex-shrink:0}
+.grade-a{background:var(--green-bg);color:#065f46}
+.grade-b{background:#fef3c7;color:#92400e}
+.grade-c{background:#ffedd5;color:#c2410c}
+.grade-d{background:var(--red-bg);color:var(--red)}
+
+/* Sections */
+.content-section{padding:20px 28px;border-bottom:1px solid var(--border2)}
+.content-section:last-child{border-bottom:none}
+.section-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.section-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-title{font-size:12px;font-weight:600;color:var(--txt);text-transform:uppercase;letter-spacing:.5px}
+
+/* Prose */
+.prose-text{font-size:13.5px;line-height:1.75;color:var(--txt2)}
+.prose-text p{margin-bottom:10px}
+.prose-text p:last-child{margin-bottom:0}
+
+/* Claim items */
+.claim-list{display:flex;flex-direction:column;gap:8px}
+.claim-item{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border-radius:8px;border:1px solid transparent}
+.claim-item.verified{background:#f0fdf4;border-color:#bbf7d0}
+.claim-item.unverified{background:#fffbeb;border-color:#fde68a}
+.claim-item.false{background:#fff5f5;border-color:#fecaca}
+.claim-item.uncertain{background:#f8fafc;border-color:var(--border)}
+.claim-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:10px}
+.ci-ok{background:#86efac;color:#14532d}
+.ci-warn{background:#fde68a;color:#78350f}
+.ci-err{background:#fca5a5;color:#7f1d1d}
+.ci-q{background:var(--border2);color:var(--txt2)}
+.claim-text{font-size:13px;color:var(--txt);line-height:1.55;flex:1}
+.claim-note{font-size:11.5px;color:var(--txt2);margin-top:3px}
+
+/* Verdict comparison */
+.vs-section{display:grid;grid-template-columns:1fr auto 1fr;gap:0;border-bottom:1px solid var(--border2)}
+.vs-model{padding:20px 24px}
+.vs-model-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;color:var(--muted)}
+.vs-model-score{font-family:'Lora',serif;font-size:28px;font-weight:600;line-height:1;margin-bottom:8px}
+.vs-model-verdict{font-size:13px;color:var(--txt2);line-height:1.5}
+.vs-divider{display:flex;align-items:center;justify-content:center;padding:20px 16px;border-left:1px solid var(--border2);border-right:1px solid var(--border2)}
+.vs-badge{width:42px;height:42px;border-radius:50%;background:var(--txt);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:11px;font-weight:600}
+.vs-winner{border-top:3px solid var(--amber)}
+.vs-winner .vs-model-score{color:var(--amber)}
+
+/* Benchmark difficulty */
+.difficulty-band{display:flex;align-items:center;gap:14px;padding:18px 28px;border-bottom:1px solid var(--border2);background:var(--surface2)}
+.diff-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:12.5px;font-weight:600}
+.diff-easy{background:#dcfce7;color:#14532d;border:1.5px solid #86efac}
+.diff-medium{background:#fef9c3;color:#713f12;border:1.5px solid #fde047}
+.diff-hard{background:#ffedd5;color:#7c2d12;border:1.5px solid #fed7aa}
+.diff-expert{background:#fce7f3;color:#831843;border:1.5px solid #f9a8d4}
+.diff-label{font-size:13px;color:var(--txt2)}
+
+/* Tag chips */
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:12px;font-size:11.5px;font-weight:500;background:var(--surface2);border:1px solid var(--border2);color:var(--txt2)}
+
+/* Bullets styled */
+.styled-list{display:flex;flex-direction:column;gap:7px;margin:0;padding:0;list-style:none}
+.styled-list li{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:var(--txt2);line-height:1.6}
+.styled-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0;margin-top:7px}
+.styled-list li.positive::before{background:var(--green)}
+.styled-list li.negative::before{background:var(--red)}
+.styled-list li.neutral::before{background:var(--amber)}
+
+/* Summary banner */
+.summary-banner{display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-radius:8px;margin-bottom:0}
+.summary-banner.ok{background:#f0fdf4;border:1.5px solid #bbf7d0}
+.summary-banner.warn{background:#fffbeb;border:1.5px solid #fde68a}
+.summary-banner.err{background:#fff5f5;border:1.5px solid #fecaca}
+.sb-ico{font-size:20px;flex-shrink:0;line-height:1}
+.sb-body strong{display:block;font-size:13.5px;font-weight:600;color:var(--txt);margin-bottom:3px}
+.sb-body p{font-size:13px;color:var(--txt2);line-height:1.55}
+
+/* Download */
+.dl-row{padding:16px 20px;border-top:1px solid var(--border2);background:var(--surface2);display:flex;align-items:center;gap:10px}
+.dl-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border:none;border-radius:var(--r2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .15s}
+.dl-txt{background:var(--txt);color:#fff}
+.dl-txt:hover{background:#2d2a26;transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.dl-hint{font-size:11px;color:var(--muted);margin-left:auto}
+
+/* Raw fallback */
+.raw-result{
+  padding:24px 28px;
+  font-family:'DM Mono','Courier New',monospace;
+  font-size:12.5px;line-height:1.9;color:#1a1814;
+  white-space:pre-wrap;word-break:break-word;
+  background:#fafaf9;
+  max-height:600px;overflow-y:auto;
+}
+
+@media(max-width:720px){.layout{grid-template-columns:1fr}.sidebar{display:none}.hint-grid{grid-template-columns:1fr}.vs-section{grid-template-columns:1fr}.vs-divider{display:none}.score-hero{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -337,15 +451,10 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
           </div>
         </div>
 
-        <!-- INPUT PANEL (dynamic) -->
+        <!-- INPUT PANEL -->
         <div class="input-panel" id="inputPanel" style="display:none">
           <div class="panel-hd">
             <div class="panel-hd-left" id="panelHdLeft">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/>
-                <path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/>
-                <path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>
-              </svg>
               <span id="panelTitle">Evaluation Input</span>
             </div>
           </div>
@@ -363,157 +472,102 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
           </div>
         </div>
 
-        <!-- RESULT (appended here) -->
+        <!-- RESULT -->
         <div id="resultZone"></div>
-
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ─────────────────────────────────────────
-// CONFIG
-// ─────────────────────────────────────────
 const BACKEND = "https://model-evaluator.vishwajeetadkine705.workers.dev";
 
-// ─────────────────────────────────────────
-// State
-// ─────────────────────────────────────────
 let mode = "evaluate";
 let running = false;
 let stats = { evals: 0, comps: 0, halls: 0 };
 
-// ─────────────────────────────────────────
-// Mode config
-// ─────────────────────────────────────────
 const MODES = {
   evaluate: {
-    label:    "Evaluate Mode",
-    note:     "Evaluate — deep quality analysis of a response",
-    pill:     "evaluate",
-    runHint:  "Deep analysis · takes 15-30 seconds",
-    runLabel: "Run Evaluation",
-    panelTitle: "Evaluation Input",
-    fields: ["prompt","modelALabel","responseA"],
-    pillSvg: `<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>`,
+    label:"Evaluate Mode", note:"Evaluate — deep quality analysis of a response",
+    pill:"evaluate", runHint:"Deep analysis · takes 15-30 seconds",
+    runLabel:"Run Evaluation", panelTitle:"Evaluation Input",
+    fields:["prompt","modelALabel","responseA"],
+    pillSvg:`<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>`,
   },
   compare: {
-    label:    "Compare Mode",
-    note:     "Compare — A vs B head-to-head model verdict",
-    pill:     "compare",
-    runHint:  "Head-to-head comparison · takes 20-40 seconds",
-    runLabel: "Run Comparison",
-    panelTitle: "Comparison Input",
-    fields: ["prompt","modelALabel","responseA","modelBLabel","responseB"],
-    pillSvg: `<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>`,
+    label:"Compare Mode", note:"Compare — A vs B head-to-head model verdict",
+    pill:"compare", runHint:"Head-to-head comparison · takes 20-40 seconds",
+    runLabel:"Run Comparison", panelTitle:"Comparison Input",
+    fields:["prompt","modelALabel","responseA","modelBLabel","responseB"],
+    pillSvg:`<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>`,
   },
   hallucination: {
-    label:    "Hallucination Mode",
-    note:     "Hallucination — claim-by-claim fact audit",
-    pill:     "hallucination",
-    runHint:  "Fact audit · takes 15-30 seconds",
-    runLabel: "Run Audit",
-    panelTitle: "Hallucination Audit Input",
-    fields: ["prompt","modelALabel","responseA"],
-    pillSvg: `<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`,
+    label:"Hallucination Mode", note:"Hallucination — claim-by-claim fact audit",
+    pill:"hallucination", runHint:"Fact audit · takes 15-30 seconds",
+    runLabel:"Run Audit", panelTitle:"Hallucination Audit Input",
+    fields:["prompt","modelALabel","responseA"],
+    pillSvg:`<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`,
   },
   benchmark: {
-    label:    "Benchmark Mode",
-    note:     "Benchmark — prompt difficulty & rubric analysis",
-    pill:     "benchmark",
-    runHint:  "Prompt analysis · takes 10-20 seconds",
-    runLabel: "Run Benchmark",
-    panelTitle: "Prompt Benchmark Input",
-    fields: ["prompt"],
-    pillSvg: `<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
+    label:"Benchmark Mode", note:"Benchmark — prompt difficulty & rubric analysis",
+    pill:"benchmark", runHint:"Prompt analysis · takes 10-20 seconds",
+    runLabel:"Run Benchmark", panelTitle:"Prompt Benchmark Input",
+    fields:["prompt"],
+    pillSvg:`<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
   },
   score: {
-    label:    "Quick Score Mode",
-    note:     "Quick Score — fast reliability score",
-    pill:     "score",
-    runHint:  "Fast scoring · takes 5-15 seconds",
-    runLabel: "Run Score",
-    panelTitle: "Quick Score Input",
-    fields: ["prompt","modelALabel","responseA"],
-    pillSvg: `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
+    label:"Quick Score Mode", note:"Quick Score — fast reliability score",
+    pill:"score", runHint:"Fast scoring · takes 5-15 seconds",
+    runLabel:"Run Score", panelTitle:"Quick Score Input",
+    fields:["prompt","modelALabel","responseA"],
+    pillSvg:`<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
   },
 };
 
-// ─────────────────────────────────────────
-// setMode
-// ─────────────────────────────────────────
 function setMode(m) {
   mode = m;
   const cfg = MODES[m];
-
-  // Sidebar buttons
   Object.keys(MODES).forEach(k => {
     document.getElementById("btn-" + k).className = "mode-btn" + (k === m ? " on-" + k : "");
   });
-
-  // Topbar pill
   const pill = document.getElementById("modePill");
   pill.className = "mode-pill " + cfg.pill;
   pill.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${cfg.pillSvg}</svg><span id="pillTxt">${cfg.label}</span>`;
-
-  // Note
   document.getElementById("modeNote").textContent = cfg.note;
-
-  // Panel
   document.getElementById("panelTitle").textContent = cfg.panelTitle;
   document.getElementById("runHint").textContent = cfg.runHint;
   document.getElementById("runBtn").innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> ${cfg.runLabel}`;
-
   buildFields(cfg.fields);
   showInputPanel();
   document.getElementById("resultZone").innerHTML = "";
 }
 
-// ─────────────────────────────────────────
-// Build dynamic fields
-// ─────────────────────────────────────────
 function buildFields(fields) {
   const fg = document.getElementById("fieldGroup");
   fg.innerHTML = "";
-
   fields.forEach(f => {
     const wrap = document.createElement("div");
-
     if (f === "prompt") {
-      wrap.innerHTML = `
-        <div class="field-label">Prompt / Question <span>(what was asked of the model)</span></div>
-        <textarea id="f-prompt" class="ta-field ta-prompt" placeholder="Enter the original prompt or question that was given to the model…"></textarea>`;
-    }
-    else if (f === "modelALabel") {
-      wrap.innerHTML = `
-        <div class="field-label">Model Name <span>(optional label)</span></div>
-        <input id="f-modelA" class="model-label-input" type="text" placeholder="e.g. GPT-4o, Claude 3.5, K2-Think-v2…" value="Model A"/>`;
-    }
-    else if (f === "modelBLabel") {
-      wrap.innerHTML = `
-        <div class="field-label">Model B Name <span>(optional label)</span></div>
-        <input id="f-modelB" class="model-label-input" type="text" placeholder="e.g. Gemini 1.5 Pro, Llama 3…" value="Model B"/>`;
-    }
-    else if (f === "responseA") {
-      const label = fields.includes("responseB") ? "Model A Response" : "Model Response";
-      wrap.innerHTML = `
-        <div class="field-label">${label} <span>(paste the full response to evaluate)</span></div>
+      wrap.innerHTML = `<div class="field-label">Prompt / Question <span>(what was asked of the model)</span></div>
+        <textarea id="f-prompt" class="ta-field ta-prompt" placeholder="Enter the original prompt or question…"></textarea>`;
+    } else if (f === "modelALabel") {
+      wrap.innerHTML = `<div class="field-label">Model Name <span>(optional)</span></div>
+        <input id="f-modelA" class="model-label-input" type="text" placeholder="e.g. GPT-4o, Claude 3.5…" value="Model A"/>`;
+    } else if (f === "modelBLabel") {
+      wrap.innerHTML = `<div class="field-label">Model B Name <span>(optional)</span></div>
+        <input id="f-modelB" class="model-label-input" type="text" placeholder="e.g. Gemini 1.5 Pro…" value="Model B"/>`;
+    } else if (f === "responseA") {
+      const lbl = fields.includes("responseB") ? "Model A Response" : "Model Response";
+      wrap.innerHTML = `<div class="field-label">${lbl} <span>(paste the full response)</span></div>
         <textarea id="f-responseA" class="ta-field ta-response" placeholder="Paste the model's response here…"></textarea>`;
-    }
-    else if (f === "responseB") {
-      wrap.innerHTML = `
-        <div class="field-label">Model B Response <span>(paste the second model's response)</span></div>
+    } else if (f === "responseB") {
+      wrap.innerHTML = `<div class="field-label">Model B Response <span>(paste the second model's response)</span></div>
         <textarea id="f-responseB" class="ta-field ta-response" placeholder="Paste the second model's response here…"></textarea>`;
     }
-
     fg.appendChild(wrap);
   });
 }
 
-// ─────────────────────────────────────────
-// Show / hide welcome & input panel
-// ─────────────────────────────────────────
 function showInputPanel() {
   document.getElementById("welcome").style.display = "none";
   document.getElementById("inputPanel").style.display = "block";
@@ -521,31 +575,24 @@ function showInputPanel() {
 
 function loadExample(m) {
   setMode(m);
-  // Prefill example data
   const promptEl = document.getElementById("f-prompt");
   const responseAEl = document.getElementById("f-responseA");
   const responseBEl = document.getElementById("f-responseB");
-
   if (m === "evaluate" || m === "score" || m === "hallucination") {
     if (promptEl) promptEl.value = "What were the main causes of the 2008 global financial crisis?";
     if (responseAEl) responseAEl.value = "The 2008 financial crisis was caused by several interrelated factors. The primary cause was the collapse of the US housing bubble, driven by excessive mortgage lending to subprime borrowers. Banks created complex financial instruments called CDOs (collateralised debt obligations) that bundled these risky mortgages together. Credit rating agencies incorrectly rated these as safe investments. When housing prices fell, mortgage defaults cascaded through the financial system. Lehman Brothers, founded in 1844, collapsed on September 15, 2008, becoming the largest bankruptcy in US history at $691 billion. The Federal Reserve had raised interest rates 17 consecutive times between 2004 and 2006, which contributed to the crisis. Globally, over $2.8 trillion in losses were recorded by financial institutions by 2010, and unemployment in the US reached 15.3% in October 2009.";
     if (document.getElementById("f-modelA")) document.getElementById("f-modelA").value = "GPT-4o";
-  }
-  else if (m === "compare") {
+  } else if (m === "compare") {
     if (promptEl) promptEl.value = "Explain how transformer neural networks work.";
-    if (responseAEl) responseAEl.value = "Transformers are deep learning models introduced in the 2017 paper 'Attention Is All You Need' by Vaswani et al. They use a mechanism called self-attention to process input sequences in parallel rather than sequentially. The architecture consists of an encoder and decoder, each with multiple layers of multi-head attention and feed-forward networks. Self-attention allows each token to attend to all other tokens, computing relevance scores via queries, keys, and values. This enables the model to capture long-range dependencies efficiently. Transformers are now the dominant architecture in NLP, powering models like BERT, GPT, and T5.";
-    if (responseBEl) responseBEl.value = "A transformer is an AI model that works like a big attention machine. It looks at words in a sentence and figures out which words are important by paying attention to them. It uses something called 'self-attention' which lets it look at all the words at the same time instead of one by one. This makes it much faster than older models like RNNs. The transformer was invented in 2017 and is used in ChatGPT and other AI systems. It has two parts: an encoder that reads text and a decoder that writes text.";
+    if (responseAEl) responseAEl.value = "Transformers are deep learning models introduced in the 2017 paper 'Attention Is All You Need' by Vaswani et al. They use a mechanism called self-attention to process input sequences in parallel rather than sequentially. The architecture consists of an encoder and decoder, each with multiple layers of multi-head attention and feed-forward networks. Self-attention allows each token to attend to all other tokens, computing relevance scores via queries, keys, and values. This enables the model to capture long-range dependencies efficiently.";
+    if (responseBEl) responseBEl.value = "A transformer is an AI model that works like a big attention machine. It looks at words in a sentence and figures out which words are important by paying attention to them. It uses something called 'self-attention' which lets it look at all the words at the same time instead of one by one. This makes it much faster than older models like RNNs. The transformer was invented in 2017 and is used in ChatGPT.";
     if (document.getElementById("f-modelA")) document.getElementById("f-modelA").value = "Claude 3.5";
     if (document.getElementById("f-modelB")) document.getElementById("f-modelB").value = "Llama 3 8B";
-  }
-  else if (m === "benchmark") {
+  } else if (m === "benchmark") {
     if (promptEl) promptEl.value = "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?";
   }
 }
 
-// ─────────────────────────────────────────
-// Status badge
-// ─────────────────────────────────────────
 function setStatus(type, label) {
   const cls = { idle:"badge-idle", run:"badge-run", done:"badge-done", err:"badge-err" };
   const el = document.getElementById("statusBadge");
@@ -553,18 +600,12 @@ function setStatus(type, label) {
   el.innerHTML = `<span class="dot"></span>${label}`;
 }
 
-// ─────────────────────────────────────────
-// Stats
-// ─────────────────────────────────────────
 function updateStats() {
   document.getElementById("sEvals").textContent = stats.evals;
   document.getElementById("sComps").textContent = stats.comps;
   document.getElementById("sHalls").textContent = stats.halls;
 }
 
-// ─────────────────────────────────────────
-// Recent prompts
-// ─────────────────────────────────────────
 function addRecent(text, m) {
   const list = document.getElementById("recentList");
   const empty = list.querySelector(".muted-note");
@@ -577,9 +618,6 @@ function addRecent(text, m) {
   while (list.children.length > 6) list.lastChild.remove();
 }
 
-// ─────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────
 function esc(s) {
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
@@ -592,94 +630,558 @@ function val(id) {
   return el ? el.value.trim() : "";
 }
 
-// ─────────────────────────────────────────
-// Card HTML
-// ─────────────────────────────────────────
-function cardHtml(type, text) {
-  const cls = { ok:"card-ok", work:"card-work", err:"card-err" };
-  const icons = {
-    ok:   `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`,
-    work: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-    err:  `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
-  };
-  return `<div class="card ${cls[type]||"card-ok"}">${icons[type]||""} ${text}</div>`;
+// ═══════════════════════════════════════════════
+// BEAUTIFUL RESULT PARSER & RENDERER
+// ═══════════════════════════════════════════════
+
+// Parse score from text like "8/10", "8.5/10", "85%", "Score: 8"
+function extractScore(text) {
+  let m;
+  m = text.match(/(\d+(?:\.\d+)?)\s*\/\s*10/);
+  if (m) return { val: parseFloat(m[1]), max: 10 };
+  m = text.match(/(\d+(?:\.\d+)?)\s*%/);
+  if (m) return { val: parseFloat(m[1]), max: 100 };
+  m = text.match(/(?:overall|total|final|score)[:\s]+(\d+(?:\.\d+)?)/i);
+  if (m) return { val: parseFloat(m[1]), max: 10 };
+  return null;
 }
 
-// ─────────────────────────────────────────
-// Render result block
-// ─────────────────────────────────────────
-function renderResult(content, status) {
-  const pid = "res" + Date.now();
+// Parse metric lines like "Accuracy: 8/10" or "Accuracy — 8/10"
+function extractMetrics(text) {
+  const metrics = [];
+  const lines = text.split('\n');
+  const metricPattern = /^[\s\-•*]*([A-Za-z][A-Za-z\s&\/]{2,30}?)[\s:—\-]+(\d+(?:\.\d+)?)\s*(?:\/\s*10)?[\s]*$/;
+  lines.forEach(line => {
+    const m = line.match(metricPattern);
+    if (m) {
+      const val = parseFloat(m[2]);
+      if (val >= 0 && val <= 10) {
+        metrics.push({ label: m[1].trim(), score: val, max: 10 });
+      }
+    }
+  });
+  return metrics;
+}
 
-  const labels = {
-    EVALUATION:   "Evaluation Report",
-    COMPARISON:   "Model Comparison",
-    HALLUCINATION:"Hallucination Audit",
-    BENCHMARK:    "Prompt Benchmark",
-    SCORE:        "Quick Score",
-    COMPLETED:    "Result",
+// Split text into sections by headers like "## Heading" or "**Heading**" or "HEADING:"
+function parseSections(text) {
+  const sections = [];
+  // Split on markdown headers, bold headers, or ALL CAPS lines
+  const parts = text.split(/(?=^#{1,3}\s|^\*\*[A-Z][^*]{2,40}\*\*|^[A-Z][A-Z\s]{4,30}:)/m);
+  parts.forEach(part => {
+    const trimmed = part.trim();
+    if (!trimmed) return;
+    // Extract title
+    let title = null, body = trimmed;
+    const h = trimmed.match(/^(#{1,3})\s+(.+)/);
+    const bold = trimmed.match(/^\*\*([^*]{2,50})\*\*/);
+    const caps = trimmed.match(/^([A-Z][A-Z\s]{3,30}):\s*/);
+    if (h) { title = h[2].trim(); body = trimmed.slice(h[0].length).trim(); }
+    else if (bold) { title = bold[1].trim(); body = trimmed.slice(bold[0].length).trim(); }
+    else if (caps) { title = caps[1].trim(); body = trimmed.slice(caps[0].length).trim(); }
+    sections.push({ title, body });
+  });
+  return sections;
+}
+
+// Render colour for score
+function scoreColor(val, max) {
+  const pct = val / max;
+  if (pct >= .8) return { stroke:"#10b981", text:"#059669", grade:"A" };
+  if (pct >= .65) return { stroke:"#f59e0b", text:"#d97706", grade:"B" };
+  if (pct >= .45) return { stroke:"#f97316", text:"#ea580c", grade:"C" };
+  return { stroke:"#ef4444", text:"#dc2626", grade:"D" };
+}
+
+function gradeClass(grade) {
+  return { A:"grade-a", B:"grade-b", C:"grade-c", D:"grade-d" }[grade] || "grade-a";
+}
+
+// Render score ring SVG
+function renderScoreRing(val, max, color) {
+  const r = 35;
+  const circ = 2 * Math.PI * r;
+  const pct = Math.min(val / max, 1);
+  const dash = pct * circ;
+  const displayVal = max === 10 ? val.toFixed(1) : Math.round(val);
+  return `
+    <div class="score-ring-wrap">
+      <svg viewBox="0 0 90 90">
+        <circle class="score-ring-bg" cx="45" cy="45" r="${r}"/>
+        <circle class="score-ring-fill" cx="45" cy="45" r="${r}"
+          stroke="${color.stroke}"
+          stroke-dasharray="${circ}"
+          stroke-dashoffset="${circ - dash}"
+          style="transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)"/>
+      </svg>
+      <div class="score-num" style="color:${color.text}">${displayVal}</div>
+      <div class="score-unit">/ ${max}</div>
+    </div>`;
+}
+
+// Detect bullet lines and classify
+function renderBulletList(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  let html = '<ul class="styled-list">';
+  lines.forEach(line => {
+    const clean = line.replace(/^[\-•*]\s*/, '').replace(/^\d+\.\s*/, '').trim();
+    if (!clean) return;
+    let cls = '';
+    if (/\b(good|strong|excel|well|correctly|accurate|clear|strength|positive|✓|✅)/i.test(clean)) cls = 'positive';
+    else if (/\b(poor|weak|error|wrong|incorrect|false|halluc|issue|fail|concern|negative|✗|❌)/i.test(clean)) cls = 'negative';
+    else if (/\b(note|consider|suggest|could|may|recommend|improve|neutral)/i.test(clean)) cls = 'neutral';
+    html += `<li class="${cls}">${esc(clean)}</li>`;
+  });
+  html += '</ul>';
+  return html;
+}
+
+// Check if text is mostly bullets
+function isBulletBlock(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  const bullets = lines.filter(l => /^[\-•*]\s/.test(l) || /^\d+\.\s/.test(l));
+  return lines.length > 1 && bullets.length / lines.length > 0.5;
+}
+
+// Section icons
+const SECTION_ICONS = {
+  'accuracy':     { bg:'#dcfce7', color:'#059669', svg:`<polyline points="20 6 9 17 4 12"/>` },
+  'reasoning':    { bg:'#ede9fe', color:'#7c3aed', svg:`<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>` },
+  'clarity':      { bg:'#dbeafe', color:'#1d4ed8', svg:`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>` },
+  'completeness': { bg:'#fef3c7', color:'#d97706', svg:`<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>` },
+  'hallucination':{ bg:'#fee2e2', color:'#dc2626', svg:`<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/>` },
+  'strength':     { bg:'#dcfce7', color:'#059669', svg:`<polyline points="20 6 9 17 4 12"/>` },
+  'weakness':     { bg:'#fee2e2', color:'#dc2626', svg:`<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>` },
+  'improvement':  { bg:'#ffedd5', color:'#f97316', svg:`<line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>` },
+  'recommendation':{ bg:'#fef3c7', color:'#d97706', svg:`<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>` },
+  'summary':      { bg:'#ede9fe', color:'#7c3aed', svg:`<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>` },
+  'verdict':      { bg:'#fef3c7', color:'#d97706', svg:`<polyline points="22 11.08V12a10 10 0 11-5.93-9.14"/>` },
+  'claim':        { bg:'#dbeafe', color:'#1d4ed8', svg:`<path d="M9 11l3 3L22 4"/>` },
+  'fact':         { bg:'#dbeafe', color:'#1d4ed8', svg:`<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>` },
+  'overall':      { bg:'#ede9fe', color:'#7c3aed', svg:`<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/>` },
+  'default':      { bg:'#f2f0ec', color:'#6b6459', svg:`<circle cx="12" cy="12" r="10"/>` },
+};
+
+function getSectionIcon(title) {
+  if (!title) return SECTION_ICONS.default;
+  const t = title.toLowerCase();
+  for (const [key, icon] of Object.entries(SECTION_ICONS)) {
+    if (t.includes(key)) return icon;
+  }
+  return SECTION_ICONS.default;
+}
+
+function renderSectionIcon(title) {
+  const icon = getSectionIcon(title);
+  return `<div class="section-icon" style="background:${icon.bg};color:${icon.color}">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">${icon.svg}</svg>
+  </div>`;
+}
+
+// Main structured renderer
+function renderStructuredResult(rawText, status, modelAName, modelBName) {
+  const container = document.createElement('div');
+  container.className = 'result-block';
+
+  // Determine display status class
+  const statusMap = {
+    EVALUATION: 'evaluate', COMPARISON: 'comparison',
+    HALLUCINATION: 'hallucination', BENCHMARK: 'benchmark',
+    SCORE: 'score', COMPLETED: 'evaluate'
   };
-  const label = labels[status] || "Result";
-  const hClass = status.toLowerCase();
+  const statusClass = statusMap[status] || 'evaluate';
+
+  const labelMap = {
+    EVALUATION:'Evaluation Report', COMPARISON:'Model Comparison',
+    HALLUCINATION:'Hallucination Audit', BENCHMARK:'Prompt Benchmark',
+    SCORE:'Quick Score', COMPLETED:'Result'
+  };
+  const label = labelMap[status] || 'Result';
+  const tsLabel = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+
+  // Header
+  const hd = document.createElement('div');
+  hd.className = `result-hd ${statusClass}`;
 
   const iconPaths = {
-    EVALUATION:   `<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>`,
-    COMPARISON:   `<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>`,
-    HALLUCINATION:`<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`,
-    BENCHMARK:    `<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
-    SCORE:        `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
+    evaluate:`<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/><path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>`,
+    comparison:`<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>`,
+    hallucination:`<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/>`,
+    benchmark:`<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
+    score:`<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
   };
-  const iconPath = iconPaths[status] || iconPaths.EVALUATION;
 
-  const block = document.createElement("div");
-  block.className = "result-block";
-  block.innerHTML = `
-    <div class="result-hd">
-      <div class="result-hd-left ${hClass}">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${iconPath}</svg>
-        ${label}
+  const pid = "res" + Date.now();
+  hd.innerHTML = `
+    <div class="result-hd-label">
+      <div class="rh-icon ${statusClass}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${iconPaths[statusClass] || iconPaths.evaluate}</svg>
       </div>
-      <button class="copy-btn" id="cpbtn-${pid}">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        Copy
-      </button>
+      <div>
+        <div class="rh-title ${statusClass}">${label}</div>
+        <div class="rh-sub">Generated at ${tsLabel}</div>
+      </div>
     </div>
-    <div class="result-bd" id="${pid}">${esc(content)}</div>`;
+    <button class="copy-btn" id="cpbtn-${pid}">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      Copy
+    </button>`;
+  container.appendChild(hd);
 
-  // Download
-  const dlWrap = document.createElement("div");
-  dlWrap.className = "dl-row";
-  const dlBtn = document.createElement("button");
-  dlBtn.className = "dl-btn dl-txt";
-  dlBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download .txt`;
-  dlBtn.onclick = () => {
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([content], {type:"text/plain"}));
-    a.download = `stremini-${label.toLowerCase().replace(/\s+/g,"-")}-${Date.now()}.txt`;
-    a.click();
-  };
-  dlWrap.appendChild(dlBtn);
+  const body = document.createElement('div');
+  body.className = 'result-body';
 
-  const outer = document.createElement("div");
-  outer.appendChild(block);
-  outer.appendChild(dlWrap);
+  // ── Try to intelligently parse and render
+  try {
+    const rendered = buildRichBody(rawText, status, statusClass, modelAName, modelBName);
+    body.innerHTML = rendered;
+  } catch(e) {
+    // Fallback to raw monospace
+    const raw = document.createElement('div');
+    raw.className = 'raw-result';
+    raw.textContent = rawText;
+    body.appendChild(raw);
+  }
 
-  // Copy wiring
+  container.appendChild(body);
+
+  // Download row
+  const dlRow = document.createElement('div');
+  dlRow.className = 'dl-row';
+  dlRow.innerHTML = `
+    <button class="dl-btn dl-txt" onclick="downloadTxt(${JSON.stringify(rawText)}, ${JSON.stringify(label)})">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+      </svg> Download .txt
+    </button>
+    <span class="dl-hint">${rawText.length} characters</span>`;
+  container.appendChild(dlRow);
+
+  // Wire copy
   setTimeout(() => {
     const btn = document.getElementById("cpbtn-" + pid);
     if (btn) btn.onclick = () => {
-      navigator.clipboard.writeText(content)
-        .then(() => { btn.textContent = "✓ Copied"; setTimeout(() => { btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`; }, 2000); })
-        .catch(() => {});
+      navigator.clipboard.writeText(rawText).then(() => {
+        btn.textContent = "✓ Copied";
+        setTimeout(() => { btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`; }, 2000);
+      }).catch(() => {});
     };
   }, 50);
 
-  return outer;
+  return container;
 }
 
-// ─────────────────────────────────────────
+function buildRichBody(text, status, statusClass, modelAName, modelBName) {
+  let html = '';
+
+  // 1. Find overall score
+  const overallScore = extractScore(text);
+
+  // 2. Find metrics
+  const metrics = extractMetrics(text);
+
+  // 3. For COMPARISON: try to find two model scores
+  if (status === 'COMPARISON') {
+    return buildComparisonBody(text, statusClass, modelAName, modelBName);
+  }
+
+  // 4. Score Hero (for evaluation, score modes)
+  if (overallScore && ['EVALUATION','SCORE'].includes(status)) {
+    const color = scoreColor(overallScore.val, overallScore.max);
+    const g = color.grade;
+    // Find a verdict line
+    const lines = text.split('\n');
+    let verdictLine = '';
+    lines.forEach(l => {
+      if (/\b(overall|verdict|conclusion|summary|assessment)\b/i.test(l) && l.length > 20 && l.length < 200) {
+        verdictLine = l.replace(/^[#*\-\s]+/, '').replace(/\*\*/g,'').trim();
+      }
+    });
+
+    html += `<div class="score-hero">
+      ${renderScoreRing(overallScore.val, overallScore.max, color)}
+      <div class="score-hero-right">
+        <div class="score-verdict" style="color:${color.text}">${verdictLine || 'Evaluation Complete'}</div>
+        <div class="score-tagline" style="margin-top:6px">
+          <span class="metric-grade ${gradeClass(g)}" style="display:inline-flex;margin-right:6px">${g}</span>
+          Score: <strong>${overallScore.val}/${overallScore.max}</strong>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // 5. Metric bars
+  const filteredMetrics = metrics.filter(m => !m.label.toLowerCase().includes('overall') && !m.label.toLowerCase().includes('total') && !m.label.toLowerCase().includes('final'));
+  if (filteredMetrics.length >= 2) {
+    html += `<div class="metrics-section">
+      <div class="metrics-title">Dimension Scores</div>`;
+    filteredMetrics.slice(0,8).forEach(m => {
+      const color = scoreColor(m.score, m.max);
+      const pct = (m.score / m.max * 100).toFixed(0);
+      html += `<div class="metric-row">
+        <div class="metric-label">${esc(m.label)}</div>
+        <div class="metric-bar-wrap"><div class="metric-bar-fill" style="width:${pct}%;background:${color.stroke}"></div></div>
+        <div class="metric-score" style="color:${color.text}">${m.score}</div>
+        <div class="metric-grade ${gradeClass(color.grade)}">${color.grade}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // 6. For HALLUCINATION: claim-by-claim rendering
+  if (status === 'HALLUCINATION') {
+    return html + buildHallucinationBody(text);
+  }
+
+  // 7. For BENCHMARK
+  if (status === 'BENCHMARK') {
+    return buildBenchmarkBody(text);
+  }
+
+  // 8. Parse sections
+  const sections = parseSections(text);
+  if (sections.length > 1) {
+    sections.forEach(sec => {
+      // Skip if body is very short and it's the score line we already rendered
+      if (!sec.body || sec.body.length < 20) return;
+      // Skip pure metric lines (already rendered)
+      const allMetrics = filteredMetrics.map(m => m.label.toLowerCase());
+      if (sec.title && allMetrics.some(m => sec.title.toLowerCase().includes(m))) return;
+
+      html += `<div class="content-section">
+        <div class="section-header">
+          ${renderSectionIcon(sec.title)}
+          ${sec.title ? `<div class="section-title">${esc(sec.title)}</div>` : ''}
+        </div>`;
+
+      if (isBulletBlock(sec.body)) {
+        html += renderBulletList(sec.body);
+      } else {
+        // Prose: break into paragraphs
+        const paras = sec.body.split(/\n\n+/).filter(p => p.trim());
+        html += `<div class="prose-text">`;
+        paras.forEach(p => {
+          const clean = p.trim().replace(/\*\*/g,'').replace(/\*/g,'').replace(/`/g,'');
+          if (isBulletBlock(p)) {
+            html += renderBulletList(p);
+          } else {
+            html += `<p>${esc(clean)}</p>`;
+          }
+        });
+        html += `</div>`;
+      }
+      html += `</div>`;
+    });
+  } else {
+    // Fallback: one big section
+    html += buildFallbackSections(text);
+  }
+
+  return html;
+}
+
+function buildComparisonBody(text, statusClass, modelAName, modelBName) {
+  let html = '';
+
+  // Try to find scores for each model
+  const lines = text.split('\n');
+  let scoreA = null, scoreB = null;
+  let winner = null;
+
+  // Look for "Model A: 8/10" type patterns
+  lines.forEach(l => {
+    const aMatch = l.match(new RegExp(`(?:${modelAName}|model\\s*a).*?(\\d+(?:\\.\\d+)?)\\s*\\/\\s*10`, 'i'));
+    const bMatch = l.match(new RegExp(`(?:${modelBName}|model\\s*b).*?(\\d+(?:\\.\\d+)?)\\s*\\/\\s*10`, 'i'));
+    if (aMatch && !scoreA) scoreA = parseFloat(aMatch[1]);
+    if (bMatch && !scoreB) scoreB = parseFloat(bMatch[1]);
+  });
+
+  // If we found both scores
+  if (scoreA !== null && scoreB !== null) {
+    winner = scoreA >= scoreB ? 'a' : 'b';
+    const colorA = scoreColor(scoreA, 10);
+    const colorB = scoreColor(scoreB, 10);
+    html += `<div class="vs-section">
+      <div class="vs-model ${winner === 'a' ? 'vs-winner' : ''}">
+        <div class="vs-model-name">${esc(modelAName)}</div>
+        <div class="vs-model-score" style="color:${colorA.text}">${scoreA}<span style="font-size:14px;font-family:'DM Sans',sans-serif;color:var(--muted)">/10</span></div>
+        ${winner === 'a' ? `<div style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:12px;background:#fef3c7;color:#92400e;font-size:11.5px;font-weight:600;margin-bottom:6px">🏆 Winner</div>` : ''}
+      </div>
+      <div class="vs-divider"><div class="vs-badge">VS</div></div>
+      <div class="vs-model ${winner === 'b' ? 'vs-winner' : ''}">
+        <div class="vs-model-name">${esc(modelBName)}</div>
+        <div class="vs-model-score" style="color:${colorB.text}">${scoreB}<span style="font-size:14px;font-family:'DM Sans',sans-serif;color:var(--muted)">/10</span></div>
+        ${winner === 'b' ? `<div style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:12px;background:#fef3c7;color:#92400e;font-size:11.5px;font-weight:600;margin-bottom:6px">🏆 Winner</div>` : ''}
+      </div>
+    </div>`;
+  } else {
+    // Just show VS header with model names
+    html += `<div class="vs-section">
+      <div class="vs-model"><div class="vs-model-name">${esc(modelAName)}</div></div>
+      <div class="vs-divider"><div class="vs-badge">VS</div></div>
+      <div class="vs-model"><div class="vs-model-name">${esc(modelBName)}</div></div>
+    </div>`;
+  }
+
+  html += buildFallbackSections(text);
+  return html;
+}
+
+function buildHallucinationBody(text) {
+  let html = '';
+  const lines = text.split('\n');
+
+  // Try to find claim lines
+  const claims = [];
+  let currentSection = null;
+
+  lines.forEach(line => {
+    const t = line.trim();
+    if (!t) return;
+
+    // Claim verdicts
+    const falseMatch = t.match(/(?:false|incorrect|wrong|hallucination|fabricated|inaccurate)[:\s]+(.+)/i);
+    const trueMatch = t.match(/(?:true|correct|verified|accurate|confirmed)[:\s]+(.+)/i);
+    const unclearMatch = t.match(/(?:unclear|unverified|uncertain|partial|possibly)[:\s]+(.+)/i);
+
+    if (/^(?:CLAIM|FACT|STATEMENT)\s*\d*/i.test(t)) {
+      claims.push({ text: t.replace(/^(?:CLAIM|FACT|STATEMENT)\s*\d*\s*[:\-]?\s*/i, ''), status:'claim' });
+    } else if (falseMatch || /\b(❌|🔴|✗)\b/.test(t)) {
+      claims.push({ text: falseMatch ? falseMatch[1] : t.replace(/[❌🔴✗]\s*/, ''), status:'false' });
+    } else if (trueMatch || /\b(✅|✓|🟢)\b/.test(t)) {
+      claims.push({ text: trueMatch ? trueMatch[1] : t.replace(/[✅✓🟢]\s*/, ''), status:'verified' });
+    } else if (unclearMatch || /\b(⚠️|🟡|~)\b/.test(t)) {
+      claims.push({ text: unclearMatch ? unclearMatch[1] : t.replace(/[⚠️🟡~]\s*/, ''), status:'unverified' });
+    }
+  });
+
+  if (claims.length >= 2) {
+    const falseCount = claims.filter(c => c.status === 'false').length;
+    const trueCount = claims.filter(c => c.status === 'verified').length;
+    const unclearCount = claims.filter(c => c.status === 'unverified').length;
+
+    // Summary banner
+    const bannerType = falseCount > 0 ? 'err' : unclearCount > 0 ? 'warn' : 'ok';
+    const bannerEmoji = falseCount > 0 ? '⚠️' : unclearCount > 0 ? '🔎' : '✅';
+    const bannerTitle = falseCount > 0 ? `${falseCount} hallucination${falseCount > 1 ? 's' : ''} detected` : unclearCount > 0 ? 'Some claims unverified' : 'All claims appear accurate';
+    const bannerText = `${trueCount} verified · ${unclearCount} unverified · ${falseCount} false`;
+
+    html += `<div class="content-section">
+      <div class="summary-banner ${bannerType}">
+        <div class="sb-ico">${bannerEmoji}</div>
+        <div class="sb-body"><strong>${bannerTitle}</strong><p>${bannerText}</p></div>
+      </div>
+    </div>`;
+
+    html += `<div class="content-section">
+      <div class="section-header">${renderSectionIcon('claim')}<div class="section-title">Claim Audit</div></div>
+      <div class="claim-list">`;
+
+    claims.forEach(c => {
+      const iconMap = {
+        verified: { cls:'ci-ok', svg:`<polyline points="20 6 9 17 4 12"/>` },
+        false: { cls:'ci-err', svg:`<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>` },
+        unverified: { cls:'ci-warn', svg:`<line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>` },
+        claim: { cls:'ci-q', svg:`<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>` },
+      };
+      const ico = iconMap[c.status] || iconMap.claim;
+      html += `<div class="claim-item ${c.status}">
+        <div class="claim-icon ${ico.cls}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">${ico.svg}</svg></div>
+        <div><div class="claim-text">${esc(c.text)}</div></div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  } else {
+    html += buildFallbackSections(text);
+  }
+  return html;
+}
+
+function buildBenchmarkBody(text) {
+  let html = '';
+
+  // Try to find difficulty
+  const diffMatch = text.match(/\b(easy|medium|hard|expert|simple|moderate|complex|advanced)\b/i);
+  const diffWord = diffMatch ? diffMatch[1].toLowerCase() : null;
+  const diffMap = {
+    easy:'easy', simple:'easy', medium:'medium', moderate:'medium',
+    hard:'hard', complex:'hard', expert:'expert', advanced:'expert'
+  };
+  const diffClass = diffWord ? (diffMap[diffWord] || 'medium') : null;
+
+  if (diffClass) {
+    const diffLabels = { easy:'Easy', medium:'Medium', hard:'Hard', expert:'Expert' };
+    const diffIcons = { easy:'🟢', medium:'🟡', hard:'🟠', expert:'🔴' };
+    html += `<div class="difficulty-band">
+      <div class="diff-pill diff-${diffClass}">${diffIcons[diffClass]} ${diffLabels[diffClass]}</div>
+      <div class="diff-label">Prompt difficulty level</div>
+    </div>`;
+  }
+
+  html += buildFallbackSections(text);
+  return html;
+}
+
+function buildFallbackSections(text) {
+  // Smart section split
+  const sections = parseSections(text);
+  let html = '';
+
+  if (sections.length <= 1) {
+    // No clear sections — render as smart prose block
+    const paras = text.split(/\n\n+/).filter(p => p.trim().length > 20);
+    html += `<div class="content-section">
+      <div class="section-header">${renderSectionIcon('summary')}<div class="section-title">Analysis</div></div>`;
+    paras.forEach(p => {
+      const clean = p.trim().replace(/\*\*/g,'').replace(/\*/g,'').replace(/`/g,'').replace(/^#{1,3}\s*/,'');
+      if (isBulletBlock(p)) {
+        html += renderBulletList(p);
+      } else {
+        html += `<div class="prose-text"><p>${esc(clean)}</p></div>`;
+      }
+    });
+    html += `</div>`;
+    return html;
+  }
+
+  sections.forEach(sec => {
+    if (!sec.body || sec.body.trim().length < 15) return;
+    html += `<div class="content-section">
+      <div class="section-header">
+        ${renderSectionIcon(sec.title)}
+        ${sec.title ? `<div class="section-title">${esc(sec.title)}</div>` : ''}
+      </div>`;
+    if (isBulletBlock(sec.body)) {
+      html += renderBulletList(sec.body);
+    } else {
+      const paras = sec.body.split(/\n\n+/).filter(p => p.trim());
+      html += `<div class="prose-text">`;
+      paras.forEach(p => {
+        const clean = p.trim().replace(/\*\*/g,'').replace(/\*/g,'').replace(/`/g,'');
+        if (isBulletBlock(p)) {
+          html += `</div>${renderBulletList(p)}<div class="prose-text">`;
+        } else {
+          html += `<p>${esc(clean)}</p>`;
+        }
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  });
+
+  return html;
+}
+
+window.downloadTxt = function(content, label) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([content], {type:"text/plain"}));
+  a.download = `stremini-${label.toLowerCase().replace(/\s+/g,"-")}-${Date.now()}.txt`;
+  a.click();
+};
+
+// ═══════════════════════════════════════════════
 // Main run handler
-// ─────────────────────────────────────────
+// ═══════════════════════════════════════════════
 async function handleRun() {
   const prompt    = val("f-prompt");
   const responseA = val("f-responseA");
@@ -694,100 +1196,98 @@ async function handleRun() {
   if (mode === "compare" && !responseB) {
     alert("Please paste Model B's response for comparison."); return;
   }
-
   if (running) return;
   running = true;
   document.getElementById("runBtn").disabled = true;
 
   const statusLabels = {
-    evaluate:     "Evaluating response…",
-    compare:      "Comparing models…",
-    hallucination:"Auditing for hallucinations…",
-    benchmark:    "Benchmarking prompt…",
-    score:        "Scoring…",
+    evaluate:"Evaluating response…", compare:"Comparing models…",
+    hallucination:"Auditing for hallucinations…", benchmark:"Benchmarking prompt…",
+    score:"Scoring…",
   };
   setStatus("run", statusLabels[mode] || "Processing…");
 
-  // Show thinking
   const rz = document.getElementById("resultZone");
   rz.innerHTML = `<div class="thinking-card">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--muted)">
       <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/>
       <path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/>
-      <path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>
     </svg>
     <span style="font-size:13px;color:var(--txt2)">Stremini Evaluator is analysing…</span>
     <div class="dots" style="margin-left:auto"><span></span><span></span><span></span></div>
   </div>`;
   scrollBottom();
-
   addRecent(prompt, mode);
 
   let data;
   try {
     const res = await fetch(BACKEND, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ mode, prompt, responseA, responseB, modelA, modelB }),
     });
     data = await res.json();
-  } catch (err) {
-    rz.innerHTML = cardHtml("err", "Network error: " + esc(err.message));
-    setStatus("err", "Error");
+  } catch(err) {
+    rz.innerHTML = `<div style="display:flex;align-items:center;gap:9px;padding:12px 16px;background:#fff5f5;border:1px solid #fecaca;border-radius:8px;font-size:13px;color:#7f1d1d">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      Network error: ${esc(err.message)}</div>`;
+    setStatus("err","Error");
     running = false;
     document.getElementById("runBtn").disabled = false;
     return;
   }
 
   const STRUCTURED = ["EVALUATION","COMPARISON","HALLUCINATION","BENCHMARK","SCORE","COMPLETED"];
-
   if (STRUCTURED.includes(data.status)) {
     const content = data.content || "";
     rz.innerHTML = "";
-    rz.appendChild(renderResult(content, data.status));
+    const resultEl = renderStructuredResult(content, data.status, modelA, modelB);
+    rz.appendChild(resultEl);
     scrollBottom();
 
-    // Update stats
+    // Animate metric bars after render
+    setTimeout(() => {
+      document.querySelectorAll('.metric-bar-fill').forEach(el => {
+        const w = el.style.width;
+        el.style.width = '0';
+        setTimeout(() => { el.style.width = w; }, 50);
+      });
+    }, 100);
+
     if (data.status === "EVALUATION" || data.status === "SCORE") stats.evals++;
     else if (data.status === "COMPARISON") stats.comps++;
     else if (data.status === "HALLUCINATION") stats.halls++;
     else stats.evals++;
     updateStats();
-
-    setStatus("done", "Complete");
+    setStatus("done","Complete");
   } else if (data.status === "ERROR") {
-    rz.innerHTML = cardHtml("err", esc(data.message || "Unknown error"));
-    setStatus("err", "Error");
+    rz.innerHTML = `<div style="padding:12px 16px;background:#fff5f5;border:1px solid #fecaca;border-radius:8px;font-size:13px;color:#7f1d1d">${esc(data.message || "Unknown error")}</div>`;
+    setStatus("err","Error");
   } else {
-    rz.innerHTML = cardHtml("err", "Unexpected response.");
-    setStatus("err", "Error");
+    rz.innerHTML = `<div style="padding:12px;color:var(--muted);font-size:13px">Unexpected response from server.</div>`;
+    setStatus("err","Error");
   }
 
   running = false;
   document.getElementById("runBtn").disabled = false;
 }
 
-// ─────────────────────────────────────────
-// Clear all
-// ─────────────────────────────────────────
 function clearAll() {
   document.getElementById("resultZone").innerHTML = "";
   document.getElementById("welcome").style.display = "";
   document.getElementById("inputPanel").style.display = "none";
-  stats = { evals: 0, comps: 0, halls: 0 };
+  stats = { evals:0, comps:0, halls:0 };
   updateStats();
   document.getElementById("recentList").innerHTML = `<div class="muted-note">No evaluations yet</div>`;
-  setStatus("idle", "Ready");
+  setStatus("idle","Ready");
   running = false;
   document.getElementById("runBtn").disabled = false;
-  // Reset mode buttons
   Object.keys(MODES).forEach(k => {
     document.getElementById("btn-" + k).className = "mode-btn" + (k === "evaluate" ? " on-evaluate" : "");
   });
   mode = "evaluate";
 }
 
-// Init: show input panel on load so user can start immediately
 setMode("evaluate");
 </script>
 </body>
