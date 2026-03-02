@@ -776,6 +776,16 @@ function isSectionHead(line) {
   return /^[A-Z][A-Z0-9\s&\/\-\.,:]+$/.test(t);
 }
 
+function isMarkdownHeading(line) {
+  return /^#{1,4}\s+\S/.test(line.trim());
+}
+
+function isNumberedHeading(line) {
+  const t = line.trim();
+  if (t.length < 4 || t.length > 90) return false;
+  return /^\d+[\.)]\s+[A-Za-z].+/.test(t);
+}
+
 function isDivider(line) {
   return /^[━─=\-]{4,}$/.test(line.trim());
 }
@@ -795,6 +805,22 @@ function renderTextSegment(rawText) {
     }
 
     if (isSectionHead(line)) {
+      const div = document.createElement("span");
+      div.className = "sec-head";
+      div.textContent = line.trim();
+      frag.appendChild(div);
+      continue;
+    }
+
+    if (isMarkdownHeading(line)) {
+      const div = document.createElement("span");
+      div.className = "sec-head";
+      div.textContent = line.trim().replace(/^#{1,4}\s+/, "");
+      frag.appendChild(div);
+      continue;
+    }
+
+    if (isNumberedHeading(line)) {
       const div = document.createElement("span");
       div.className = "sec-head";
       div.textContent = line.trim();
@@ -1213,6 +1239,17 @@ async function handleSend() {
   const m = currentMode;
   const cfg = modeConfig[m];
 
+  const explainStructureGuide = [
+    "For explain mode, respond in this exact structure:",
+    "1) Concept Overview (2-4 concise bullets)",
+    "2) Step-by-Step Flow (numbered sequence)",
+    "3) Annotated Code Walkthrough (short code blocks + plain explanation)",
+    "4) Common Mistakes (bullets)",
+    "5) Practical Checklist (actionable bullets)",
+    "Keep sections short, technical, and easy to scan.",
+  ].join("\n");
+  const finalQuery = m === "explain" ? `${query}\n\n${explainStructureGuide}` : query;
+
   addUserMsg(query);
   addRecent(query, m);
   chatHistory.push({ role: "user", content: query });
@@ -1230,7 +1267,7 @@ async function handleSend() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        query,
+        query: finalQuery,
         mode: m,
         history: chatHistory.slice(-10),
         iteration: 0,
