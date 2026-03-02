@@ -425,6 +425,13 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
             <path d="M3 9h18M3 15h18M9 3v18"/>
           </svg>CSV / Data
         </button>
+        <button class="mode-btn" id="btnModelEvaluator" onclick="openModelEvaluator()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"/>
+            <path d="M15 19V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/>
+            <path d="M21 19V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2z"/>
+          </svg>Model Evaluator
+        </button>
       </div>
     </div>
     <div class="sb-sec">
@@ -499,6 +506,10 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
               <div class="hint-em">💰</div>
               <div><strong>Cost Analysis</strong><small>Per-user cost projections</small></div>
             </div>
+            <div class="hint v-h" onclick="openModelEvaluator()">
+              <div class="hint-em">🧪</div>
+              <div><strong>Model Evaluator</strong><small>Structured model quality reviews</small></div>
+            </div>
           </div>
         </div>
       </div>
@@ -563,6 +574,8 @@ function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").rep
 function scrollBottom(){ msgsWrap.scrollTop=msgsWrap.scrollHeight; }
 function hideWelcome(){ if(welcome)welcome.style.display="none"; }
 function now(){ return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); }
+
+function openModelEvaluator(){ window.location.href = "modelevaluator.html"; }
 
 function agentAvatar(){ return `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`; }
 
@@ -882,7 +895,8 @@ function renderReport(data) {
     architect:"rtb-amber", architecture:"rtb-amber", rag:"rtb-amber",
     agent:"rtb-violet", cost:"rtb-violet",
     diagnose:"rtb-amber", cohort:"rtb-blue", conversion:"rtb-amber",
-    anomaly:"rtb-amber", forecast:"rtb-violet", csv:"rtb-green"
+    anomaly:"rtb-amber", forecast:"rtb-violet", csv:"rtb-green",
+    evaluation:"rtb-violet", comparison:"rtb-violet", hallucination:"rtb-amber", benchmark:"rtb-blue", score:"rtb-violet"
   }[data.type||""] || "rtb-amber";
 
   const typeLabel = (data.type||"report").toUpperCase();
