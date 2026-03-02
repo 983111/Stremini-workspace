@@ -147,25 +147,24 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
   background:linear-gradient(180deg,#fcfcff 0%,#fafaff 100%);
 }
 .math-doc{display:flex;flex-direction:column;gap:14px}
-.math-title{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#312e81;letter-spacing:-.2px}
-.math-subtitle{font-size:13px;font-weight:600;color:#6366f1;text-transform:uppercase;letter-spacing:.5px}
-.math-heading{font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;color:#4338ca;margin-top:4px}
-.math-subheading{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#4f46e5}
+.math-header{border:1px solid #ddd6fe;background:linear-gradient(180deg,#f5f3ff,#eef2ff);border-radius:12px;padding:14px 16px}
+.math-kicker{font-size:11px;font-weight:700;color:#6366f1;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
+.math-title{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;line-height:1.35;color:#1f1b4d;letter-spacing:-.2px}
+.math-section{border:1px solid #e5e7eb;background:#fff;border-radius:12px;overflow:hidden}
+.math-section-h{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#f8fafc;border-bottom:1px solid #e5e7eb;font-size:12px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:.5px}
+.math-section-dot{width:8px;height:8px;border-radius:50%;background:#818cf8}
+.math-section-b{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
 .math-para{font-size:15px;color:#111827;line-height:1.78}
-.math-list{margin:2px 0 2px 18px;display:flex;flex-direction:column;gap:6px;color:#1f2937}
-.math-list li{padding-left:2px}
-.math-step{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border:1px solid #ddd6fe;background:#f5f3ff;border-radius:8px}
+.math-list{margin:0 0 0 18px;display:flex;flex-direction:column;gap:6px;color:#1f2937}
+.math-list li{padding-left:2px;line-height:1.65}
+.math-step{display:flex;gap:8px;align-items:flex-start;padding:10px 11px;border:1px solid #ddd6fe;background:#f5f3ff;border-radius:9px}
 .math-step-no{font-size:12px;font-weight:700;color:#5b21b6;background:#ede9fe;border-radius:999px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
-.math-step-txt{flex:1;color:#312e81}
-.math-eq{font-family:'DM Mono','SFMono-Regular',Consolas,monospace;font-size:13.5px;line-height:1.7;background:#111827;color:#f9fafb;border-radius:8px;padding:10px 12px;overflow-x:auto}
-.math-divider{border:none;border-top:1px solid #e5e7eb;margin:4px 0}
-.math-note{background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;padding:10px 12px;color:#3730a3}
-.math-final{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:10px;padding:12px 14px;font-weight:600}
-.math-strong{font-weight:700;color:#111827}
+.math-step-txt{flex:1;color:#312e81;line-height:1.7}
+.math-eq{font-family:'DM Mono','SFMono-Regular',Consolas,monospace;font-size:13px;line-height:1.65;background:#111827;color:#f9fafb;border-radius:8px;padding:10px 12px;overflow-x:auto}
+.math-note{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 12px;color:#1e3a8a}
+.math-final{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:10px;padding:12px 14px;font-weight:600;line-height:1.65}
 .math-inline-eq{font-family:'DM Mono','SFMono-Regular',Consolas,monospace;background:#eef2ff;border:1px solid #c7d2fe;border-radius:5px;padding:0 6px;font-size:.92em;color:#312e81}
 .math-empty{color:var(--muted);font-style:italic}
-.math-bd .paper-title-block,.math-bd .paper-section,.math-bd .paper-sub-heading,.math-bd .paper-para{all:unset}
-.math-bd .paper-title-block,.math-bd .paper-section,.math-bd .paper-sub-heading,.math-bd .paper-para{display:block}
 
 /* Structured paper rendering */
 .paper-title-block{text-align:center;padding:0 0 22px;border-bottom:2px solid var(--border);margin-bottom:24px}
@@ -779,116 +778,155 @@ function formatInlineMath(text) {
   return frag;
 }
 
+function normalizeMathSectionName(raw) {
+  const key = raw.toLowerCase().replace(/[^a-z\s]/g, "").trim();
+  if (!key) return "Explanation";
+  if (/(problem|question)/.test(key)) return "Problem";
+  if (/(given|data|known)/.test(key)) return "Given";
+  if (/(approach|plan|strategy|method)/.test(key)) return "Approach";
+  if (/(step|solution|work)/.test(key)) return "Step-by-step";
+  if (/(check|verify|validation)/.test(key)) return "Verification";
+  if (/(final|answer|result|therefore)/.test(key)) return "Final Answer";
+  if (/(note|intuition|insight|tip)/.test(key)) return "Notes";
+  return raw.trim();
+}
+
+function createMathSection(container, sectionName) {
+  const sec = document.createElement("div");
+  sec.className = "math-section";
+  const hd = document.createElement("div");
+  hd.className = "math-section-h";
+  hd.innerHTML = `<span class="math-section-dot"></span>${esc(sectionName)}`;
+  const bd = document.createElement("div");
+  bd.className = "math-section-b";
+  sec.appendChild(hd);
+  sec.appendChild(bd);
+  container.appendChild(sec);
+  return bd;
+}
+
+function appendMathBlock(target, line, state) {
+  if (!line) {
+    state.currentList = null;
+    return;
+  }
+
+  if (/^[-*•]\s+/.test(line)) {
+    if (!state.currentList) {
+      state.currentList = document.createElement("ul");
+      state.currentList.className = "math-list";
+      target.appendChild(state.currentList);
+    }
+    const li = document.createElement("li");
+    li.appendChild(formatInlineMath(line.replace(/^[-*•]\s+/, "")));
+    state.currentList.appendChild(li);
+    return;
+  }
+
+  state.currentList = null;
+
+  const stepMatch = /^(?:step\s*)?(\d+)[\).:-]\s+(.+)/i.exec(line);
+  if (stepMatch) {
+    const row = document.createElement("div");
+    row.className = "math-step";
+    row.innerHTML = `<span class="math-step-no">${stepMatch[1]}</span>`;
+    const txt = document.createElement("div");
+    txt.className = "math-step-txt";
+    txt.appendChild(formatInlineMath(stepMatch[2]));
+    row.appendChild(txt);
+    target.appendChild(row);
+    return;
+  }
+
+  if (/^(final answer|answer|result|therefore)\s*[:\-]/i.test(line)) {
+    const final = document.createElement("div");
+    final.className = "math-final";
+    final.appendChild(formatInlineMath(line));
+    target.appendChild(final);
+    return;
+  }
+
+  if (/^(note|tip|intuition)\s*[:\-]/i.test(line)) {
+    const note = document.createElement("div");
+    note.className = "math-note";
+    note.appendChild(formatInlineMath(line));
+    target.appendChild(note);
+    return;
+  }
+
+  if (/^[A-Za-z\s]{0,12}[=:].*[+\-*/^()]/.test(line) || /\b(sum|integral|sqrt|lim|theta|sigma|pi|alpha|beta)\b/i.test(line)) {
+    const eq = document.createElement("div");
+    eq.className = "math-eq";
+    eq.textContent = line;
+    target.appendChild(eq);
+    return;
+  }
+
+  const p = document.createElement("div");
+  p.className = "math-para";
+  p.appendChild(formatInlineMath(line));
+  target.appendChild(p);
+}
+
 function buildMathDOM(allParts) {
   const container = document.createElement("div");
   container.className = "math-doc";
 
   const lines = [];
   for (const p of allParts) {
-    if (p.kind === "diagram") {
-      lines.push({ type: "diagram", el: p.el });
-      continue;
-    }
-    p.txt.split("\n").forEach(l => lines.push({ type: "line", txt: l.trim() }));
+    if (p.kind === "diagram") lines.push({ type: "diagram", el: p.el });
+    else p.txt.split("\n").forEach(l => lines.push({ type: "line", txt: l.trim() }));
   }
 
-  let currentList = null;
-  const closeList = () => { currentList = null; };
-  const addPara = (txt, cls = "math-para") => {
-    const p = document.createElement("div");
-    p.className = cls;
-    p.appendChild(formatInlineMath(txt));
-    container.appendChild(p);
-  };
+  const firstLine = lines.find(x => x.type === "line" && x.txt)?.txt || "Math Solution";
+  const header = document.createElement("div");
+  header.className = "math-header";
+  header.innerHTML = `<div class="math-kicker">Math solution</div><div class="math-title"></div>`;
+  header.querySelector(".math-title").textContent = firstLine.replace(/^#{1,3}\s*/, "");
+  container.appendChild(header);
+
+  let sectionName = "Explanation";
+  let sectionBody = createMathSection(container, sectionName);
+  const state = { currentList: null };
 
   lines.forEach((item, idx) => {
     if (item.type === "diagram") {
-      closeList();
-      if (item.el) container.appendChild(item.el);
+      state.currentList = null;
+      if (item.el) sectionBody.appendChild(item.el);
       return;
     }
 
-    const l = item.txt;
-    if (!l) {
-      closeList();
+    let line = item.txt;
+    if (!line) {
+      state.currentList = null;
       return;
     }
 
-    if (idx === 0) {
-      const t = document.createElement("div");
-      t.className = "math-subtitle";
-      t.textContent = "Structured solution";
-      container.appendChild(t);
-      addPara(l.replace(/^#\s*/, ""), "math-title");
+    if (idx === 0 && line === firstLine) return;
+
+    const headingMatch = /^#{1,3}\s+(.+)$/.exec(line) || /^([A-Za-z][A-Za-z\s]{1,30})\s*:\s*$/.exec(line);
+    if (headingMatch) {
+      sectionName = normalizeMathSectionName(headingMatch[1]);
+      sectionBody = createMathSection(container, sectionName);
+      state.currentList = null;
       return;
     }
 
-    if (/^#{1,3}\s+/.test(l)) {
-      closeList();
-      addPara(l.replace(/^#{1,3}\s+/, ""), /^#\s+/.test(l) ? "math-heading" : "math-subheading");
-      return;
-    }
-
-    if (/^(final answer|answer|result|therefore)\s*[:\-]/i.test(l)) {
-      closeList();
-      addPara(l, "math-final");
-      return;
-    }
-
-    if (/^(note|tip|intuition)\s*[:\-]/i.test(l)) {
-      closeList();
-      addPara(l, "math-note");
-      return;
-    }
-
-    if (/^(-{3,}|_{3,})$/.test(l)) {
-      closeList();
-      const hr = document.createElement("hr");
-      hr.className = "math-divider";
-      container.appendChild(hr);
-      return;
-    }
-
-    if (/^[-*•]\s+/.test(l)) {
-      if (!currentList) {
-        currentList = document.createElement("ul");
-        currentList.className = "math-list";
-        container.appendChild(currentList);
+    const explicitSectionMatch = /^(problem|given|approach|steps?|verification|final answer|result|notes?)\s*:\s*(.+)$/i.exec(line);
+    if (explicitSectionMatch) {
+      const targetSection = normalizeMathSectionName(explicitSectionMatch[1]);
+      if (targetSection !== sectionName) {
+        sectionName = targetSection;
+        sectionBody = createMathSection(container, sectionName);
       }
-      const li = document.createElement("li");
-      li.appendChild(formatInlineMath(l.replace(/^[-*•]\s+/, "")));
-      currentList.appendChild(li);
+      appendMathBlock(sectionBody, explicitSectionMatch[2], state);
       return;
     }
 
-    const stepMatch = /^(?:step\s*)?(\d+)[\).:-]\s+(.+)/i.exec(l);
-    if (stepMatch) {
-      closeList();
-      const row = document.createElement("div");
-      row.className = "math-step";
-      row.innerHTML = `<span class="math-step-no">${stepMatch[1]}</span>`;
-      const txt = document.createElement("div");
-      txt.className = "math-step-txt";
-      txt.appendChild(formatInlineMath(stepMatch[2]));
-      row.appendChild(txt);
-      container.appendChild(row);
-      return;
-    }
-
-    if (/^[A-Za-z\s]{0,10}[=:].*[+\-*/^()]/.test(l) || /\b(sum|integral|sqrt|lim|\bpi\b|theta|sigma)\b/i.test(l)) {
-      closeList();
-      const eq = document.createElement("div");
-      eq.className = "math-eq";
-      eq.textContent = l;
-      container.appendChild(eq);
-      return;
-    }
-
-    closeList();
-    addPara(l);
+    appendMathBlock(sectionBody, line, state);
   });
 
-  if (!container.children.length) {
+  if (container.querySelectorAll('.math-section').length === 1 && !container.querySelector('.math-section-b').innerText.trim()) {
     const empty = document.createElement("div");
     empty.className = "math-empty";
     empty.textContent = "No solution content generated.";
