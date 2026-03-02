@@ -760,8 +760,58 @@ async function handleSend() {
   const statusLabels={chat:"Thinking…",goals:"Architecting goal…",habits:"Designing habit…",reflect:"Reflecting…",plan:"Building plan…",memory:"Querying memory…"};
   setStatus("run",statusLabels[mode]||"Processing…");addThinking();
   let data;
+  const structuredGuideByMode = {
+    chat: [
+      "Respond like ChatGPT with clear, concise markdown sections.",
+      "Use this structure:",
+      "1) Quick Answer",
+      "2) Why This Matters",
+      "3) Recommended Next Steps",
+      "4) Watchouts"
+    ].join("\n"),
+    goals: [
+      "Return a practical goal architecture.",
+      "Use this structure:",
+      "1) Goal Statement",
+      "2) Success Metrics",
+      "3) Milestones",
+      "4) Immediate Actions"
+    ].join("\n"),
+    habits: [
+      "Return a habit system that is easy to execute.",
+      "Use this structure:",
+      "1) Habit Design",
+      "2) Trigger + Routine + Reward",
+      "3) Daily/Weekly Tracking",
+      "4) Failure Recovery Plan"
+    ].join("\n"),
+    reflect: [
+      "Return a decision reflection brief.",
+      "Use this structure:",
+      "1) Situation Snapshot",
+      "2) Key Insights",
+      "3) Decision Options",
+      "4) Recommended Decision"
+    ].join("\n"),
+    plan: [
+      "Return a strategic execution plan.",
+      "Use this structure:",
+      "1) Objective",
+      "2) Plan Breakdown",
+      "3) Priority Sequence",
+      "4) Next 7 Days"
+    ].join("\n"),
+    memory: [
+      "Return memory retrieval in structured bullets.",
+      "Use this structure:",
+      "1) Relevant Memory",
+      "2) Patterns",
+      "3) Suggested Update"
+    ].join("\n")
+  };
+  const structuredQuery = `${query}\n\n${structuredGuideByMode[mode] || structuredGuideByMode.chat}`;
   try {
-    const res=await fetch(BACKEND,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query,mode,history:history.slice(-14),memory,context:{currentGoals:memory.goals.slice(-3),recentHabits:memory.habits.slice(-3),pendingDecisions:memory.decisions.slice(-3)}})});
+    const res=await fetch(BACKEND,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:structuredQuery,mode,history:history.slice(-14),memory,context:{currentGoals:memory.goals.slice(-3),recentHabits:memory.habits.slice(-3),pendingDecisions:memory.decisions.slice(-3)}})});
     data=await res.json();
   } catch(err) {
     removeThinking();addMsg("agent",card("err","Network error: "+esc(err.message)),mode);setStatus("err","Error");running=false;sendBtn.disabled=false;return;

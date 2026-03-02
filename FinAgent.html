@@ -1028,13 +1028,14 @@ async function handleSend() {
 
   try {
     const structuredResponseGuide = [
-      "Respond with practical, structured sections instead of long-form essays.",
-      "Use this exact layout:",
-      "1) Summary (3-5 bullets)",
-      "2) Key Numbers (table or bullet points)",
-      "3) Recommendations (prioritised action list)",
-      "4) Risks/Assumptions (short bullets)",
-      "Keep each bullet concise and execution-focused."
+      "Respond like a structured Growth/Data report, not long-form prose.",
+      "Use markdown headings and this exact layout:",
+      "## Summary (3-5 bullets)",
+      "## Key Numbers (bullets or mini-table)",
+      "## Recommendations (prioritised action list)",
+      "## Risks & Assumptions (short bullets)",
+      "## Next 7 Days (execution checklist)",
+      "Keep every bullet concise and execution-focused."
     ].join("\n");
 
     const res = await fetch(BACKEND, {
