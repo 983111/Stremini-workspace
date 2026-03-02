@@ -197,7 +197,7 @@ html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;colo
 .dl-md{background:#0369a1;color:#fff}
 .dl-md:hover{background:#075985;transform:translateY(-1px)}
 
-/* ── File widgets (per-file cards) ── */
+/* ── File widgets (Claude-style per-file cards) ── */
 .files-preamble{margin-bottom:10px;font-size:13.5px;color:var(--txt);line-height:1.7}
 .files-preamble .text-line{display:block;white-space:pre-wrap;font-family:'DM Sans',sans-serif;font-size:13.5px}
 .files-preamble .sec-head{display:block;font-size:10.5px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 4px}
@@ -1225,20 +1225,15 @@ async function handleSend() {
   showThinking();
 
   let data;
-  const cleanOutputPrefix = m === "explain"
-    ? "Use clean, readable output with short headings and concise bullets only when helpful. Avoid rigid structured markdown templates. Focus on clarity and examples."
-    : "Return clean output without rigid markdown templates. Prefer practical code and per-file sections when relevant.";
-  const queryForBackend = `${cleanOutputPrefix}\n\nUser request:\n${query}`;
   try {
     const res = await fetch(BACKEND, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        query: queryForBackend,
+        query,
         mode: m,
         history: chatHistory.slice(-10),
         iteration: 0,
-        output_style: "default",
       }),
     });
     if (!res.ok) {
