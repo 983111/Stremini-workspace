@@ -549,6 +549,10 @@ function renderReport(data, reportMode) {
       <span title="${esc(data.title || "Report")}">${esc(data.title || "Growth Report")}</span>
     </div>
     <div class="report-hd-actions">
+      <button class="copy-btn" onclick="downloadReportPdf(this)">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </button>
       <button class="copy-btn" id="rcp-${Date.now()}" onclick="copyReport(this)">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy
@@ -717,6 +721,24 @@ function copyReport(btn) {
   });
 }
 
+function downloadReportPdf(btn) {
+  const block = btn.closest(".report-block");
+  if (!block || !block.reportData) return;
+  const reportText = reportToText(block.reportData);
+  const title = esc(block.reportData?.title || "Growth Report");
+  const printWin = window.open("", "_blank", "noopener,noreferrer,width=900,height=700");
+  if (!printWin) return;
+  printWin.document.write(`<!doctype html><html><head><title>${title}</title><style>body{font-family:Arial,sans-serif;padding:32px;color:#1a1814;line-height:1.6}pre{white-space:pre-wrap;word-break:break-word;font-family:Arial,sans-serif}</style></head><body><h1>${title}</h1><pre>${esc(reportText)}</pre></body></html>`);
+  printWin.document.close();
+  printWin.focus();
+  setTimeout(() => printWin.print(), 200);
+}
+
+function shouldIgnoreRenderError(message) {
+  const msg = (message || "").toLowerCase();
+  return msg.includes("diagram") || msg.includes("digram");
+}
+
 function reportToText(data) {
   let out = data.title + "\n" + "=".repeat(data.title.length) + "\n\n";
   (data.sections || []).forEach(sec => {
@@ -825,8 +847,12 @@ async function handleSend() {
     setStatus("done", "Done");
 
   } else if (data.status === "ERROR") {
-    addMsg("agent", cardHtml("err", esc(data.message || "Unknown error")));
-    setStatus("err", "Error");
+    if (!shouldIgnoreRenderError(data.message)) {
+      addMsg("agent", cardHtml("err", esc(data.message || "Unknown error")));
+      setStatus("err", "Error");
+    } else {
+      setStatus("done", "Done");
+    }
 
   } else {
     addMsg("agent", cardHtml("err", "Unexpected response. Please try again."));
