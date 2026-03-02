@@ -22,6 +22,17 @@
     --accent-light:   #fef3c7;
     --accent-hover:   #b45309;
     --code-bg:        #f0ede6;
+    --green:          #059669;
+    --green-bg:       #d1fae5;
+    --green-light:    #ecfdf5;
+    --red:            #dc2626;
+    --red-bg:         #fee2e2;
+    --blue:           #1d4ed8;
+    --blue-bg:        #eff6ff;
+    --violet:         #7c3aed;
+    --violet-bg:      #f5f3ff;
+    --teal:           #0f766e;
+    --teal-bg:        #f0fdfa;
     --shadow-sm:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     --shadow-md:  0 4px 12px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
     --shadow-lg:  0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
@@ -382,7 +393,7 @@
     scroll-behavior: smooth;
   }
   .messages-inner {
-    max-width: 780px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 0 32px;
     display: flex;
@@ -498,12 +509,6 @@
     white-space: pre-wrap;
     word-break: break-word;
   }
-  .msg-content p  { margin-bottom: 8px; }
-  .msg-content p:last-child { margin-bottom: 0; }
-  .msg-content ul, .msg-content ol { padding-left: 20px; margin: 6px 0; }
-  .msg-content li { margin-bottom: 4px; }
-  .msg-content strong { font-weight: 600; }
-  .msg-content h3 { font-size: 15px; font-weight: 600; margin: 12px 0 5px; }
 
   /* Action cards */
   .action-card {
@@ -521,56 +526,39 @@
   .action-error   { background: #fef2f2;        color: #991b1b; border: 1px solid #fecaca; }
   .action-warn    { background: var(--accent-light); color: #92400e; border: 1px solid #fde68a; }
 
-  /* Structured response (aligned with Growth/Data report sections) */
-  .report-shell { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; background:var(--surface); }
-  .report-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 12px; border-bottom:1px solid var(--border); background:var(--surface-2); }
-  .report-title { font-size:12px; font-weight:600; letter-spacing:.35px; text-transform:uppercase; color:var(--text-muted); }
-  .report-copy { border:none; background:transparent; color:var(--text-secondary); font-size:12px; cursor:pointer; padding:4px 8px; border-radius:6px; }
-  .report-copy:hover { background:#ece9e2; color:var(--text-primary); }
-  .report-body { padding:10px 12px; display:flex; flex-direction:column; gap:10px; }
-  .report-section { border:1px solid var(--border); border-radius:8px; overflow:hidden; background:#fff; }
-  .report-sec-head { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:9px 11px; background:var(--surface-2); cursor:pointer; }
-  .report-sec-title { font-size:13px; font-weight:600; color:var(--text-primary); }
-  .report-chevron { width:14px; height:14px; transition:transform .15s; color:var(--text-muted); }
-  .report-chevron.open { transform:rotate(90deg); }
-  .report-sec-content { padding:10px 11px; display:block; }
-  .report-sec-content.closed { display:none; }
-  .report-sec-content p { margin:0 0 8px 0; font-size:13px; line-height:1.6; color:var(--text-primary); }
-  .report-sec-content p:last-child { margin-bottom:0; }
-  .report-sec-content ul { margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; }
-  .report-sec-content li { font-size:13px; line-height:1.5; color:var(--text-primary); }
-
-  /* Code block */
-  .code-block {
-    background: var(--code-bg);
+  /* ══════════════════════════════════════════════════
+     STRUCTURED RESULT BLOCK — mirrors Startup Agent
+  ══════════════════════════════════════════════════ */
+  .result-block {
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    margin: 10px 0;
     overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    animation: fadeIn 0.3s ease;
+    margin: 6px 0;
   }
-  .code-header {
+  .result-hd {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 9px 14px;
+    padding: 10px 15px;
     border-bottom: 1px solid var(--border);
     background: var(--surface-2);
   }
-  .code-lang {
-    font-size: 11.5px;
-    font-weight: 600;
-    color: var(--text-muted);
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
+  .result-hd-title {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
   }
   .copy-btn {
     background: none;
-    border: none;
+    border: 1px solid var(--border);
     cursor: pointer;
-    font-size: 11.5px;
+    font-size: 10.5px;
     color: var(--text-muted);
     font-family: 'DM Sans', sans-serif;
     display: flex;
@@ -580,18 +568,229 @@
     border-radius: 4px;
     transition: all 0.15s;
   }
-  .copy-btn:hover { background: var(--border); color: var(--text-primary); }
-  .code-body {
-    padding: 16px;
-    overflow-x: auto;
-    font-family: 'DM Mono', monospace;
+  .copy-btn:hover { background: var(--border-subtle); color: var(--text-primary); }
+
+  /* Accordion sections */
+  .result-body { background: #fafaf9; }
+  .acc-sec { border-bottom: 1px solid var(--border-subtle); }
+  .acc-sec:last-child { border-bottom: none; }
+  .acc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    cursor: pointer;
+    background: #fff;
+    transition: background 0.12s;
+    user-select: none;
+  }
+  .acc-head:hover { background: var(--surface-2); }
+  .acc-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .acc-badge {
+    font-size: 9.5px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .badge-critical { background: var(--red-bg); color: var(--red); }
+  .badge-warn     { background: var(--accent-light); color: #92400e; }
+  .badge-good     { background: var(--green-bg); color: #065f46; }
+  .badge-info     { background: var(--blue-bg); color: var(--blue); }
+  .chevron {
+    width: 13px; height: 13px;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .chevron.open { transform: rotate(90deg); }
+  .acc-body {
+    padding: 14px 16px;
+    background: #fafaf9;
     font-size: 12.5px;
     line-height: 1.7;
     color: var(--text-primary);
-    white-space: pre;
-    max-height: 400px;
-    overflow-y: auto;
   }
+  .acc-body.closed { display: none; }
+
+  /* Card grids */
+  .card-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+  .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+  .card-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+
+  .mini-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    padding: 11px 13px;
+  }
+  .mini-card-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .mini-card-value { font-size: 13px; font-weight: 500; color: var(--text-primary); line-height: 1.5; }
+  .mini-card-value.green { color: var(--green); }
+  .mini-card-value.red   { color: var(--red); }
+  .mini-card-value.amber { color: var(--accent); }
+  .mini-card-sub { font-size: 11px; color: var(--text-secondary); margin-top: 3px; line-height: 1.4; }
+
+  .kv-list { display: flex; flex-direction: column; gap: 6px; }
+  .kv-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .kv-row:last-child { border-bottom: none; }
+  .kv-key { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.3px; padding-top: 1px; }
+  .kv-val { font-size: 12.5px; color: var(--text-primary); line-height: 1.5; }
+
+  /* Flag boxes */
+  .flag-box {
+    display: flex;
+    gap: 8px;
+    padding: 9px 11px;
+    border-radius: var(--radius-xs);
+    margin: 4px 0;
+    border-left: 3px solid;
+  }
+  .flag-box.f-red    { background: var(--red-bg);     border-color: var(--red); }
+  .flag-box.f-amber  { background: var(--accent-light); border-color: var(--accent); }
+  .flag-box.f-green  { background: var(--green-light); border-color: var(--green); }
+  .flag-box.f-blue   { background: var(--blue-bg);    border-color: var(--blue); }
+  .flag-icon { flex-shrink: 0; font-size: 13px; margin-top: 1px; }
+  .flag-text { font-size: 12px; line-height: 1.55; color: var(--text-primary); }
+
+  /* Highlight boxes */
+  .highlight-box {
+    background: var(--accent-light);
+    border: 1px solid #fde68a;
+    border-radius: var(--radius-xs);
+    padding: 10px 13px;
+    margin-bottom: 8px;
+  }
+  .highlight-box.green { background: var(--green-light); border-color: #a7f3d0; }
+  .highlight-box.blue  { background: var(--blue-bg);     border-color: #bfdbfe; }
+  .highlight-box.red   { background: var(--red-bg);      border-color: #fecaca; }
+  .highlight-box:last-child { margin-bottom: 0; }
+  .highlight-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-muted); margin-bottom: 3px; }
+  .highlight-text  { font-size: 12.5px; line-height: 1.5; color: var(--text-primary); }
+
+  /* Bar chart */
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .bar-row:last-child { margin-bottom: 0; }
+  .bar-label { font-size: 11.5px; color: var(--text-secondary); min-width: 110px; font-weight: 500; }
+  .bar-track { flex: 1; background: var(--border-subtle); border-radius: 4px; height: 7px; overflow: hidden; }
+  .bar-fill  { height: 100%; border-radius: 4px; background: var(--accent); transition: width 0.6s ease; }
+  .bar-fill.green  { background: var(--green); }
+  .bar-fill.red    { background: var(--red); }
+  .bar-fill.blue   { background: var(--blue); }
+  .bar-fill.violet { background: var(--violet); }
+  .bar-fill.teal   { background: var(--teal); }
+  .bar-value { font-size: 11.5px; font-family: 'DM Mono', monospace; color: var(--text-primary); min-width: 70px; text-align: right; }
+
+  /* Scenario cards */
+  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .scenario-card { border-radius: var(--radius-xs); padding: 11px 13px; text-align: center; }
+  .scenario-card.cons { background: var(--blue-bg);    border: 1px solid #bfdbfe; }
+  .scenario-card.base { background: var(--green-light); border: 1px solid #a7f3d0; }
+  .scenario-card.opt  { background: var(--accent-light); border: 1px solid #fde68a; }
+  .scenario-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; color: var(--text-secondary); }
+  .scenario-val   { font-size: 16px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
+  .scenario-sub   { font-size: 10.5px; color: var(--text-secondary); margin-top: 3px; }
+
+  /* Checklist */
+  .checklist-item {
+    display: flex;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 12.5px;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-sq { width: 14px; height: 14px; border: 1.5px solid var(--border); border-radius: 3px; flex-shrink: 0; margin-top: 2px; background: #fff; }
+
+  /* Phase steps */
+  .phase-steps { display: flex; flex-direction: column; gap: 6px; }
+  .phase-step {
+    display: flex;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+  }
+  .phase-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .phase-text { font-size: 12px; line-height: 1.5; color: var(--text-primary); }
+
+  .ul-clean { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+  .ul-clean li { display: flex; gap: 7px; font-size: 12.5px; line-height: 1.5; color: var(--text-primary); }
+  .ul-clean li::before { content: "→"; color: var(--text-muted); flex-shrink: 0; margin-top: 1px; }
+
+  /* Score pill */
+  .score-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    background: var(--accent-light);
+    color: #92400e;
+    border: 1px solid #fde68a;
+    margin-bottom: 10px;
+  }
+  .score-pill.green { background: var(--green-bg); color: #065f46; border-color: #a7f3d0; }
+  .score-pill.red   { background: var(--red-bg);   color: var(--red);   border-color: #fecaca; }
+
+  /* Tag row */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 2px; }
+  .tag { display: inline-flex; padding: 3px 9px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+
+  /* Download row */
+  .dl-row { display: flex; gap: 7px; margin-top: 10px; }
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: none;
+    border-radius: var(--radius-xs);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--text-primary);
+    color: #fff;
+  }
+  .dl-btn:hover { background: #2d2a26; transform: translateY(-1px); }
 
   /* Thinking */
   .thinking {
@@ -621,7 +820,7 @@
     border-top: 1px solid var(--border);
     flex-shrink: 0;
   }
-  .input-inner { max-width: 780px; margin: 0 auto; }
+  .input-inner { max-width: 860px; margin: 0 auto; }
 
   .input-wrapper {
     display: flex;
@@ -706,6 +905,8 @@
   @media (max-width: 768px) {
     .layout { grid-template-columns: 1fr; }
     .sidebar { display: none; }
+    .card-grid, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr 1fr; }
+    .scenario-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -728,7 +929,6 @@
       </div>
       <div class="logo-tag">Financial Agent</div>
 
-      <!-- Mode toggle -->
       <div class="section-title" style="margin-bottom:8px;">Analysis Mode</div>
       <div class="mode-row">
         <button class="mode-btn active" id="modeBudget" onclick="selectMode('budget')">💰 Budget<br/>Planner</button>
@@ -872,10 +1072,8 @@
 </div>
 
 <script>
-// ── !! CONFIGURE THIS !! ──────────────────────────────────────────────────────
+// ── CONFIGURE ──────────────────────────────────────────────────────────────────
 const BACKEND = "https://agentic-finance.vishwajeetadkine705.workers.dev";
-// Replace with your deployed Cloudflare Worker URL, e.g.:
-// const BACKEND = "https://agentic-finance.vishwajeetadkine705.workers.dev";
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── State ──
@@ -889,11 +1087,11 @@ let state = {
 };
 
 // ── DOM refs ──
-const messagesInner = document.getElementById("messagesInner");
-const welcomeScreen = document.getElementById("welcomeScreen");
-const taskInput     = document.getElementById("taskInput");
-const sendBtn       = document.getElementById("sendBtn");
-const statusBadge   = document.getElementById("statusBadge");
+const messagesInner   = document.getElementById("messagesInner");
+const welcomeScreen   = document.getElementById("welcomeScreen");
+const taskInput       = document.getElementById("taskInput");
+const sendBtn         = document.getElementById("sendBtn");
+const statusBadge     = document.getElementById("statusBadge");
 const contextPillText = document.getElementById("contextPillText");
 
 // ── Textarea auto-resize ──
@@ -982,13 +1180,11 @@ async function startAgent() {
     contextPillText.innerHTML = `<span>${escapeHtml(data.filename)}</span> · ${data.rowsLoaded} rows`;
     setStatus("done", "Ready");
 
-    // Populate sidebar stats & insights
     if (data.summary && data.summary.mode === "budget") {
       renderStats(data.summary);
       renderInsights(data.summary.insights || []);
     }
 
-    // Show init message in chat
     clearMessages();
     const modeLabel = state.mode === "budget" ? "Budget Planner" : "Generic CSV Analyzer";
     addMessage("agent",
@@ -1026,26 +1222,60 @@ async function handleSend() {
 
   addThinking();
 
-  try {
-    const structuredResponseGuide = [
-      "Respond like a structured Growth/Data report, not long-form prose.",
-      "Use markdown headings and this exact layout:",
-      "## Summary (3-5 bullets)",
-      "## Key Numbers (bullets or mini-table)",
-      "## Recommendations (prioritised action list)",
-      "## Risks & Assumptions (short bullets)",
-      "## Next 7 Days (execution checklist)",
-      "Keep every bullet concise and execution-focused."
-    ].join("\n");
+  // ── JSON-first prompt — ask the model to return structured finance JSON ──
+  const jsonPrompt = `${task}
 
+IMPORTANT — RESPONSE FORMAT:
+Return ONLY a valid JSON object (no markdown fences, no preamble). Use this exact schema — omit sections that are not applicable:
+
+{
+  "summary": {
+    "headline": "One-sentence verdict",
+    "savings_rate": "e.g. 18%",
+    "monthly_surplus": "e.g. ₹12,400",
+    "net_worth_trend": "Improving / Declining / Stable",
+    "risk_level": "Low / Medium / High",
+    "overall_score": "e.g. 6.5/10"
+  },
+  "key_numbers": [
+    { "label": "Monthly Income", "value": "₹X", "note": "optional sub-text", "color": "green|red|amber|default" }
+  ],
+  "spending_breakdown": [
+    { "category": "Housing", "amount": "₹X", "pct": 30, "vs_recommended": "At limit", "color": "green|amber|red" }
+  ],
+  "recommendations": [
+    { "priority": 1, "action": "Reduce dining out by 20%", "impact": "Save ₹X/month", "timeline": "This month", "difficulty": "Easy|Medium|Hard" }
+  ],
+  "scenarios": {
+    "conservative": { "label": "Conservative", "outcome": "₹X saved", "detail": "If you maintain current habits" },
+    "base_case":    { "label": "Base Case",    "outcome": "₹X saved", "detail": "Following these recommendations" },
+    "optimistic":   { "label": "Optimistic",   "outcome": "₹X saved", "detail": "Aggressive cuts + investment" }
+  },
+  "action_checklist": [
+    "Cancel unused subscription X (₹Y/month)",
+    "Set up auto-transfer of ₹Z to savings on salary day"
+  ],
+  "risks": [
+    { "name": "Low emergency fund", "severity": "High|Medium|Low", "description": "Only 1.2 months covered", "mitigation": "Build to 3 months over 6 months" }
+  ],
+  "verdict": {
+    "score": "7/10",
+    "score_color": "green|amber|red",
+    "summary": "Short honest assessment",
+    "strongest_point": "What they're doing well",
+    "biggest_gap": "The most urgent improvement",
+    "next_30_days": "One concrete action for this month"
+  }
+}`;
+
+  try {
     const res = await fetch(BACKEND, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         action:  "chat",
-        message: `${task}\n\n${structuredResponseGuide}`,
+        message: jsonPrompt,
         history: state.history,
-        responseFormat: "structured_actionable",
       }),
     });
 
@@ -1053,9 +1283,27 @@ async function handleSend() {
     removeThinking();
 
     if (data.status === "REPLY") {
-      state.history = data.history;   // stay in sync with server-trimmed history
-      addMessage("agent", buildActionCard("success", `Report ready — <strong>${parseIntoSections(data.reply || "").length}</strong> sections`));
-      addMessage("agent", renderStructuredReply(data.reply || ""));
+      state.history = data.history;
+      const rawReply = data.reply || "";
+
+      // Try to parse as JSON first, fall back to text rendering
+      let parsed = null;
+      try {
+        const cleaned = rawReply.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
+        parsed = JSON.parse(cleaned);
+      } catch (_) {
+        parsed = null;
+      }
+
+      if (parsed && typeof parsed === "object") {
+        // Rich structured output
+        addMessage("agent", buildActionCard("success", `Financial report ready — ${Object.keys(parsed).length} sections`));
+        addFinanceResult(parsed, rawReply);
+      } else {
+        // Fallback: parse the text into sections like Startup Agent's legal renderer
+        addMessage("agent", buildActionCard("success", "Analysis complete"));
+        addMessage("agent", renderFallbackText(rawReply));
+      }
       setStatus("done", "Done");
     } else {
       addMessage("agent", buildActionCard("error", escapeHtml(data.message || "Unexpected error")));
@@ -1072,88 +1320,319 @@ async function handleSend() {
   sendBtn.disabled = false;
 }
 
-function parseIntoSections(content) {
-  const lines = String(content || "").split(/\r?\n/);
-  const sections = [];
-  let currentTitle = "";
-  let buf = [];
+// ═══════════════════════════════════════════════════════════════════════
+// STRUCTURED FINANCE RENDERER
+// Renders a rich accordion block from the parsed JSON response
+// ═══════════════════════════════════════════════════════════════════════
 
-  const flush = () => {
-    const body = buf.join("\n").trim();
-    if (body || currentTitle) sections.push({ title: currentTitle || "Section", body });
-    buf = [];
-  };
+function addFinanceResult(d, rawText) {
+  hideWelcome();
+  const pid = "fin-" + Date.now();
+  const sectionsHtml = buildFinanceSections(d, pid);
 
-  lines.forEach((raw, idx) => {
-    const line = raw.trim();
-    const heading = line.match(/^(?:#{1,3}\s+)?(?:\d+\)\s*|\d+[\.:]\s*)?([A-Z][\w\s/&-]{2,60}):?$/);
-    const looksLikeHeading = heading && (line.endsWith(":") || /^#{1,3}\s+/.test(line) || /^\d+[\).:]/.test(line));
-    if (looksLikeHeading) {
-      if (idx !== 0) flush();
-      currentTitle = heading[1].trim();
-      return;
-    }
-    buf.push(raw);
-  });
-  flush();
-  return sections.length ? sections : [{ title: "Response", body: String(content || "") }];
-}
-
-function renderSectionBody(text) {
-  const lines = String(text || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-  if (!lines.length) return "<p>No additional details provided.</p>";
-  const bullets = lines.filter(l => /^[-*•]|^\d+[\).]/.test(l));
-  const allBulletLike = bullets.length >= Math.max(2, lines.length - 1);
-  if (allBulletLike) {
-    return `<ul>${bullets.map(l => `<li>${escapeHtml(l.replace(/^[-*•]\s*|^\d+[\).]\s*/, ""))}</li>`).join("")}</ul>`;
-  }
-  return lines.map(l => {
-    if (/^[-*•]|^\d+[\).]/.test(l)) {
-      return `<ul><li>${escapeHtml(l.replace(/^[-*•]\s*|^\d+[\).]\s*/, ""))}</li></ul>`;
-    }
-    return `<p>${escapeHtml(l).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")}</p>`;
-  }).join("");
-}
-
-function renderStructuredReply(text) {
-  const sections = parseIntoSections(text);
-  const pid = "finrep-" + Date.now();
-  const bodyHtml = sections.map((sec, i) => `
-    <div class="report-section">
-      <div class="report-sec-head" data-target="${pid}-sec-${i}">
-        <div class="report-sec-title">${escapeHtml(sec.title || `Section ${i + 1}`)}</div>
-        <svg class="report-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+  const wrapper = document.createElement("div");
+  wrapper.className = "message";
+  wrapper.innerHTML = `
+    <div class="avatar avatar-agent">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+    </div>
+    <div class="msg-body">
+      <div class="msg-sender">Stremini Agent <span class="msg-time">${new Date().toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" })}</span></div>
+      <div class="msg-content" style="white-space:normal;">
+        <div class="result-block" id="${pid}-block">
+          <div class="result-hd">
+            <div class="result-hd-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              Finance Agent Report
+            </div>
+            <button class="copy-btn" id="${pid}-copy">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+          <div class="result-body">${sectionsHtml}</div>
+        </div>
+        <div class="dl-row">
+          <button class="dl-btn" id="${pid}-dl">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download JSON
+          </button>
+        </div>
       </div>
-      <div class="report-sec-content" id="${pid}-sec-${i}">${renderSectionBody(sec.body)}</div>
-    </div>`).join("");
+    </div>`;
 
-  setTimeout(() => {
-    document.querySelectorAll(`.report-sec-head[data-target^='${pid}-sec-']`).forEach(head => {
+  messagesInner.appendChild(wrapper);
+  scrollToBottom();
+
+  // Wire accordion toggles
+  requestAnimationFrame(() => {
+    wrapper.querySelectorAll(".acc-head[data-target]").forEach(head => {
       head.addEventListener("click", () => {
-        const id = head.getAttribute("data-target");
-        const content = document.getElementById(id);
-        const chev = head.querySelector(".report-chevron");
-        const closed = content.classList.toggle("closed");
+        const el   = document.getElementById(head.getAttribute("data-target"));
+        const chev = head.querySelector(".chevron");
+        if (!el) return;
+        const closed = el.classList.toggle("closed");
         chev.classList.toggle("open", !closed);
       });
     });
-    const copyBtn = document.getElementById(pid + "-copy");
-    if (copyBtn) {
-      copyBtn.onclick = () => navigator.clipboard.writeText(text).then(() => {
-        copyBtn.textContent = "✓ Copied";
-        setTimeout(() => copyBtn.textContent = "Copy", 1500);
-      }).catch(() => {});
-    }
-  }, 0);
 
+    const cp = document.getElementById(pid + "-copy");
+    if (cp) cp.onclick = () => {
+      navigator.clipboard.writeText(JSON.stringify(d, null, 2)).then(() => {
+        cp.textContent = "✓ Copied";
+        setTimeout(() => {
+          cp.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`;
+        }, 2000);
+      }).catch(() => {});
+    };
+
+    const dl = document.getElementById(pid + "-dl");
+    if (dl) dl.onclick = () => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(d, null, 2)], { type: "application/json" }));
+      a.download = `stremini-finance-${Date.now()}.json`;
+      a.click();
+    };
+  });
+}
+
+function makeAccSection(title, badgeCls, badgeText, bodyHtml, pid, idx) {
+  const id = `${pid}-s${idx}`;
+  const badge = badgeCls ? `<span class="acc-badge ${badgeCls}">${badgeText}</span>` : "";
   return `
-    <div class="report-shell">
-      <div class="report-toolbar">
-        <div class="report-title">Finance Agent Report</div>
-        <button class="report-copy" id="${pid}-copy">Copy</button>
+    <div class="acc-sec">
+      <div class="acc-head" data-target="${id}">
+        <div class="acc-title">${escapeHtml(title)}${badge}</div>
+        <svg class="chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
-      <div class="report-body">${bodyHtml}</div>
+      <div class="acc-body" id="${id}">${bodyHtml}</div>
     </div>`;
+}
+
+function buildFinanceSections(d, pid) {
+  let html = "";
+  let idx  = 0;
+
+  // ── 1. Summary ──────────────────────────────────────────
+  const s = d.summary || {};
+  if (s.headline || s.savings_rate) {
+    const scoreColor = (s.overall_score || "").includes("8") || (s.overall_score || "").includes("9") ? "green"
+                     : (s.overall_score || "").includes("3") || (s.overall_score || "").includes("4") ? "red" : "";
+    html += makeAccSection("Summary", "", "", `
+      <div class="highlight-box" style="background:var(--surface2);border-color:var(--border);margin-bottom:12px">
+        <div class="highlight-label">Headline</div>
+        <div class="highlight-text" style="font-size:13.5px;font-weight:500">${escapeHtml(s.headline || "—")}</div>
+      </div>
+      <div class="card-grid-3" style="margin-bottom:8px">
+        ${s.savings_rate    ? `<div class="mini-card"><div class="mini-card-label">Savings Rate</div><div class="mini-card-value ${s.savings_rate >= 20 ? 'green' : s.savings_rate >= 10 ? 'amber' : 'red'}">${escapeHtml(s.savings_rate)}</div></div>` : ""}
+        ${s.monthly_surplus ? `<div class="mini-card"><div class="mini-card-label">Monthly Surplus</div><div class="mini-card-value green">${escapeHtml(s.monthly_surplus)}</div></div>` : ""}
+        ${s.risk_level      ? `<div class="mini-card"><div class="mini-card-label">Risk Level</div><div class="mini-card-value ${s.risk_level==='Low'?'green':s.risk_level==='High'?'red':'amber'}">${escapeHtml(s.risk_level)}</div></div>` : ""}
+        ${s.net_worth_trend ? `<div class="mini-card"><div class="mini-card-label">Net Worth Trend</div><div class="mini-card-value">${escapeHtml(s.net_worth_trend)}</div></div>` : ""}
+        ${s.overall_score   ? `<div class="mini-card"><div class="mini-card-label">Overall Score</div><div class="mini-card-value ${scoreColor}">${escapeHtml(s.overall_score)}</div></div>` : ""}
+      </div>
+    `, pid, idx++);
+  }
+
+  // ── 2. Key Numbers ───────────────────────────────────────
+  const kn = d.key_numbers || [];
+  if (kn.length) {
+    const colorClass = c => c === "green" ? "green" : c === "red" ? "red" : c === "amber" ? "amber" : "";
+    const grid = kn.map(n => `
+      <div class="mini-card">
+        <div class="mini-card-label">${escapeHtml(n.label || "")}</div>
+        <div class="mini-card-value ${colorClass(n.color)}">${escapeHtml(n.value || "—")}</div>
+        ${n.note ? `<div class="mini-card-sub">${escapeHtml(n.note)}</div>` : ""}
+      </div>`).join("");
+    html += makeAccSection("Key Numbers", "", "", `<div class="card-grid-3">${grid}</div>`, pid, idx++);
+  }
+
+  // ── 3. Spending Breakdown (bar chart) ────────────────────
+  const sp = d.spending_breakdown || [];
+  if (sp.length) {
+    const maxPct = Math.max(...sp.map(c => c.pct || 0), 1);
+    const barColors = ["amber", "green", "blue", "violet", "teal", "red"];
+    const bars = sp.map((c, i) => {
+      const fillCls = c.color === "red" ? "red" : c.color === "green" ? "green" : c.color === "amber" ? "" : barColors[i % barColors.length];
+      const barW = Math.round(((c.pct || 0) / maxPct) * 100);
+      return `
+        <div class="bar-row">
+          <div class="bar-label">${escapeHtml(c.category || "")}</div>
+          <div class="bar-track"><div class="bar-fill ${fillCls}" style="width:${barW}%"></div></div>
+          <div class="bar-value">${escapeHtml(c.amount || "")} <span style="color:var(--text-muted)">(${c.pct || 0}%)</span></div>
+        </div>
+        ${c.vs_recommended ? `<div style="font-size:10.5px;color:var(--text-muted);margin:-3px 0 5px 118px">${escapeHtml(c.vs_recommended)}</div>` : ""}`;
+    }).join("");
+    html += makeAccSection("Spending Breakdown", "", "", bars, pid, idx++);
+  }
+
+  // ── 4. Recommendations ───────────────────────────────────
+  const recs = d.recommendations || [];
+  if (recs.length) {
+    const difCls = diff => diff === "Easy" ? "badge-good" : diff === "Hard" ? "badge-critical" : "badge-warn";
+    const items = recs.map((r, i) => {
+      const pCls = i === 0 ? "#dc2626" : i === 1 ? "#d97706" : i === 2 ? "#1d4ed8" : "#0f766e";
+      return `
+        <div class="phase-step" style="margin-bottom:6px">
+          <div class="phase-num" style="background:${pCls}">${r.priority || i+1}</div>
+          <div class="phase-text" style="flex:1">
+            <div style="font-weight:500;margin-bottom:2px">${escapeHtml(r.action || "")}</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:3px">
+              ${r.impact    ? `<span style="font-size:11px;color:var(--green);font-weight:600">↑ ${escapeHtml(r.impact)}</span>` : ""}
+              ${r.timeline  ? `<span style="font-size:11px;color:var(--text-muted)">${escapeHtml(r.timeline)}</span>` : ""}
+              ${r.difficulty ? `<span class="acc-badge ${difCls(r.difficulty)}">${escapeHtml(r.difficulty)}</span>` : ""}
+            </div>
+          </div>
+        </div>`;
+    }).join("");
+
+    const topBadge = recs.some(r => r.difficulty === "Hard") ? "badge-warn" : "";
+    html += makeAccSection("Recommendations", topBadge, topBadge ? "Review" : "", `<div class="phase-steps">${items}</div>`, pid, idx++);
+  }
+
+  // ── 5. 3 Scenarios ───────────────────────────────────────
+  const sc = d.scenarios || {};
+  if (sc.conservative || sc.base_case || sc.optimistic) {
+    const cons = sc.conservative || {};
+    const base = sc.base_case    || {};
+    const opt  = sc.optimistic   || {};
+    html += makeAccSection("Financial Scenarios", "", "", `
+      <div class="scenario-grid">
+        <div class="scenario-card cons">
+          <div class="scenario-label">${escapeHtml(cons.label || "Conservative")}</div>
+          <div class="scenario-val">${escapeHtml(cons.outcome || "—")}</div>
+          <div class="scenario-sub">${escapeHtml(cons.detail || "")}</div>
+        </div>
+        <div class="scenario-card base">
+          <div class="scenario-label">${escapeHtml(base.label || "Base Case")}</div>
+          <div class="scenario-val">${escapeHtml(base.outcome || "—")}</div>
+          <div class="scenario-sub">${escapeHtml(base.detail || "")}</div>
+        </div>
+        <div class="scenario-card opt">
+          <div class="scenario-label">${escapeHtml(opt.label || "Optimistic")}</div>
+          <div class="scenario-val">${escapeHtml(opt.outcome || "—")}</div>
+          <div class="scenario-sub">${escapeHtml(opt.detail || "")}</div>
+        </div>
+      </div>`, pid, idx++);
+  }
+
+  // ── 6. Action Checklist ──────────────────────────────────
+  const ac = d.action_checklist || [];
+  if (ac.length) {
+    const checks = ac.map(item => `
+      <div class="checklist-item">
+        <div class="check-sq"></div>
+        <span>${escapeHtml(item)}</span>
+      </div>`).join("");
+    html += makeAccSection("Next Actions Checklist", "badge-good", "Action", checks, pid, idx++);
+  }
+
+  // ── 7. Risks ─────────────────────────────────────────────
+  const risks = d.risks || [];
+  if (risks.length) {
+    const sevCls = sev => sev === "High" ? "f-red" : sev === "Medium" ? "f-amber" : "f-green";
+    const sevIcon = sev => sev === "High" ? "🔴" : sev === "Medium" ? "⚠" : "✓";
+    const items = risks.map(r => `
+      <div class="flag-box ${sevCls(r.severity)}" style="flex-direction:column;gap:4px">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span class="flag-icon">${sevIcon(r.severity)}</span>
+          <span style="font-weight:700;font-size:12.5px">${escapeHtml(r.name || "")}</span>
+          <span class="acc-badge ${r.severity==='High'?'badge-critical':r.severity==='Medium'?'badge-warn':'badge-good'}">${escapeHtml(r.severity || "")}</span>
+        </div>
+        <div class="flag-text">${escapeHtml(r.description || "")}</div>
+        ${r.mitigation ? `<div style="font-size:11.5px;color:var(--green);font-weight:500;margin-top:2px">→ ${escapeHtml(r.mitigation)}</div>` : ""}
+      </div>`).join("");
+    const hasHigh = risks.some(r => r.severity === "High");
+    html += makeAccSection("Risks & Red Flags", hasHigh ? "badge-critical" : "badge-warn", hasHigh ? "⚠ Critical" : "Review", items, pid, idx++);
+  }
+
+  // ── 8. Verdict ───────────────────────────────────────────
+  const v = d.verdict || {};
+  if (v.summary || v.score) {
+    const scoreCol = v.score_color === "green" ? "green" : v.score_color === "red" ? "red" : "";
+    html += makeAccSection("Verdict", "", "", `
+      <div style="margin-bottom:12px">
+        ${v.score ? `<div class="score-pill ${scoreCol}">Overall Score: ${escapeHtml(v.score)}</div>` : ""}
+      </div>
+      <div class="highlight-box" style="background:var(--surface2);border-color:var(--border)">
+        <div class="highlight-label">Assessment</div>
+        <div class="highlight-text">${escapeHtml(v.summary || "—")}</div>
+      </div>
+      ${v.strongest_point ? `<div class="highlight-box green"><div class="highlight-label">Strongest Point</div><div class="highlight-text">${escapeHtml(v.strongest_point)}</div></div>` : ""}
+      ${v.biggest_gap     ? `<div class="highlight-box red"><div class="highlight-label">Biggest Gap</div><div class="highlight-text">${escapeHtml(v.biggest_gap)}</div></div>` : ""}
+      ${v.next_30_days    ? `<div class="highlight-box"><div class="highlight-label">Next 30 Days</div><div class="highlight-text">${escapeHtml(v.next_30_days)}</div></div>` : ""}
+    `, pid, idx++);
+  }
+
+  return html || `<div class="acc-body"><p style="color:var(--text-muted)">No structured data returned.</p></div>`;
+}
+
+// ── Fallback plain-text renderer (mirrors legal parser from Startup Agent) ──
+function renderFallbackText(raw) {
+  const text = String(raw || "").trim();
+  const parts = text.split(/\n#{1,3}\s+/);
+  let sectionsHtml = "";
+  const pid = "fb-" + Date.now();
+  let idx = 0;
+
+  if (parts.length <= 1) {
+    // Just wrap in a single block
+    sectionsHtml = makeAccSection("Response", "", "", `<div>${renderInlineBody(text)}</div>`, pid, idx++);
+  } else {
+    parts.forEach((part, i) => {
+      if (!part.trim()) return;
+      const lines = part.split("\n");
+      const title = i === 0 ? "Overview" : lines[0].trim();
+      const body  = i === 0 ? part : lines.slice(1).join("\n").trim();
+      sectionsHtml += makeAccSection(title, "", "", renderInlineBody(body), pid, idx++);
+    });
+  }
+
+  const container = document.createElement("div");
+  container.className = "result-block";
+  container.innerHTML = `
+    <div class="result-hd">
+      <div class="result-hd-title">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Finance Agent Report
+      </div>
+    </div>
+    <div class="result-body">${sectionsHtml}</div>`;
+
+  // Wire accordion after render
+  requestAnimationFrame(() => {
+    container.querySelectorAll(".acc-head[data-target]").forEach(head => {
+      head.addEventListener("click", () => {
+        const el   = document.getElementById(head.getAttribute("data-target"));
+        const chev = head.querySelector(".chevron");
+        if (!el) return;
+        const closed = el.classList.toggle("closed");
+        chev.classList.toggle("open", !closed);
+      });
+    });
+  });
+
+  return container.outerHTML;
+}
+
+function renderInlineBody(text) {
+  if (!text || !text.trim()) return `<p style="color:var(--text-muted)">—</p>`;
+  const lines = text.split("\n");
+  let html = "", inList = false;
+  const inline = s => escapeHtml(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
+
+  lines.forEach(raw => {
+    const line = raw.trim();
+    if (!line) { if (inList) { html += "</ul>"; inList = false; } return; }
+    if (/^[-*•]\s+/.test(line) || /^\d+[\).]\s+/.test(line)) {
+      if (!inList) { html += `<ul class="ul-clean">`; inList = true; }
+      html += `<li>${inline(line.replace(/^[-*•]\s+|^\d+[\).]\s+/, ""))}</li>`;
+      return;
+    }
+    if (inList) { html += "</ul>"; inList = false; }
+    html += `<p style="margin:0 0 5px;font-size:12.5px;line-height:1.7">${inline(line)}</p>`;
+  });
+  if (inList) html += "</ul>";
+  return html;
 }
 
 // ── UI helpers ──
@@ -1187,6 +1666,19 @@ function addMessage(role, content) {
   `;
   messagesInner.appendChild(msg);
   scrollToBottom();
+
+  // Wire any accordion toggles that were injected via innerHTML
+  requestAnimationFrame(() => {
+    msg.querySelectorAll(".acc-head[data-target]").forEach(head => {
+      head.addEventListener("click", () => {
+        const el   = document.getElementById(head.getAttribute("data-target"));
+        const chev = head.querySelector(".chevron");
+        if (!el) return;
+        const closed = el.classList.toggle("closed");
+        chev.classList.toggle("open", !closed);
+      });
+    });
+  });
 }
 
 function addThinking() {
