@@ -1018,14 +1018,39 @@ function reportToText(data) {
 function downloadReportPdf(btn) {
   const block = btn.closest(".report-block");
   if (!block || !block.reportData) return;
+
   const reportText = reportToText(block.reportData);
-  const title = esc(block.reportData?.title || "Data Analysis Report");
-  const printWin = window.open("", "_blank", "noopener,noreferrer,width=900,height=700");
+  const rawTitle = block.reportData?.title || "Data Analysis Report";
+  const safeTitle = esc(rawTitle);
+  const safeBody = esc(reportText);
+
+  const printWin = window.open("", "_blank", "width=960,height=760");
   if (!printWin) return;
-  printWin.document.write(`<!doctype html><html><head><title>${title}</title><style>body{font-family:Arial,sans-serif;padding:32px;color:#1a1814;line-height:1.6}pre{white-space:pre-wrap;word-break:break-word;font-family:Arial,sans-serif}</style></head><body><h1>${title}</h1><pre>${esc(reportText)}</pre></body></html>`);
+
+  printWin.document.open();
+  printWin.document.write(`<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>${safeTitle}</title>
+  <style>
+    body{font-family:Arial,sans-serif;padding:32px;color:#1a1814;line-height:1.6;background:#fff}
+    h1{font-size:24px;margin-bottom:18px}
+    pre{white-space:pre-wrap;word-break:break-word;font-family:Arial,sans-serif;font-size:13px}
+    @media print { body{padding:18px} }
+  </style>
+</head>
+<body>
+  <h1>${safeTitle}</h1>
+  <pre>${safeBody}</pre>
+</body>
+</html>`);
   printWin.document.close();
-  printWin.focus();
-  setTimeout(() => printWin.print(), 200);
+
+  printWin.onload = () => {
+    printWin.focus();
+    setTimeout(() => printWin.print(), 120);
+  };
 }
 
 function shouldIgnoreRenderError(message) {
