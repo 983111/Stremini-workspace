@@ -643,14 +643,17 @@ function buildAutotestFields() {
   return `
     <div class="auto-info-banner">
       <strong>⚡ Auto Benchmark Agent</strong>
-      Name a model below. The agent generates tasks, sends them to your backend (K2-Think-v2), evaluates each answer, then produces a full scored performance report.
+      Enter your model's API details below. We generate real test prompts, call <em>your</em> API directly, then our evaluator scores every response and produces a full performance report.
     </div>
 
-    <div class="field-label" style="margin-top:14px">Model to Benchmark</div>
-    <input id="f-autoModel" class="model-label-input" type="text" placeholder="e.g. GPT-4o, Claude 3.5 Sonnet, Llama-3-70B…" value=""/>
+    <div class="field-label" style="margin-top:14px">API Endpoint <span>(OpenAI-compatible /v1/chat/completions)</span></div>
+    <input id="f-apiUrl" class="model-label-input" type="text" placeholder="https://api.openai.com/v1/chat/completions" style="font-family:'DM Mono',monospace;font-size:12px"/>
 
-    <div class="field-label" style="margin-top:14px">Model Description <span>(optional context)</span></div>
-    <textarea id="f-autoDesc" class="ta-field" style="min-height:52px" placeholder="e.g. Frontier model optimised for code. Used for customer support…"></textarea>
+    <div class="field-label" style="margin-top:12px">API Key <span>(used only in browser to call your API)</span></div>
+    <input id="f-apiKey" class="model-label-input" type="password" placeholder="sk-…"/>
+
+    <div class="field-label" style="margin-top:12px">Model Name <span>(sent in the request body)</span></div>
+    <input id="f-autoModel" class="model-label-input" type="text" placeholder="e.g. gpt-4o, claude-3-5-sonnet-20241022, llama-3-70b-instruct…"/>
 
     <div class="field-label" style="margin-top:14px">Benchmark Categories <span>(click to toggle)</span></div>
     <div class="cat-grid">
@@ -664,9 +667,9 @@ function buildAutotestFields() {
       <div>
         <div class="field-label">Tasks per Category</div>
         <select id="f-tasksPerCat" class="config-select">
-          <option value="2">2 tasks — fast (~90s)</option>
-          <option value="3" selected>3 tasks — balanced (~2min)</option>
-          <option value="5">5 tasks — thorough (~3min)</option>
+          <option value="2">2 — fast (~1 min)</option>
+          <option value="3" selected>3 — balanced (~2 min)</option>
+          <option value="5">5 — thorough (~4 min)</option>
         </select>
       </div>
       <div>
@@ -678,6 +681,9 @@ function buildAutotestFields() {
           <option value="mixed">Mixed</option>
         </select>
       </div>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6">
+      🔒 Your API key is used only in this browser to call your endpoint directly — it is never sent to our evaluation server.
     </div>`;
 }
 
@@ -792,13 +798,16 @@ function renderSteps(steps) {
 }
 
 async function runAutoBenchmark() {
-  const modelName  = val("f-autoModel") || "Unknown Model";
-  const modelDesc  = val("f-autoDesc") || "";
+  const apiUrl    = val("f-apiUrl");
+  const apiKey    = val("f-apiKey");
+  const modelName = val("f-autoModel");
   const tasksPerCat = parseInt(document.getElementById("f-tasksPerCat")?.value || "3");
   const difficulty  = document.getElementById("f-difficulty")?.value || "medium";
   const categories  = [...activeCats];
 
-  if (!modelName || modelName === "Unknown Model") { alert("Please enter a model name."); return; }
+  if (!apiUrl)     { alert("Please enter your API endpoint URL."); return; }
+  if (!apiKey)     { alert("Please enter your API key."); return; }
+  if (!modelName)  { alert("Please enter the model name."); return; }
   if (categories.length === 0) { alert("Please select at least one category."); return; }
 
   if (running) return;
@@ -809,13 +818,13 @@ async function runAutoBenchmark() {
 
   const rz = document.getElementById("resultZone");
 
-  // ── PHASE 1: Generate tasks ──
+  // ── PHASE 1: Generate tasks via our backend ──
   rz.innerHTML = renderPipeline(1) + renderSteps([
-    {s:"done",  label:"Configured benchmark"},
-    {s:"active",label:"Generating "+categories.length+"×"+tasksPerCat+" tasks via K2-Think-v2…"},
-    {s:"pending",label:"Model answers tasks"},
-    {s:"pending",label:"Evaluate each answer"},
-    {s:"pending",label:"Compile performance report"},
+    {s:"done",   label:"API credentials configured"},
+    {s:"active", label:"Generating "+categories.length+"×"+tasksPerCat+" tasks via K2-Think-v2…"},
+    {s:"pending",label:"Sending prompts to your API"},
+    {s:"pending",label:"K2-Think-v2 evaluates each response"},
+    {s:"pending",label:"Compile final report"},
   ]);
   scrollBottom();
 
@@ -823,36 +832,33 @@ async function runAutoBenchmark() {
   try {
     const genData = await callBackend({
       mode: "generate_tasks",
-      prompt: JSON.stringify({ modelName, modelDesc, categories, tasksPerCat, difficulty }),
+      prompt: JSON.stringify({ modelName, categories, tasksPerCat, difficulty }),
     });
     if (genData.status === "ERROR") throw new Error(genData.message);
     const cleaned = (genData.content || "").replace(/```json|```/g,"").trim();
     const parsed = JSON.parse(cleaned);
     tasks = parsed.tasks || [];
   } catch(e) {
-    rz.innerHTML = `<div style="padding:12px 16px;background:#fff5f5;border:1px solid #fecaca;border-radius:8px;font-size:13px;color:#7f1d1d">Task generation failed: ${esc(String(e))}</div>`;
-    setStatus("err","Error"); running=false; document.getElementById("runBtn").disabled=false; return;
+    showError(rz, "Task generation failed: " + String(e));
+    resetRun(); return;
   }
 
-  if (tasks.length === 0) {
-    rz.innerHTML = `<div style="padding:12px 16px;background:#fff5f5;border:1px solid #fecaca;border-radius:8px;font-size:13px;color:#7f1d1d">No tasks were generated. Please try again.</div>`;
-    setStatus("err","Error"); running=false; document.getElementById("runBtn").disabled=false; return;
-  }
+  if (!tasks.length) { showError(rz, "No tasks were generated. Please try again."); resetRun(); return; }
 
-  // ── PHASE 2: Show tasks, get model answers ──
+  // ── PHASE 2: Send prompts to USER's real API ──
   rz.innerHTML = renderPipeline(2) + renderSteps([
-    {s:"done",  label:`Generated ${tasks.length} tasks`},
-    {s:"active",label:"Getting model answers via K2-Think-v2…"},
-    {s:"pending",label:"Evaluate each answer"},
-    {s:"pending",label:"Compile performance report"},
+    {s:"done",   label:`${tasks.length} test prompts generated`},
+    {s:"active", label:`Sending prompts to ${esc(apiUrl)}…`},
+    {s:"pending",label:"K2-Think-v2 evaluates each response"},
+    {s:"pending",label:"Compile final report"},
   ]) + `
-    <div style="margin-top:12px;font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">${tasks.length} Tasks · ${esc(modelName)}</div>
+    <div style="margin-top:12px;font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">
+      ${tasks.length} Tasks · ${esc(modelName)}
+    </div>
     <div class="task-list" id="taskList"></div>`;
   scrollBottom();
 
-  const taskList = document.getElementById("taskList");
-
-  // Render all tasks pending
+  // Render all task rows as pending
   tasks.forEach((t, i) => {
     const meta = CAT_META[t.category] || CAT_META.knowledge;
     const el = document.createElement("div");
@@ -862,51 +868,81 @@ async function runAutoBenchmark() {
       <div class="task-meta">
         <div class="task-cat" style="color:${meta.color}">${meta.icon} ${t.category}</div>
         <div class="task-q">${esc(t.question)}</div>
-        <div class="task-verdict" id="tverd-${i}">Waiting…</div>
+        <div class="task-verdict" id="tverd-${i}" style="color:var(--muted)">Queued…</div>
       </div>
       <div class="task-badge pending" id="tbadge-${i}">—</div>`;
-    taskList.appendChild(el);
+    document.getElementById("taskList").appendChild(el);
   });
 
-  // Phase 2a: get model answers
+  // Call user's API for each task
   const answers = [];
   for (let i = 0; i < tasks.length; i++) {
     const t = tasks[i];
     document.getElementById("ti-"+i).className = "task-item running";
-    document.getElementById("tverd-"+i).textContent = "Getting answer…";
+    document.getElementById("tverd-"+i).textContent = "Calling your API…";
+    document.getElementById("tbadge-"+i).textContent = "…";
     scrollBottom();
 
+    let answer = "";
     try {
-      const ansData = await callBackend({
-        mode: "answer_task",
-        prompt: JSON.stringify({ question:t.question, category:t.category, modelName, difficulty }),
+      const res = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + apiKey,
+        },
+        body: JSON.stringify({
+          model: modelName,
+          messages: [{ role: "user", content: t.question }],
+          max_tokens: 1024,
+          temperature: 0.2,
+        }),
       });
-      answers.push(ansData.status === "ERROR" ? "" : (ansData.content || ""));
+      if (!res.ok) {
+        const err = await res.text();
+        answer = `[API ERROR ${res.status}: ${err.slice(0,200)}]`;
+      } else {
+        const data = await res.json();
+        // Support OpenAI-compatible response shape
+        answer = data?.choices?.[0]?.message?.content
+               || data?.choices?.[0]?.text
+               || data?.content?.[0]?.text
+               || data?.output
+               || JSON.stringify(data).slice(0, 500);
+      }
     } catch(e) {
-      answers.push("");
+      answer = `[NETWORK ERROR: ${e.message}]`;
     }
-    document.getElementById("tverd-"+i).textContent = "Answer received. Evaluating…";
+
+    answers.push(answer);
+    document.getElementById("tverd-"+i).textContent = "Response received — evaluating with K2…";
   }
 
-  // ── PHASE 3: Evaluate each answer ──
+  // ── PHASE 3: Our backend evaluates each real response ──
+  rz.querySelector(".step-tracker").outerHTML = renderSteps([
+    {s:"done",   label:`${tasks.length} responses received from ${esc(modelName)}`},
+    {s:"done",   label:"Prompts sent to your API"},
+    {s:"active", label:"K2-Think-v2 evaluating each response…"},
+    {s:"pending",label:"Compile final report"},
+  ]);
+
   const results = [];
   for (let i = 0; i < tasks.length; i++) {
     const t = tasks[i];
-    document.getElementById("tverd-"+i).textContent = "Evaluating…";
-    document.getElementById("tbadge-"+i).textContent = "…";
+    document.getElementById("tverd-"+i).textContent = "K2 evaluating…";
 
-    let evalResult = { pass:true, score:0.5, verdict:"Evaluated.", hallucination_detected:false };
+    let evalResult = { pass: false, score: 0, verdict: "Evaluation failed.", hallucination_detected: false };
     try {
       const evData = await callBackend({
         mode: "eval_task",
         prompt: JSON.stringify({
-          question:         t.question,
-          expected_answer:  t.expected_answer,
+          question:            t.question,
+          expected_answer:     t.expected_answer,
           evaluation_criteria: t.evaluation_criteria,
-          category:         t.category,
+          category:            t.category,
           modelName,
           difficulty,
-          modelAnswer:      answers[i],
+          modelAnswer:         answers[i],
         }),
       });
       if (evData.status !== "ERROR") {
@@ -918,37 +954,36 @@ async function runAutoBenchmark() {
     results.push({ ...t, ...evalResult, modelAnswer: answers[i] });
 
     const passed = evalResult.pass !== false;
-    document.getElementById("ti-"+i).className = "task-item "+(passed?"pass":"fail");
+    document.getElementById("ti-"+i).className = "task-item " + (passed ? "pass" : "fail");
     document.getElementById("tverd-"+i).textContent = evalResult.verdict || "—";
     const badge = document.getElementById("tbadge-"+i);
-    badge.className = "task-badge "+(passed?"pass":"fail");
-    badge.textContent = Math.round((evalResult.score||0)*100)+"%";
+    badge.className = "task-badge " + (passed ? "pass" : "fail");
+    badge.textContent = Math.round((evalResult.score || 0) * 100) + "%";
     scrollBottom();
   }
 
-  // ── PHASE 4: Compile report ──
-  // Category scores
+  // ── PHASE 4: Compile stats ──
   const catScores = {};
   categories.forEach(cat => {
     const ts = results.filter(r => r.category === cat);
     if (!ts.length) return;
-    const avg = ts.reduce((s,r)=>s+(r.score||0),0)/ts.length;
+    const avg = ts.reduce((s,r) => s + (r.score||0), 0) / ts.length;
     catScores[cat] = { pct: Math.round(avg*100), passes: ts.filter(r=>r.pass!==false).length, total: ts.length };
   });
 
-  const overallPct = Math.round(results.reduce((s,r)=>s+(r.score||0),0)/results.length*100);
-  const passCount  = results.filter(r=>r.pass!==false).length;
-  const hallTasks  = results.filter(r=>r.category==="hallucination");
+  const overallPct = Math.round(results.reduce((s,r) => s+(r.score||0), 0) / results.length * 100);
+  const passCount  = results.filter(r => r.pass !== false).length;
+  const hallTasks  = results.filter(r => r.category === "hallucination");
   const hallRate   = hallTasks.length ? Math.round(hallTasks.filter(r=>r.hallucination_detected).length/hallTasks.length*100) : null;
-  const safetyViol = results.filter(r=>r.category==="safety"&&r.pass===false).length;
+  const safetyViol = results.filter(r => r.category === "safety" && r.pass === false).length;
 
-  // Get expert verdict from backend
+  // ── PHASE 5: Expert verdict from our backend ──
   let verdictText = "";
   try {
     const vData = await callBackend({
       mode: "benchmark_verdict",
       prompt: JSON.stringify({
-        modelName, overallPct, passCount, total:results.length,
+        modelName, overallPct, passCount, total: results.length,
         catScores: Object.fromEntries(Object.entries(catScores).map(([k,v])=>[k,v.pct])),
         hallRate: hallRate ?? 0, safetyViolations: safetyViol,
       }),
@@ -956,21 +991,20 @@ async function runAutoBenchmark() {
     if (vData.status !== "ERROR") verdictText = vData.content || "";
   } catch(_) {}
 
-  // ── PHASE 5: Render report ──
+  // ── RENDER REPORT ──
   const grade = overallPct>=90?"A+":overallPct>=80?"A":overallPct>=70?"B+":overallPct>=60?"B":overallPct>=50?"C":"D";
-
   const reportEl = document.createElement("div");
   reportEl.style.cssText = "display:flex;flex-direction:column;gap:12px;animation:fadein .4s ease";
 
-  // Header card
   const extraStats = [];
   if (hallRate !== null) extraStats.push(`<div class="report-stat"><div class="report-stat-n">${hallRate}%</div><div class="report-stat-l">Hallucination Rate</div></div>`);
   if (safetyViol > 0)    extraStats.push(`<div class="report-stat"><div class="report-stat-n">${safetyViol}</div><div class="report-stat-l">Safety Violations</div></div>`);
 
+
   reportEl.innerHTML = `
     <div class="report-header">
       <div class="report-title">📋 Benchmark Report — ${esc(modelName)}</div>
-      <div class="report-sub">${results.length} tasks · ${difficulty} difficulty · ${new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"})}</div>
+      <div class="report-sub">${results.length} tasks · ${difficulty} difficulty · ${esc(apiUrl)} · ${new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"})}</div>
       <div class="report-stat-grid">
         <div class="report-stat"><div class="report-stat-n">${overallPct}%</div><div class="report-stat-l">Overall Score</div></div>
         <div class="report-stat"><div class="report-stat-n">${grade}</div><div class="report-stat-l">Grade</div></div>
@@ -985,7 +1019,7 @@ async function runAutoBenchmark() {
           <div class="rh-icon autotest">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
           </div>
-          <div><div class="rh-title autotest">Category Breakdown</div><div class="rh-sub">Scored by K2-Think-v2</div></div>
+          <div><div class="rh-title autotest">Category Breakdown</div><div class="rh-sub">Evaluated by K2-Think-v2 · Real responses from ${esc(modelName)}</div></div>
         </div>
       </div>
       <div class="content-section">
@@ -1005,7 +1039,7 @@ async function runAutoBenchmark() {
     </div>
 
     ${verdictText ? `<div class="verdict-box">
-      <div class="verdict-box-title">Expert Verdict</div>
+      <div class="verdict-box-title">Expert Verdict · K2-Think-v2</div>
       <div class="verdict-box-text">${esc(verdictText)}</div>
     </div>` : ""}
 
@@ -1018,11 +1052,11 @@ async function runAutoBenchmark() {
 
   rz.appendChild(reportEl);
 
-  // Wire download
   document.getElementById("dlReportBtn").onclick = () => {
     const lines = [
       `STREMINI AI BENCHMARK REPORT`,
       `Model: ${modelName}`,
+      `API: ${apiUrl}`,
       `Date: ${new Date().toLocaleString()}`,
       `Tasks: ${results.length} | Difficulty: ${difficulty}`,
       `Overall: ${overallPct}% (${grade}) — ${passCount}/${results.length} passed`,
@@ -1030,23 +1064,35 @@ async function runAutoBenchmark() {
       safetyViol > 0 ? `Safety Violations: ${safetyViol}` : "",
       "", "━━━ CATEGORY SCORES ━━━",
       ...Object.entries(catScores).map(([cat,v])=>`${cat.toUpperCase().padEnd(16)}: ${v.pct}% (${v.passes}/${v.total} passed)`),
-      "", "━━━ VERDICT ━━━", verdictText,
+      "", "━━━ K2-THINK-V2 VERDICT ━━━", verdictText,
       "", "━━━ TASK RESULTS ━━━",
-      ...results.map((r,i)=>`[${i+1}] ${r.category.toUpperCase()} | ${r.pass!==false?"PASS":"FAIL"} (${Math.round((r.score||0)*100)}%)\nQ: ${r.question}\nAnswer: ${r.modelAnswer||""}\nVerdict: ${r.verdict||""}\n`),
-    ].filter(Boolean).join("\n");
+      ...results.map((r,i)=>[
+        `[${i+1}] ${r.category.toUpperCase()} | ${r.pass!==false?"PASS":"FAIL"} (${Math.round((r.score||0)*100)}%)`,
+        `Q: ${r.question}`,
+        `Model Answer: ${r.modelAnswer||"(none)"}`,
+        `K2 Verdict: ${r.verdict||""}`,
+        ""
+      ].join("\n")),
+    ].filter(l => l !== null && l !== undefined).join("\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([lines],{type:"text/plain"}));
     a.download = `stremini-benchmark-${modelName.replace(/\s+/g,"-").toLowerCase()}-${Date.now()}.txt`;
     a.click();
   };
 
-  // Final pipeline done
-  rz.querySelector(".pipeline").outerHTML = renderPipeline(5);
-
   stats.evals++;
   updateStats();
   setStatus("done","Benchmark Complete");
   scrollBottom();
+  running = false;
+  document.getElementById("runBtn").disabled = false;
+}
+
+function showError(rz, msg) {
+  rz.innerHTML = `<div style="padding:12px 16px;background:#fff5f5;border:1px solid #fecaca;border-radius:8px;font-size:13px;color:#7f1d1d">${esc(msg)}</div>`;
+  setStatus("err","Error");
+}
+function resetRun() {
   running = false;
   document.getElementById("runBtn").disabled = false;
 }
