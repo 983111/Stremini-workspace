@@ -4,47 +4,242 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Stremini Workspace</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet"/>
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --bg:#f7f5f2;--surface:#fff;--surface2:#f2f0ec;--border:#e4e0d8;--border2:#ece9e2;
-    --txt:#1a1814;--txt2:#6b6459;--muted:#9e9589;--amber:#d97706;--amber2:#b45309;
-    --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
-    --shadow-md:0 6px 18px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.05);
-    --r:14px;--r2:10px;
-  }
-  html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--txt);-webkit-font-smoothing:antialiased}
-  .shell{min-height:100vh;display:flex;flex-direction:column}
-  .topbar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 26px;background:rgba(247,245,242,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-  .brand{display:flex;align-items:center;gap:10px}
-  .logo{width:32px;height:32px;border-radius:8px;background:var(--txt);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600}
-  .brand h1{font-family:'Lora',serif;font-size:19px;font-weight:600;letter-spacing:-.2px}
-  .brand small{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-  .status{font-size:12px;color:var(--txt2);padding:6px 10px;border:1px solid var(--border);border-radius:20px;background:var(--surface)}
+/* ─── Reset ─────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  .main{flex:1;padding:44px 24px 34px}
-  .wrap{max-width:1120px;margin:0 auto}
-  .hero{text-align:center;margin-bottom:30px}
-  .hero h2{font-family:'Lora',serif;font-size:38px;font-weight:500;letter-spacing:-.6px;margin-bottom:10px}
-  .hero p{font-size:15px;color:var(--txt2);line-height:1.7;max-width:760px;margin:0 auto}
+/* ─── Design tokens ─────────────────────────────────────────── */
+:root{
+  /* Desktop / shared */
+  --bg:#f7f5f2;--surface:#fff;--surface2:#f2f0ec;--border:#e4e0d8;--border2:#ece9e2;
+  --txt:#1a1814;--txt2:#6b6459;--muted:#9e9589;--amber:#d97706;--amber2:#b45309;
+  --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 6px 18px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.05);
+  --r:14px;--r2:10px;
+  /* Mobile */
+  --mob-bg:#f0f0f5;--mob-surface:#fff;--mob-blue:#2563eb;--mob-blue-light:#eff4ff;
+  --mob-txt:#111;--mob-txt2:#555;--mob-muted:#888;--mob-border:#e5e5e5;
+}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-  .card{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:all .18s}
-  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:#d9cdb8}
-  .chip{display:inline-flex;align-self:flex-start;padding:4px 10px;border-radius:14px;background:var(--surface2);border:1px solid var(--border2);font-size:10.5px;font-weight:600;letter-spacing:.45px;text-transform:uppercase;color:var(--txt2)}
-  .card h3{font-family:'Lora',serif;font-size:20px;font-weight:500;letter-spacing:-.3px}
-  .card p{font-size:13.5px;line-height:1.7;color:var(--txt2);min-height:66px}
-  .cta{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--amber)}
-  .cta span{transition:transform .15s}
-  .card:hover .cta span{transform:translateX(3px)}
+html,body{height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--txt);-webkit-font-smoothing:antialiased}
 
-  .footer{padding:20px 24px 28px;text-align:center;color:var(--muted);font-size:12px}
-  @media (max-width:700px){.hero h2{font-size:29px}.main{padding-top:30px}}
+/* ══════════════════════════════════════════════════════════════
+   DESKTOP LAYOUT  (≥ 700 px)
+══════════════════════════════════════════════════════════════ */
+.desktop-shell{display:flex;flex-direction:column;min-height:100vh}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 26px;background:rgba(247,245,242,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:32px;height:32px;border-radius:8px;background:var(--txt);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:15px}
+.brand h1{font-family:'Lora',serif;font-size:19px;font-weight:600;letter-spacing:-.2px}
+.brand small{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.status{font-size:12px;color:var(--txt2);padding:6px 10px;border:1px solid var(--border);border-radius:20px;background:var(--surface)}
+
+/* main */
+.main{flex:1;padding:44px 24px 34px}
+.wrap{max-width:1120px;margin:0 auto}
+.hero{text-align:center;margin-bottom:30px}
+.hero h2{font-family:'Lora',serif;font-size:38px;font-weight:500;letter-spacing:-.6px;margin-bottom:10px}
+.hero p{font-size:15px;color:var(--txt2);line-height:1.7;max-width:760px;margin:0 auto}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:all .18s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:#d9cdb8}
+.chip{display:inline-flex;align-self:flex-start;padding:4px 10px;border-radius:14px;background:var(--surface2);border:1px solid var(--border2);font-size:10.5px;font-weight:600;letter-spacing:.45px;text-transform:uppercase;color:var(--txt2)}
+.card h3{font-family:'Lora',serif;font-size:20px;font-weight:500;letter-spacing:-.3px}
+.card p{font-size:13.5px;line-height:1.7;color:var(--txt2);min-height:66px}
+.cta{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--amber)}
+.cta span{transition:transform .15s}
+.card:hover .cta span{transform:translateX(3px)}
+
+.footer{padding:20px 24px 28px;text-align:center;color:var(--muted);font-size:12px}
+
+/* ══════════════════════════════════════════════════════════════
+   MOBILE SHELL  (< 700 px)
+══════════════════════════════════════════════════════════════ */
+.mobile-shell{
+  display:none;
+  flex-direction:column;
+  height:100dvh;
+  background:var(--mob-bg);
+  font-family:'DM Sans',sans-serif;
+  overflow:hidden;
+  position:relative;
+}
+
+/* nav bar */
+.mob-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px 10px;
+  background:#fff;
+  border-bottom:1px solid var(--mob-border);
+  flex-shrink:0;
+}
+.mob-nav-brand{display:flex;align-items:center;gap:9px}
+.mob-logo{
+  width:36px;height:36px;border-radius:10px;
+  background:#111;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:18px;font-weight:700;
+}
+.mob-logo svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.mob-brand-name{font-size:17px;font-weight:600;color:var(--mob-txt);letter-spacing:-.2px}
+.mob-nav-right{display:flex;align-items:center;gap:10px}
+.mob-bell{
+  width:36px;height:36px;border-radius:50%;border:1px solid var(--mob-border);
+  display:flex;align-items:center;justify-content:center;position:relative;background:#fff;
+}
+.mob-bell svg{width:18px;height:18px;stroke:#555;fill:none;stroke-width:1.8}
+.mob-bell-dot{
+  position:absolute;top:6px;right:6px;width:7px;height:7px;
+  background:#ef4444;border-radius:50%;border:1.5px solid #fff;
+}
+.mob-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--mob-blue);display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:13px;font-weight:700;letter-spacing:.5px;
+}
+
+/* screens */
+.mob-screen{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.mob-screen.active{display:flex;flex-direction:column}
+
+/* ── HOME SCREEN ── */
+.mob-home{padding:26px 20px 20px}
+.mob-home-title{font-size:32px;font-weight:700;line-height:1.15;color:var(--mob-txt);margin-bottom:6px}
+.mob-home-title .highlight{color:var(--mob-blue)}
+.mob-home-subtitle{font-size:14.5px;color:var(--mob-txt2);line-height:1.55;margin-bottom:24px}
+
+/* featured card */
+.mob-featured{
+  background:linear-gradient(135deg,#2563eb 0%,#4f46e5 100%);
+  border-radius:20px;padding:24px;margin-bottom:20px;
+  box-shadow:0 8px 28px rgba(37,99,235,.35);
+}
+.mob-feat-label{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.mob-feat-label span{font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.mob-feat-label svg{width:13px;height:13px;fill:rgba(255,255,255,.75)}
+.mob-feat-title{font-size:26px;font-weight:700;color:#fff;letter-spacing:-.3px;margin-bottom:10px;line-height:1.2}
+.mob-feat-desc{font-size:14px;color:rgba(255,255,255,.82);line-height:1.6;margin-bottom:22px}
+.mob-feat-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);
+  color:#fff;font-size:14px;font-weight:600;
+  padding:11px 20px;border-radius:30px;cursor:pointer;
+  backdrop-filter:blur(6px);transition:background .15s;text-decoration:none;
+}
+.mob-feat-btn:hover{background:rgba(255,255,255,.26)}
+
+/* stats row */
+.mob-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.mob-stat{
+  background:#fff;border-radius:14px;padding:14px 10px;text-align:center;
+  box-shadow:0 1px 4px rgba(0,0,0,.07);
+}
+.mob-stat-val{font-size:22px;font-weight:700;color:var(--mob-txt);letter-spacing:-.5px}
+.mob-stat-lbl{font-size:11px;color:var(--mob-muted);margin-top:3px}
+
+/* quick access */
+.mob-section-title{font-size:16px;font-weight:700;color:var(--mob-txt);margin-bottom:12px}
+.mob-quick{display:flex;gap:10px;flex-wrap:wrap}
+.mob-quick-chip{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:20px;border:1.5px solid var(--mob-border);
+  background:#fff;font-size:13px;font-weight:500;color:var(--mob-txt);cursor:pointer;
+  transition:all .15s;
+}
+.mob-quick-chip:hover,.mob-quick-chip.active-chip{background:var(--mob-blue);border-color:var(--mob-blue);color:#fff}
+
+/* ── AGENTS SCREEN ── */
+.mob-agents-header{padding:22px 20px 0}
+.mob-agents-title{font-size:32px;font-weight:700;color:var(--mob-txt);margin-bottom:16px}
+
+/* search */
+.mob-search{
+  display:flex;align-items:center;gap:10px;
+  background:#e8e8ee;border-radius:12px;padding:11px 16px;margin-bottom:16px;
+}
+.mob-search svg{width:16px;height:16px;stroke:var(--mob-muted);fill:none;stroke-width:2;flex-shrink:0}
+.mob-search input{border:none;background:transparent;font-size:15px;color:var(--mob-txt);font-family:inherit;outline:none;flex:1}
+.mob-search input::placeholder{color:var(--mob-muted)}
+
+/* filter chips */
+.mob-filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.mob-filters::-webkit-scrollbar{display:none}
+.mob-filter{
+  flex-shrink:0;padding:7px 16px;border-radius:20px;
+  border:1.5px solid var(--mob-border);background:#fff;
+  font-size:13.5px;font-weight:500;color:var(--mob-txt2);cursor:pointer;
+  transition:all .15s;white-space:nowrap;
+}
+.mob-filter.active{background:var(--mob-blue);border-color:var(--mob-blue);color:#fff;font-weight:600}
+
+/* agent list */
+.mob-agents-list-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px 10px}
+.mob-list-label{font-size:17px;font-weight:700;color:var(--mob-txt)}
+.mob-list-count{font-size:14px;font-weight:600;color:var(--mob-blue)}
+
+.mob-agents-list{padding:0 12px 100px;display:flex;flex-direction:column;gap:10px}
+.mob-agent-card{
+  display:flex;align-items:center;gap:14px;
+  background:#fff;border-radius:16px;padding:16px;
+  box-shadow:0 1px 4px rgba(0,0,0,.07);
+  text-decoration:none;color:inherit;
+  transition:all .15s;
+}
+.mob-agent-card:active{transform:scale(.98);opacity:.9}
+.mob-agent-icon{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.mob-agent-icon svg{width:26px;height:26px}
+.mob-agent-info{flex:1;min-width:0}
+.mob-agent-cat{font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:2px}
+.mob-agent-name{font-size:15.5px;font-weight:600;color:var(--mob-txt);letter-spacing:-.2px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mob-agent-desc{font-size:12.5px;color:var(--mob-muted);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mob-agent-arrow{flex-shrink:0;width:18px;height:18px;color:#ccc}
+.mob-agent-arrow svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* bottom tab bar */
+.mob-tabbar{
+  position:absolute;bottom:0;left:0;right:0;
+  display:flex;background:#fff;
+  border-top:1px solid var(--mob-border);
+  padding:8px 0 max(8px, env(safe-area-inset-bottom));
+  z-index:10;
+}
+.mob-tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;padding:4px 0;border:none;background:transparent;
+}
+.mob-tab-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.mob-tab-icon svg{width:22px;height:22px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mob-tab-lbl{font-size:10.5px;font-weight:500;color:var(--mob-muted)}
+.mob-tab.active .mob-tab-icon svg{stroke:var(--mob-blue)}
+.mob-tab.active .mob-tab-lbl{color:var(--mob-blue);font-weight:600}
+.mob-tab:not(.active) .mob-tab-icon svg{stroke:#aaa}
+
+/* ── responsive switch ── */
+@media (max-width:699px){
+  body{background:var(--mob-bg)}
+  .desktop-shell{display:none}
+  .mobile-shell{display:flex}
+}
+@media (min-width:700px){
+  .mobile-shell{display:none!important}
+  .desktop-shell{display:flex}
+}
+@media (max-width:700px){
+  .hero h2{font-size:29px}
+  .main{padding-top:30px}
+}
 </style>
 </head>
 <body>
-<div class="shell">
+
+<!-- ══════════════════ DESKTOP ══════════════════ -->
+<div class="desktop-shell">
   <header class="topbar">
     <div class="brand">
       <div class="logo">S</div>
@@ -70,49 +265,42 @@
           <p>Generate structured research papers, solve advanced math problems, and organize technical analysis with clear outputs.</p>
           <div class="cta">Open agent <span>→</span></div>
         </a>
-
         <a class="card" href="Personal-os.html">
           <div class="chip">ARIA</div>
           <h3>ARIA Personal OS</h3>
           <p>Your strategic second brain for planning, habits, reflection, and long-term personal operating system decisions.</p>
           <div class="cta">Open agent <span>→</span></div>
         </a>
-
         <a class="card" href="FinAgent.html">
           <div class="chip">Finance</div>
           <h3>Finance Agent</h3>
           <p>Build financial models, evaluate business metrics, and receive concise analysis tailored for business and investment decisions.</p>
           <div class="cta">Open agent <span>→</span></div>
         </a>
-
         <a class="card" href="Startup-Legal-Compliance-Agent.html">
           <div class="chip">Startup &amp; Legal</div>
           <h3>Startup &amp; Legal Compliance Agent</h3>
           <p>Navigate startup setup, policy readiness, compliance checkpoints, and legal process guidance in one workspace.</p>
           <div class="cta">Open agent <span>→</span></div>
         </a>
-
         <a class="card" href="Code-agent.html">
           <div class="chip">Engineering</div>
           <h3>Code Agent</h3>
           <p>Design architecture, generate production-grade code, and iterate quickly on implementation with focused engineering support.</p>
           <div class="cta">Open agent <span>→</span></div>
         </a>
-
         <a class="card" href="Growth.html">
           <div class="chip">Growth / Strategy</div>
           <h3>Growth &amp; Marketing Intelligence Agent</h3>
           <p>Build GTM strategy with competitor research, ICP modeling, SEO planning, funnel diagnostics, and structured outputs like SWOT, TAM/SAM/SOM, and KPI summaries.</p>
           <div class="cta">Open agent <span>→</span></div>
         </a>
-
         <a class="card" href="Architect.html">
           <div class="chip">Advanced AI</div>
           <h3>AI Systems Architect Agent</h3>
           <p>Design production AI systems with RAG architecture, vector database selection, model tradeoff analysis, orchestration design, and scaling-aware cloud planning.</p>
           <div class="cta">Open agent <span>→</span></div>
         </a>
-
         <a class="card" href="Data.html">
           <div class="chip">Analytics / Ops</div>
           <h3>Data &amp; Decision Intelligence Agent</h3>
@@ -122,8 +310,258 @@
       </section>
     </div>
   </main>
-
   <footer class="footer">Stremini Workspace • Professional multi-agent interface</footer>
 </div>
+
+<!-- ══════════════════ MOBILE ══════════════════ -->
+<div class="mobile-shell">
+
+  <!-- Top nav -->
+  <nav class="mob-nav">
+    <div class="mob-nav-brand">
+      <div class="mob-logo">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <span class="mob-brand-name">Stremini</span>
+    </div>
+    <div class="mob-nav-right">
+      <div class="mob-bell">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <div class="mob-bell-dot"></div>
+      </div>
+      <div class="mob-avatar">LS</div>
+    </div>
+  </nav>
+
+  <!-- HOME screen -->
+  <div class="mob-screen active" id="screen-home">
+    <div class="mob-home">
+      <div class="mob-home-title">Your <span class="highlight">AI</span><br>Workspace.</div>
+      <div class="mob-home-subtitle">Run powerful AI agents for research, coding,<br>finance &amp; automation.</div>
+
+      <!-- Featured card -->
+      <div class="mob-featured">
+        <div class="mob-feat-label">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>Featured Agent</span>
+        </div>
+        <div class="mob-feat-title">Research &amp; Math</div>
+        <div class="mob-feat-desc">Structured research papers, advanced math problems, and technical analysis with clear outputs.</div>
+        <a href="Research.html" class="mob-feat-btn">Open Agent &nbsp;→</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="mob-stats">
+        <div class="mob-stat"><div class="mob-stat-val">8</div><div class="mob-stat-lbl">Agents</div></div>
+        <div class="mob-stat"><div class="mob-stat-val">∞</div><div class="mob-stat-lbl">Queries</div></div>
+        <div class="mob-stat"><div class="mob-stat-val">&lt;1s</div><div class="mob-stat-lbl">Response</div></div>
+      </div>
+
+      <!-- Quick access -->
+      <div class="mob-section-title">Quick Access</div>
+      <div class="mob-quick">
+        <div class="mob-quick-chip active-chip" onclick="switchTab('agents');setFilter('Research')">Research</div>
+        <div class="mob-quick-chip" onclick="switchTab('agents');setFilter('Code')">Code</div>
+        <div class="mob-quick-chip" onclick="switchTab('agents');setFilter('Finance')">Finance</div>
+        <div class="mob-quick-chip" onclick="switchTab('agents');setFilter('Assistant')">Assistant</div>
+        <div class="mob-quick-chip" onclick="switchTab('agents');setFilter('All')">All Agents</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENTS screen -->
+  <div class="mob-screen" id="screen-agents">
+    <div class="mob-agents-header">
+      <div class="mob-agents-title">Agents</div>
+      <div class="mob-search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="mob-search-input" placeholder="Search agents..." oninput="filterAgents()" />
+      </div>
+      <div class="mob-filters" id="mob-filters">
+        <div class="mob-filter active" onclick="setFilter('All')">All</div>
+        <div class="mob-filter" onclick="setFilter('Research')">Research</div>
+        <div class="mob-filter" onclick="setFilter('Assistant')">Assistant</div>
+        <div class="mob-filter" onclick="setFilter('Code')">Code</div>
+        <div class="mob-filter" onclick="setFilter('Finance')">Finance</div>
+        <div class="mob-filter" onclick="setFilter('Strategy')">Strategy</div>
+        <div class="mob-filter" onclick="setFilter('Systems')">Systems</div>
+      </div>
+    </div>
+
+    <div class="mob-agents-list-header">
+      <div class="mob-list-label">All Agents</div>
+      <div class="mob-list-count" id="agent-count">8 agents</div>
+    </div>
+
+    <div class="mob-agents-list" id="agents-list"></div>
+  </div>
+
+  <!-- HISTORY screen -->
+  <div class="mob-screen" id="screen-history">
+    <div style="padding:40px 20px;text-align:center;color:var(--mob-muted)">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5" style="margin-bottom:12px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <div style="font-size:17px;font-weight:600;color:#aaa;margin-bottom:6px">No history yet</div>
+      <div style="font-size:13px">Your recent agent sessions will appear here.</div>
+    </div>
+  </div>
+
+  <!-- SETTINGS screen -->
+  <div class="mob-screen" id="screen-settings">
+    <div style="padding:28px 20px">
+      <div style="font-size:24px;font-weight:700;margin-bottom:20px;color:var(--mob-txt)">Settings</div>
+      <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07)">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--mob-border);font-size:14px;color:var(--mob-txt)">Account</div>
+        <div style="padding:14px 16px;border-bottom:1px solid var(--mob-border);font-size:14px;color:var(--mob-txt)">Notifications</div>
+        <div style="padding:14px 16px;border-bottom:1px solid var(--mob-border);font-size:14px;color:var(--mob-txt)">Appearance</div>
+        <div style="padding:14px 16px;font-size:14px;color:var(--mob-txt)">About Stremini</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom tab bar -->
+  <div class="mob-tabbar">
+    <button class="mob-tab active" id="tab-home" onclick="switchTab('home')">
+      <div class="mob-tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <span class="mob-tab-lbl">Home</span>
+    </button>
+    <button class="mob-tab" id="tab-agents" onclick="switchTab('agents')">
+      <div class="mob-tab-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </div>
+      <span class="mob-tab-lbl">Agents</span>
+    </button>
+    <button class="mob-tab" id="tab-history" onclick="switchTab('history')">
+      <div class="mob-tab-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <span class="mob-tab-lbl">History</span>
+    </button>
+    <button class="mob-tab" id="tab-settings" onclick="switchTab('settings')">
+      <div class="mob-tab-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </div>
+      <span class="mob-tab-lbl">Settings</span>
+    </button>
+  </div>
+
+</div><!-- /mobile-shell -->
+
+<script>
+/* ── Agent data ── */
+const agentData = [
+  {
+    cat:"RESEARCH", catKey:"Research", catColor:"#2563eb", catBg:"#eff4ff",
+    name:"Research & Math",
+    desc:"Structured papers, advanced math problems, and technical analysis.",
+    href:"Research.html",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`
+  },
+  {
+    cat:"ASSISTANT", catKey:"Assistant", catColor:"#7c3aed", catBg:"#f3f0ff",
+    name:"Aria — Chat AI",
+    desc:"Context-aware conversations for planning, habits, and personal decisions.",
+    href:"Personal-os.html",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`
+  },
+  {
+    cat:"CODE", catKey:"Code", catColor:"#16a34a", catBg:"#f0fdf4",
+    name:"Code Engineer",
+    desc:"Write, review, and refactor production-grade code with architecture support.",
+    href:"Code-agent.html",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`
+  },
+  {
+    cat:"FINANCE", catKey:"Finance", catColor:"#d97706", catBg:"#fffbeb",
+    name:"Financial Analyst",
+    desc:"Forecasts, portfolios, earnings analysis, and business metric evaluation.",
+    href:"FinAgent.html",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`
+  },
+  {
+    cat:"STRATEGY", catKey:"Strategy", catColor:"#0891b2", catBg:"#ecfeff",
+    name:"Growth & Marketing",
+    desc:"GTM strategy, ICP modeling, SEO planning, funnel diagnostics, and SWOT analysis.",
+    href:"Growth.html",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>`
+  },
+  {
+    cat:"STARTUP", catKey:"Strategy", catColor:"#db2777", catBg:"#fdf2f8",
+    name:"Startup & Legal",
+    desc:"Navigate startup setup, compliance checkpoints, and legal process guidance.",
+    href:"Startup-Legal-Compliance-Agent.html",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`
+  },
+  {
+    cat:"SYSTEMS", catKey:"Systems", catColor:"#4f46e5", catBg:"#eef2ff",
+    name:"AI Systems Architect",
+    desc:"RAG architecture, vector database selection, model tradeoffs, and cloud scaling.",
+    href:"Architect.html",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>`
+  },
+  {
+    cat:"ANALYTICS", catKey:"Systems", catColor:"#059669", catBg:"#ecfdf5",
+    name:"Data & Decision Intel",
+    desc:"Interpret CSV and JSON data with retention, conversion, and anomaly analysis.",
+    href:"Data.html",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`
+  },
+];
+
+let currentFilter = "All";
+let currentSearch = "";
+
+function renderAgents(){
+  const list = document.getElementById("agents-list");
+  const countEl = document.getElementById("agent-count");
+  const q = currentSearch.toLowerCase();
+  const filtered = agentData.filter(a=>{
+    const matchCat = currentFilter==="All" || a.catKey===currentFilter;
+    const matchQ = !q || a.name.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q) || a.cat.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  countEl.textContent = filtered.length+" agent"+(filtered.length!==1?"s":"");
+  list.innerHTML = filtered.map(a=>`
+    <a class="mob-agent-card" href="${a.href}">
+      <div class="mob-agent-icon" style="background:${a.catBg}">${a.icon}</div>
+      <div class="mob-agent-info">
+        <div class="mob-agent-cat" style="color:${a.catColor}">${a.cat}</div>
+        <div class="mob-agent-name">${a.name}</div>
+        <div class="mob-agent-desc">${a.desc}</div>
+      </div>
+      <div class="mob-agent-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+  `).join("");
+}
+
+function setFilter(cat){
+  currentFilter = cat;
+  // update filter chips
+  document.querySelectorAll(".mob-filter").forEach(el=>{
+    el.classList.toggle("active", el.textContent===cat || (cat==="All"&&el.textContent==="All"));
+  });
+  renderAgents();
+  // if called from home quick chips, switch to agents tab
+  if(document.getElementById("screen-agents").classList.contains("active")===false){
+    switchTab("agents");
+  }
+}
+
+function filterAgents(){
+  currentSearch = document.getElementById("mob-search-input").value;
+  renderAgents();
+}
+
+function switchTab(tab){
+  ["home","agents","history","settings"].forEach(t=>{
+    document.getElementById("screen-"+t).classList.toggle("active", t===tab);
+    document.getElementById("tab-"+t).classList.toggle("active", t===tab);
+  });
+}
+
+// init
+renderAgents();
+</script>
 </body>
 </html>
